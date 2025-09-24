@@ -8,10 +8,10 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "prisma:dev": "prisma migrate dev",
-    "prisma:seed": "npx prisma db seed",
     "prisma:dev:reset": "prisma migrate reset && prisma migrate dev",
     "prisma:dev:reset:seed": "npm run prisma:dev:reset && npm run prisma:seed",
-    "prisma:gen": "prisma generate"
+    "prisma:seed": "npx prisma db seed",
+    "prisma:sync": "npx prisma generate && npx prisma db push"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

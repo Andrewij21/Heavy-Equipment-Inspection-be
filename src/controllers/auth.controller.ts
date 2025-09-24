@@ -41,6 +41,9 @@ export class AuthController {
         email: user.email,
         id: user.id,
         role: user.role,
+        username: user.username,
+        contact: user.contact,
+        createdAt: user.createdAt,
       },
     });
   };

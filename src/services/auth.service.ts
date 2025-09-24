@@ -17,7 +17,13 @@ class AuthService {
     if (!isMatch) throw new Error("Invalid Credentials");
 
     const token = jwt.sign(
-      { id: user.id, role: user.role, email: user.email },
+      {
+        id: user.id,
+        role: user.role,
+        email: user.email,
+        username: user.username,
+        contact: user.contact,
+      },
       env.JWT_SECRET
     );
     return { token };
@@ -42,8 +48,12 @@ class AuthService {
         id: true,
         email: true,
         role: true,
+        username: true,
+        contact: true,
+        createdAt: true,
       },
     });
+    console.log({ user });
     if (!user) throw new NotFoundError("User not found");
     return user;
   }

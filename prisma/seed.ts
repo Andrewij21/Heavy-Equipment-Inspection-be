@@ -28,6 +28,8 @@ async function main() {
     where: { email: "mechanic@gmail.com" },
     update: { password: hashedPassword, role: "mechanic" },
     create: {
+      username: "mechanic",
+      contact: "1234567890",
       email: "mechanic@gmail.com",
       password: hashedPassword,
       role: "mechanic",
@@ -37,6 +39,8 @@ async function main() {
     where: { email: "leader@gmail.com" },
     update: { password: hashedPassword, role: "leader" },
     create: {
+      username: "leader",
+      contact: "1234567890",
       email: "leader@gmail.com",
       password: hashedPassword,
       role: "leader",
@@ -47,6 +51,8 @@ async function main() {
     where: { email: "admin@gmail.com" },
     update: { password: hashedPassword, role: "admin" },
     create: {
+      username: "admin",
+      contact: "1234567890",
       email: "admin@gmail.com",
       password: hashedPassword,
       role: "admin",
