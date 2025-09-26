@@ -1,10 +1,10 @@
 // src/routes/todo.routes.ts
 import { Router } from "express";
-import { requireAuth } from "@/middlewares/auth";
-import { UserController } from "@/controllers/user.controller";
-import { catchAsync } from "@/utils/catchAsync";
-import { requireRole } from "@/middlewares/roles";
-import { ROLES } from "@/constants/roles";
+import { requireAuth } from "../middlewares/auth";
+import { UserController } from "../controllers/user.controller";
+import { catchAsync } from "../utils/catchAsync";
+import { requireRole } from "../middlewares/roles";
+import { ROLES } from "../constants/roles";
 
 const router = Router();
 const userController = new UserController();

@@ -1,5 +1,5 @@
 // src/middlewares/roles.ts
-import { ForbiddenError } from "@/utils/customeErrors";
+import { ForbiddenError } from "../utils/customeErrors";
 import { Request, Response, NextFunction } from "express";
 
 export function requireRole(...allowedRoles: string[]) {

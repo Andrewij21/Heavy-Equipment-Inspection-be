@@ -1,5 +1,5 @@
-import { env } from "@/config/env";
-import { UnauthorizedError } from "@/utils/customeErrors";
+import { env } from "../config/env";
+import { UnauthorizedError } from "../utils/customeErrors";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 

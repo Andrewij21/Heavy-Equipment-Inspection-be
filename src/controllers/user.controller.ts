@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { userService } from "@/services/user.service";
-import { createUserSchema, updateUserSchema } from "@/schemas/user.schema";
-import { sendApiResponse } from "@/utils/sendApiResponse";
-import { logger } from "@/lib/logger";
+import { userService } from "../services/user.service";
+import { createUserSchema, updateUserSchema } from "../schemas/user.schema";
+import { sendApiResponse } from "../utils/sendApiResponse";
+import { logger } from "../lib/logger";
 
 export class UserController {
   getUsers = async (req: Request, res: Response) => {

@@ -1,6 +1,6 @@
 // middlewares/errorHandler.ts
-import { logger } from "@/lib/logger";
-import { ApiError } from "@/utils/customeErrors";
+import { logger } from "../lib/logger";
+import { ApiError } from "../utils/customeErrors";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";

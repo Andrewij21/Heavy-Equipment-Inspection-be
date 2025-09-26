@@ -1,9 +1,9 @@
 // src/services/todo.service.ts
-import { env } from "@/config/env";
-import { logger } from "@/lib/logger";
-import { prisma } from "@/lib/prisma";
-import { type LoginSchema, type RegisterSchema } from "@/schemas/auth.schema";
-import { NotFoundError, UnauthorizedError } from "@/utils/customeErrors";
+import { env } from "../config/env";
+import { logger } from "../lib/logger";
+import { prisma } from "../lib/prisma";
+import { type LoginSchema, type RegisterSchema } from "../schemas/auth.schema";
+import { NotFoundError, UnauthorizedError } from "../utils/customeErrors";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 class AuthService {

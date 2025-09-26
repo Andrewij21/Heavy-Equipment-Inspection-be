@@ -1,7 +1,10 @@
 // src/services/todo.service.ts
-import { prisma } from "@/lib/prisma";
-import type { CreateUserSchema, UpdateUserSchema } from "@/schemas/user.schema";
-import { NotFoundError } from "@/utils/customeErrors";
+import { prisma } from "../lib/prisma";
+import type {
+  CreateUserSchema,
+  UpdateUserSchema,
+} from "../schemas/user.schema";
+import { NotFoundError } from "../utils/customeErrors";
 class UserService {
   async getAll(params: {
     page?: number;

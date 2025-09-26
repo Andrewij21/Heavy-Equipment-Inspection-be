@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import routes from "./routes/index.route";
-import { errorHandler } from "@/middlewares/errorHandler";
+import { errorHandler } from "./middlewares/errorHandler";
 import { corsOptions } from "./config/cors";
 import helmet from "helmet";
 import compression from "compression";

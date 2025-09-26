@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { loginSchema, registerSchema } from "@/schemas/auth.schema";
-import { authService } from "@/services/auth.service";
-import { success } from "zod";
-import { NotFoundError } from "@/utils/customeErrors";
+import { loginSchema, registerSchema } from "../schemas/auth.schema";
+import { authService } from "../services/auth.service";
+import { NotFoundError } from "../utils/customeErrors";
 
 export class AuthController {
   login = async (req: Request, res: Response) => {

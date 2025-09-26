@@ -7,8 +7,6 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
   },
   "include": ["src/**/*.ts", "api/**/*.ts"],
   "exclude": ["node_modules"]
