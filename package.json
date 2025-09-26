@@ -2,7 +2,7 @@
   "name": "node_restful_template",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/api/index.js", 
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc && tsc-alias",
