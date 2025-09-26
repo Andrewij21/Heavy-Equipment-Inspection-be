@@ -10,6 +10,6 @@
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["./api/*ts"],
   "exclude": ["node_modules"]
 }
