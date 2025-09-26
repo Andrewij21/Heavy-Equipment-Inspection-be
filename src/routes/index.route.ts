@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from "express";
-import userRoutes from "@/routes/user.route";
-import authRoutes from "@/routes/auth.route";
+import userRoutes from "./user.route";
+import authRoutes from "./auth.route";
 
 const router = Router();
 
