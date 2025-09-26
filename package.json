@@ -11,7 +11,8 @@
     "prisma:dev:reset": "prisma migrate reset && prisma migrate dev",
     "prisma:dev:reset:seed": "npm run prisma:dev:reset && npm run prisma:seed",
     "prisma:seed": "npx prisma db seed",
-    "prisma:sync": "npx prisma generate && npx prisma db push"
+    "prisma:sync": "npx prisma generate && npx prisma db push",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
