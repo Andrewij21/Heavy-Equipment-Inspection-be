@@ -3,8 +3,10 @@ import { z } from "zod";
 
 export const createUserSchema = z.object({
   email: z.email(),
-  password: z.string().optional(),
-  contact: z.string().min(1),
+  password: z.string(),
+  contact: z.string().optional(),
+  role: z.string().min(1),
+  username: z.string().min(1),
 });
 
 export const updateUserSchema = z.object({
