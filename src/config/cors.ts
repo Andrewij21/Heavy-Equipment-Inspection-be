@@ -1,6 +1,9 @@
 import type { CorsOptions } from "cors";
 
-const whiteLists = ["http://localhost:3000"];
+const whiteLists = [
+  "http://localhost:3000",
+  "https://heavy-equipment-inspection.vercel.app",
+];
 
 export const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
