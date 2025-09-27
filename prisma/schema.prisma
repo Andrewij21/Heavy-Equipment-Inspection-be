@@ -14,14 +14,245 @@ datasource db {
 }
 
 // prisma/schema.prisma
+enum InspectionStatus {
+  PENDING // Default status after creation by Mechanic
+  APPROVED // Status after approval by Leader/Admin
+  REJECTED // Status if rejected
+}
 
+enum EquipmentType {
+  track
+  wheel
+  support
+}
+
+// 2. Enum for Track Subtypes (used in the base table for easy filtering)
+enum TrackGeneralType {
+  BigDigger
+  SmallPC
+  Bulldozer
+}
+
+// USER MODEL (Updated to link to approved inspections)
 model User {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
   username String?
   contact  String?
   email    String  @unique
   password String
-  role     String  @default("mechanic") // e.g., "MECHANIC", "LEADER", "ADMIN"
+  role     String  @default("mechanic")
+
+  // NEW: Relationship linking this User to Inspections they approved
+  approvedInspections Inspection[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// CORE MODEL: Inspection (Holds common data and approval status)
+model Inspection {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // REQUIRED HEADER FIELDS (Non-nullable)
+  equipmentId    String
+  modelUnit      String
+  location       String
+  operatorName   String
+  mechanicName   String
+  inspectionDate String
+  inspectionTime String
+  workingHours   Int
+  smr            Int
+  timeDown       String
+  timeOut        String
+  shift          String
+
+  // OPTIONAL HEADER FIELDS
+  notes           String?
+  groupLeaderName String?
+
+  // NEW APPROVAL FIELDS
+  status InspectionStatus @default(PENDING) // Default is PENDING
+
+  // 1. Foreign Key (The ID of the user who approved/rejected)
+  approverId String? @db.ObjectId
+
+  // 2. Relationship Field (Allows eager loading of the User's name/data)
+  approver User? @relation(fields: [approverId], references: [id])
+
+  approvalDate DateTime? // Timestamp of the approval/rejection
+
+  // TYPE DISCRIMINATOR
+  equipmentType        EquipmentType
+  equipmentGeneralType TrackGeneralType
+
+  // RELATIONSHIP
+  trackDetails TrackInspectionDetails?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 2. DETAIL MODEL: TrackInspectionDetails (All Subtype Checklist Fields)
+model TrackInspectionDetails {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // RELATIONSHIP
+  inspectionId String     @unique @db.ObjectId
+  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+
+  // DYNAMIC/UNSTRUCTURED DATA
+  findings Json? // Array of { description, status } objects
+
+  // ==========================================================
+  // COMMON TRACK CHECKLIST FIELDS (Result Type: "ok" | "failure")
+  // ==========================================================
+  lowerLockOutSwitch       String?
+  lowerTrackLinkTension    String?
+  lowerTrackShoeBolt       String?
+  lowerIdlerRollerGuard    String?
+  lowerUnderGuard          String?
+  lowerFinalDriveSprocket  String?
+  lowerSwingCircle         String?
+  lowerAttachmentCondition String?
+  lowerDrainWaterSediment  String?
+  lowerHydraulicOilLevel   String?
+
+  upperEngineOilLevel     String?
+  upperEngineVisual       String?
+  upperCoolantLevel       String?
+  upperRadiatorEtc        String? // Used by BigDigger/Schema
+  upperRadiator           String? // Used by SmallPC (if different from upperRadiatorEtc)
+  upperTurboInlet         String?
+  upperAirCleaner         String?
+  upperCompartmentLeaks   String?
+  upperHydraulicPump      String?
+  upperControlValve       String?
+  upperSwingMachineOil    String?
+  upperElectricWiring     String?
+  upperBatteryElectrolyte String?
+  upperFanBelts           String?
+  upperCylinderLeaks      String?
+  upperCoverHandRail      String?
+
+  // Cabin & Safety Checks
+  cabinMonitorPanel      String?
+  cabinSwitches          String?
+  cabinGauge             String?
+  cabinControlLever      String?
+  cabinRadioComm         String?
+  cabinFmRadio           String?
+  cabinWorkLamp          String?
+  cabinTravelAlarm       String?
+  cabinHorn              String?
+  cabinMirror            String?
+  cabinRotaryLamp        String?
+  cabinWiper             String?
+  cabinWindowWasher      String?
+  cabinAcFunction        String?
+  cabinFuseRelay         String?
+  cabinOperatorSeat      String?
+  safetyFireExtinguisher String?
+  safetyEmergencyStop    String?
+  safetyCabinRops        String?
+  safetyBelt             String?
+
+  // ==========================================================
+  // TEMPERATURES (Float)
+  // ==========================================================
+  tempCylBoomRh   Float?
+  tempCylBoomLh   Float?
+  tempCylArmRh    Float?
+  tempCylArmLh    Float?
+  tempCylBucketRh Float?
+  tempCylBucketLh Float?
+
+  // ==========================================================
+  // GREASE FIELDS (String as requested, but usually Float/Int)
+  // ==========================================================
+  greaseBoomCylFoot        String?
+  greaseBoomFootPin        String?
+  greaseBoomCylRod         String?
+  greaseArmCylFoot         String?
+  greaseBoomArmCoupling    String?
+  greaseArmCylRod          String?
+  greaseBucketCylFoot      String?
+  greaseArmLinkCoupling    String?
+  greaseArmBucketCoupling  String?
+  greaseLinkCoupling       String?
+  greaseBucketCylRod       String?
+  greaseBucketLinkCoupling String?
+
+  // ==========================================================
+  // TOP-UP QUANTITIES (Float - should be numerical)
+  // ==========================================================
+  // Small PC naming
+  topUpCoolant        Float?
+  topUpEngine         Float?
+  topUpHydraulic      Float?
+  topUpSwingMachinery Float?
+  topUpFinalDrive     Float?
+
+  // Big Digger/Bulldozer naming
+  topUpCoolantQty        Float?
+  topUpEngineQty         Float?
+  topUpHydraulicQty      Float?
+  topUpSwingMachineryQty Float?
+  topUpFinalDriveQty     Float?
+
+  // ==========================================================
+  // BULLDOZER SPECIFIC FIELDS
+  // ==========================================================
+  engineOilLevelLeakage     String?
+  engineCoolantLevelLeakage String?
+  engineFuelSystemLeakage   String?
+  engineBelts               String?
+  engineIntakeClamps        String?
+  engineExhaustLeakage      String?
+  engineOperationalSound    String?
+
+  powertrainTransmissionOil    String?
+  powertrainTorqueConverterOil String?
+  powertrainDifferentialOil    String?
+  powertrainFinalDriveOil      String?
+  powertrainBrakeOperation     String?
+  powertrainPropellerShaft     String?
+
+  hydraulicOilLevel           String?
+  hydraulicSystemLeakage      String?
+  hydraulicPumpLineLeakage    String?
+  hydraulicHoseCondition      String?
+  hydraulicCylinderLiftBlade  String?
+  hydraulicCylinderTiltBlade  String?
+  hydraulicCylinderLiftRipper String?
+  hydraulicCylinderTiltRipper String?
+
+  structureAutolube            String?
+  structureEqualizerBarSeal    String?
+  structurePivotShaftLeakage   String?
+  structureFrameCracks         String?
+  structureTrackLinkBushing    String?
+  structureUndercarriageBolt   String?
+  structureTrackTension        String?
+  structureRipperFrame         String?
+  structureBogglePivot         String?
+  structureMasterLinkBolt      String?
+  structureIdlerMountingBolt   String?
+  structureEqualizerBarBearing String?
+  structureBladeMountingPin    String?
+  structureCuttingEdge         String?
+  structureEndBit              String?
+  structureCarrieRoller        String?
+  structureRipperPoint         String?
+
+  electricalBatteryMounting    String?
+  electricalBatteryElectrolyte String?
+  electricalTerminalCleaning   String?
+  electricalConnectorCleaning  String?
+  electricalLamps              String?
+  electricalIsolationSwitch    String?
+  electricalGaugePanel         String?
+  electricalBackupAlarm        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
