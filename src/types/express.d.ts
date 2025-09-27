@@ -1,16 +1,21 @@
 // src/types/express.d.ts
-import { User } from "@prisma/client"; // assuming Prisma generates this
+import { User } from "@prisma/client";
 
-declare global {
-  namespace Express {
-    interface UserPayload {
-      id: string;
-      email: string;
-      role: User["role"]; // or just "ADMIN" | "USER" if you want
-    }
+// Define the UserPayload interface outside of the Express module augmentation
+// so it can be easily imported and used elsewhere (like in auth.ts).
+export interface UserPayload {
+  id: string;
+  email: string;
+  role: User["role"];
+}
 
-    interface Request {
-      user?: UserPayload;
-    }
+// Augment the 'express' module to add the 'user' property to Request
+declare module "express" {
+  // Augment the Request interface
+  interface Request {
+    user?: UserPayload;
   }
 }
+
+// NOTE: You no longer need `namespace Express` or `declare global`
+// when using module augmentation as shown above.

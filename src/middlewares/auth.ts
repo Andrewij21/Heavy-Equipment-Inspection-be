@@ -1,4 +1,5 @@
 import { env } from "../config/env";
+import type { UserPayload } from "../types/express";
 import { UnauthorizedError } from "../utils/customeErrors";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
@@ -11,7 +12,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
 
   const token = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET) as Express.UserPayload;
+    const decoded = jwt.verify(token, env.JWT_SECRET) as UserPayload;
     req.user = decoded; // ✅ now properly typed
     return next();
   } catch (err) {
