@@ -38,6 +38,11 @@ router.patch(
   catchAsync(trackController.updateInspection)
 );
 
+router.patch(
+  "/:id/status",
+  requireRole(ROLES.LEADER, ROLES.ADMIN),
+  catchAsync(trackController.updateStatus)
+);
 // DELETE /api/v1/tracks/:id (Delete inspection)
 // Deletion is usually restricted to higher authority (ADMIN or LEADER)
 router.delete(
