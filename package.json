@@ -2,7 +2,7 @@
   "name": "node_restful_template",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/api/index.js", 
+  "main": "dist/api/index.js",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc && tsc-alias",
@@ -30,10 +30,13 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "express-rate-limit": "^8.0.1",
+    "handlebars": "^4.7.8",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "pino": "^9.9.0",
     "pino-pretty": "^13.1.1",
+    "puppeteer": "^24.22.3",
+    "xlsx": "^0.18.5",
     "zod": "^4.0.17"
   },
   "devDependencies": {
