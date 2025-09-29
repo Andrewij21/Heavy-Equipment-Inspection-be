@@ -29,9 +29,14 @@ export class ReportController {
       await reportService.exportInspections(payload);
 
     // Set headers and send the file
+    // res.setHeader("Content-Type", mimeType);
+    // res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+    // res.status(200).send(fileBuffer);
+
     res.setHeader("Content-Type", mimeType);
     res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
-    res.status(200).send(fileBuffer);
+    res.setHeader("Content-Length", fileBuffer.length); // penting di Vercel
+    res.status(200).end(fileBuffer); // end, bukan send
   };
 }
 
