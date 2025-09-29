@@ -2,7 +2,7 @@
 
 import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/customeErrors";
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
 import * as XLSX from "xlsx";
 import * as Handlebars from "handlebars";
 import * as fs from "fs";
@@ -10,6 +10,8 @@ import * as path from "path";
 import { Buffer } from "buffer";
 import * as ExcelJS from "exceljs";
 import { Prisma, InspectionStatus } from "@prisma/client";
+import chromium from "chrome-aws-lambda";
+import puppeteer from "puppeteer-core";
 
 // --- HANDLEBARS HELPERS ---
 Handlebars.registerHelper("addOne", function (index: number) {
@@ -546,17 +548,34 @@ class ReportService {
 
       let browser;
       try {
-        browser = await puppeteer.launch({
-          args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--single-process",
-          ],
-          headless: true,
-        });
-
+        // browser = await puppeteer.launch({
+        //   args: [
+        //     "--no-sandbox",
+        //     "--disable-setuid-sandbox",
+        //     "--disable-gpu",
+        //     "--disable-dev-shm-usage",
+        //     "--single-process",
+        //   ],
+        //   headless: true,
+        // });
+        const executablePath = await chromium.executablePath;
+        if (process.env.AWS_REGION) {
+          // 👉 Running on Vercel / AWS Lambda
+          browser = await puppeteer.launch({
+            args: chromium.args,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+          });
+        } else {
+          // 👉 Running locally (pakai Chrome/Chromium di sistem)
+          browser = await puppeteer.launch({
+            headless: true,
+            executablePath:
+              "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", // macOS
+            // kalau Linux: "/usr/bin/google-chrome"
+            // atau Windows: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+          });
+        }
         const page = await browser.newPage();
         await page.setContent(htmlContent, {
           waitUntil: "networkidle0",
