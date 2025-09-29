@@ -14,7 +14,7 @@ class InspectionService {
     q?: string;
     status?: string;
   }) {
-    const { page = 1, limit = 10, status, q } = params;
+    const { page = 1, limit = 100, status, q } = params;
     const skip = (page - 1) * limit;
 
     const where: any = {};
