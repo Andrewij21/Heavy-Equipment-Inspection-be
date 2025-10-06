@@ -160,10 +160,13 @@ model TrackInspectionDetails {
   // ==========================================================
   // TEMPERATURES (Float)
   // ==========================================================
+  tempCylBoom     String?
   tempCylBoomRh   Float?
   tempCylBoomLh   Float?
+  tempCylArm      String?
   tempCylArmRh    Float?
   tempCylArmLh    Float?
+  tempCylBucket   String?
   tempCylBucketRh Float?
   tempCylBucketLh Float?
 

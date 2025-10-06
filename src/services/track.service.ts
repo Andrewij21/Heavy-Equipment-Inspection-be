@@ -141,7 +141,6 @@ class TrackService {
    */
   async create(data: TrackInspection) {
     const { baseData, trackDetails } = separateTrackData(data);
-
     return prisma.inspection.create({
       data: {
         ...(baseData as InspectionCreateInput),

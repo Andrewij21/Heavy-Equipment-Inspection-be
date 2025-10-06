@@ -100,6 +100,9 @@ class ReportService {
       upperCylinderLeaks: getOrDefault(td.upperCylinderLeaks),
       upperCoverHandRail: getOrDefault(td.upperCoverHandRail),
 
+      tempCylBoom: getOrDefault(td.tempCylBoom, ""),
+      tempCylArm: getOrDefault(td.tempCylArm, ""),
+      tempCylBucket: getOrDefault(td.tempCylBucket, ""),
       tempCylBoomRh: getOrDefault(td.tempCylBoomRh, ""),
       tempCylBoomLh: getOrDefault(td.tempCylBoomLh, ""),
       tempCylArmRh: getOrDefault(td.tempCylArmRh, ""),
