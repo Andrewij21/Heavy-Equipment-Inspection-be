@@ -5,6 +5,7 @@ import type {
   UpdateUserSchema,
 } from "../schemas/user.schema";
 import { NotFoundError } from "../utils/customeErrors";
+import bcrypt from "bcryptjs";
 class UserService {
   async getAll(params: {
     page?: number;
@@ -38,12 +39,35 @@ class UserService {
   }
 
   async create(data: CreateUserSchema) {
-    return prisma.user.create({ data: { ...data } });
+    const { email, password, ...restOfData } = data;
+    const user = await prisma.user.findFirst({ where: { email } });
+    if (user) throw new Error("Email already exists");
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await prisma.user.create({
+      data: { password: hashedPassword, email, ...restOfData },
+    });
+
+    return newUser;
   }
 
   async update(id: string, data: UpdateUserSchema) {
     const { password, ...userData } = data;
-    return prisma.user.update({ where: { id }, data: userData });
+
+    const updateData: any = { ...userData };
+
+    if (password) {
+      if (password.length < 6) {
+        throw new Error("Password harus memiliki minimal 6 karakter.");
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      updateData.password = hashedPassword;
+    }
+    return prisma.user.update({
+      where: { id },
+      data: updateData, // Gunakan updateData yang sekarang berisi password terenkripsi (jika ada)
+    });
   }
 
   async delete(id: string) {

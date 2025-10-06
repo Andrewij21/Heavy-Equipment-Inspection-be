@@ -7,6 +7,8 @@ export const createUserSchema = z.object({
   contact: z.string().optional(),
   role: z.string().min(1),
   username: z.string().min(1),
+  employeeId: z.string(),
+  department: z.string().optional().nullable(),
 });
 
 export const updateUserSchema = z.object({
@@ -14,6 +16,9 @@ export const updateUserSchema = z.object({
   password: z.string().optional(),
   contact: z.string().min(1).optional(),
   role: z.string().optional(),
+  username: z.string().min(1),
+  employeeId: z.string(),
+  department: z.string().optional().nullable(),
 });
 
 export type CreateUserSchema = z.infer<typeof createUserSchema>;

@@ -33,6 +33,8 @@ async function main() {
       email: "mechanic@gmail.com",
       password: hashedPassword,
       role: "mechanic",
+      employeeId: "123",
+      department: "",
     },
   });
   const leader = await prisma.user.upsert({
@@ -44,6 +46,8 @@ async function main() {
       email: "leader@gmail.com",
       password: hashedPassword,
       role: "leader",
+      employeeId: "123",
+      department: "leader",
     },
   });
 
@@ -56,6 +60,8 @@ async function main() {
       email: "admin@gmail.com",
       password: hashedPassword,
       role: "admin",
+      employeeId: "123",
+      department: "",
     },
   });
 
