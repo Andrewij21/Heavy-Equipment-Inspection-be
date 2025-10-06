@@ -109,6 +109,9 @@ class ReportService {
       tempCylArmLh: getOrDefault(td.tempCylArmLh, ""),
       tempCylBucketRh: getOrDefault(td.tempCylBucketRh, ""),
       tempCylBucketLh: getOrDefault(td.tempCylBucketLh, ""),
+      deltaTCylBoom: getOrDefault(td.deltaTCylBoom, ""),
+      deltaTCylArm: getOrDefault(td.deltaTCylArm, ""),
+      deltaTCylBucket: getOrDefault(td.deltaTCylBucket, ""),
 
       greaseBoomCylFoot: getOrDefault(td.greaseBoomCylFoot),
       greaseBoomFootPin: getOrDefault(td.greaseBoomFootPin),

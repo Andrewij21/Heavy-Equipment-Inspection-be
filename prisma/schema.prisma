@@ -162,6 +162,9 @@ model TrackInspectionDetails {
   // ==========================================================
   // TEMPERATURES (Float)
   // ==========================================================
+  deltaTCylBoom   Float? // Perbedaan Suhu Silinder Boom (ΔT)
+  deltaTCylArm    Float? // Perbedaan Suhu Silinder Arm (ΔT)
+  deltaTCylBucket Float? // Perbedaan Suhu Silinder Bucket (ΔT)
   tempCylBoom     String?
   tempCylBoomRh   Float?
   tempCylBoomLh   Float?

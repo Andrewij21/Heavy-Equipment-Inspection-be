@@ -112,19 +112,34 @@
                 <tr><td class="col-no">23</td><td>Check fan Belt, & AC Compresor Belt</td><td class="col-condition">{{inspection.upperFanBelts}}</td></tr>
                 <tr><td class="col-no">24</td><td>Check All Cylinder For Oil Leaks</td><td class="col-condition">{{inspection.upperCylinderLeaks}}</td></tr>
                 
-                <tr>
+              <tr>
                     <td class="col-no">25</td>
-                    <td>Measure ∆T Cylinder boom. Cyl RH = {{inspection.tempCylBoomRh}} °C | Cyl LH = {{inspection.tempCylBoomLh}} °C</td>
+                    <td>
+                        Measure ∆T Cylinder boom. 
+                        Cyl RH = {{inspection.tempCylBoomRh}} °C | 
+                        Cyl LH = {{inspection.tempCylBoomLh}} °C | 
+                        ∆T = {{inspection.deltaTCylBoom}} °C
+                    </td>
                     <td class="col-condition">{{inspection.tempCylBoom}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">26</td>
-                    <td>Measure ∆T Cylinder arm. Cyl RH = {{inspection.tempCylArmRh}} °C | Cyl LH = {{inspection.tempCylArmLh}} °C</td>
+                    <td>
+                        Measure ∆T Cylinder arm. 
+                        Cyl RH = {{inspection.tempCylArmRh}} °C | 
+                        Cyl LH = {{inspection.tempCylArmLh}} °C | 
+                        ∆T = {{inspection.deltaTCylArm}} °C
+                    </td>
                     <td class="col-condition">{{inspection.tempCylArm}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">27</td>
-                    <td>Measure ∆T Cylinder bucket. Cyl RH = {{inspection.tempCylBucketRh}} °C | Cyl LH = {{inspection.tempCylBucketLh}} °C</td>
+                    <td>
+                        Measure ∆T Cylinder bucket. 
+                        Cyl RH = {{inspection.tempCylBucketRh}} °C | 
+                        Cyl LH = {{inspection.tempCylBucketLh}} °C | 
+                        ∆T = {{inspection.deltaTCylBucket}} °C
+                    </td>
                     <td class="col-condition">{{inspection.tempCylBucket}}</td>
                 </tr>
                 
@@ -217,20 +232,12 @@
                     <div class="sig-label">Name:</div>
                     <div class="sig-value">{{inspection.mechanicName}}</div>
                 </div>
-                <div class="sig-row">
-                    <div class="sig-label">Signature:</div>
-                    <div class="sig-value" style="height: 40px;"></div>
-                </div>
             </div>
             <div class="sig-box">
                 <div class="sig-title">Approved By</div>
                 <div class="sig-row">
                     <div class="sig-label">Name:</div>
                     <div class="sig-value">{{inspection.approverName}}</div>
-                </div>
-                <div class="sig-row">
-                    <div class="sig-label">Signature:</div>
-                    <div class="sig-value" style="height: 40px;"></div>
                 </div>
             </div>
         </div>
