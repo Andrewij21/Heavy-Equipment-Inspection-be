@@ -197,12 +197,11 @@ class ReportService {
     const addItem = (label: string, value: string) => {
       // Dihapus argumen 'notes'
       let row = worksheet.getRow(r);
-      worksheet.mergeCells(`B${r}:D${r}`); // Merge Item Label area
-      worksheet.mergeCells(`E${r}:F${r}`); // Merge Condition Area
+      worksheet.mergeCells(`B${r}:F${r}`); // Merge Item Label area
 
       row.getCell("A").value = N();
       row.getCell("B").value = label;
-      row.getCell("E").value = value; // CONDITION (Menggunakan kolom E yang di-merge)
+      row.getCell("G").value = value; // CONDITION (Menggunakan kolom E yang di-merge)
 
       row.eachCell({ includeEmpty: true }, (cell) => {
         cell.border = allBorders;
@@ -210,23 +209,50 @@ class ReportService {
       r++;
     };
 
-    const addTempItem = (label: string, rhValue: string, lhValue: string) => {
+    const addTempItem = (
+      label: string,
+      rhValue: string,
+      lhValue: string,
+      deltaTValue: string,
+      resultValue: string
+    ) => {
       let row = worksheet.getRow(r);
+
+      // KOREKSI MERGE: Merge B:D untuk Label (3 kolom)
       worksheet.mergeCells(`B${r}:D${r}`);
-      worksheet.mergeCells(`E${r}:F${r}`); // Merge Condition/Value Area
+
+      // KOREKSI MERGE: Merge E:F untuk Nilai Suhu (2 kolom)
+      worksheet.mergeCells(`E${r}:F${r}`);
+
+      // Kolom G tidak di-merge.
 
       row.getCell("A").value = N();
+
+      // KOLOM B: Label (Muncul di paling kiri merge B:D)
       row.getCell("B").value = label;
-      row.getCell("E").value = `RH: ${rhValue} °C | LH: ${lhValue} °C`;
+
+      // KOLOM E:F (Nilai Suhu dan Delta T)
+      // Ini adalah sel terpisah, tidak menimpa Label di Kolom B
+      row.getCell(
+        "E"
+      ).value = `RH: ${rhValue} °C | LH: ${lhValue} °C | ΔT: ${deltaTValue} °C`;
+
+      // KOLOM G: Status Hasil
+      row.getCell("G").value = resultValue;
 
       row.eachCell({ includeEmpty: true }, (cell) => {
         cell.border = allBorders;
       });
+
+      // ... (Alignment dan r++ tetap sama)
+      row.getCell("E").alignment = { horizontal: "left" };
+      row.getCell("G").alignment = { horizontal: "left" };
+
       r++;
     };
 
     const addSectionHeader = (title: string, fill: any = sectionFill) => {
-      worksheet.mergeCells(`A${r}:F${r}`);
+      worksheet.mergeCells(`A${r}:G${r}`);
       worksheet.getCell(`A${r}`).value = title;
       worksheet.getCell(`A${r}`).font = { bold: true };
       worksheet.getCell(`A${r}`).fill = fill;
@@ -235,6 +261,15 @@ class ReportService {
     };
 
     // 1. Konfigurasi Kolom
+    // worksheet.columns = [
+    //   { key: "A", width: 5 }, // No.
+    //   { key: "B", width: 25 },
+    //   { key: "C", width: 15 },
+    //   { key: "D", width: 15 },
+    //   { key: "E", width: 15 },
+    //   { key: "F", width: 15 },
+    // ];
+    // Di dalam generateExcelFile, di bagian Konfigurasi Kolom:
     worksheet.columns = [
       { key: "A", width: 5 }, // No.
       { key: "B", width: 25 },
@@ -242,6 +277,7 @@ class ReportService {
       { key: "D", width: 15 },
       { key: "E", width: 15 },
       { key: "F", width: 15 },
+      { key: "G", width: 15 }, // <-- KOLOM BARU UNTUK STATUS HASIL
     ];
 
     // --- 2. HEADER TINGKAT ATAS & INFORMASI ---
@@ -272,18 +308,26 @@ class ReportService {
 
     // --- 3. HEADER TABEL CHECKLIST UTAMA ---
     let currentHeaderRow = worksheet.getRow(r);
-    worksheet.mergeCells(`B${r}:D${r}`); // Merge Item Check/Observe Area
-    worksheet.mergeCells(`E${r}:F${r}`); // Merge Condition Area
+    // worksheet.mergeCells(`B${r}:D${r}`); // Merge Item Check/Observe Area
+    // worksheet.mergeCells(`E${r}:F${r}`); // Merge Condition Area
 
+    // currentHeaderRow.values = [
+    //   "No.",
+    //   "COMPONENT & ITEM CHECK/OBSERVE",
+    //   "",
+    //   "",
+    //   "CONDITION",
+    //   "",
+    // ];
     currentHeaderRow.values = [
       "No.",
       "COMPONENT & ITEM CHECK/OBSERVE",
       "",
       "",
-      "CONDITION",
-      "",
+      "", // Label baru di E
+      "", // Kosong di F
+      "STATUS", // Label baru di G
     ];
-
     currentHeaderRow.font = { bold: true };
     currentHeaderRow.fill = {
       type: "pattern",
@@ -354,22 +398,28 @@ class ReportService {
     addItem("Check All Cylinder For Oil Leaks", data.upperCylinderLeaks);
     addItem("Check All Cover & Hand Rail", data.upperCoverHandRail);
 
-    // Measure Cylinder Temperature
     addSectionHeader("Measure Cylinder Temperature");
+
     addTempItem(
-      "Measure ∆T Cylinder boom",
+      "Cylinder Boom",
       data.tempCylBoomRh,
-      data.tempCylBoomLh
+      data.tempCylBoomLh,
+      data.deltaTCylBoom, // Nilai Delta T
+      data.tempCylBoom // Status Hasil
     );
     addTempItem(
-      "Measure ∆T Cylinder arm",
+      "Cylinder Arm",
       data.tempCylArmRh,
-      data.tempCylArmLh
+      data.tempCylArmLh,
+      data.deltaTCylArm, // Nilai Delta T
+      data.tempCylArm // Status Hasil
     );
     addTempItem(
-      "Measure ∆T Cylinder bucket",
+      "Cylinder Bucket",
       data.tempCylBucketRh,
-      data.tempCylBucketLh
+      data.tempCylBucketLh,
+      data.deltaTCylBucket, // Nilai Delta T
+      data.tempCylBucket // Status Hasil
     );
 
     // Grease Condition
@@ -478,10 +528,10 @@ class ReportService {
     r++;
 
     // Baris untuk tanda tangan
-    worksheet.mergeCells(`A${r}:C${r + 3}`);
-    worksheet.getCell(`A${r}`).value = "Signature:";
-    worksheet.mergeCells(`D${r}:F${r + 3}`);
-    worksheet.getCell(`D${r}`).value = "Signature:";
+    // worksheet.mergeCells(`A${r}:C${r + 3}`);
+    // worksheet.getCell(`A${r}`).value = "Signature:";
+    // worksheet.mergeCells(`D${r}:F${r + 3}`);
+    // worksheet.getCell(`D${r}`).value = "Signature:";
 
     // Finalize and return buffer
     const buffer = await workbook.xlsx.writeBuffer();
