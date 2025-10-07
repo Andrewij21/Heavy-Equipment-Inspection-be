@@ -3,7 +3,7 @@
 import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/customeErrors";
 // import puppeteer from "puppeteer";
-import * as puppeteer from "puppeteer";
+// import * as puppeteer from "puppeteer";
 import chromium from "@sparticuz/chromium";
 import * as XLSX from "xlsx";
 import * as Handlebars from "handlebars";
@@ -12,8 +12,9 @@ import * as path from "path";
 import { Buffer } from "buffer";
 import * as ExcelJS from "exceljs";
 import { Prisma, InspectionStatus } from "@prisma/client";
-import { launch as coreLaunch } from "puppeteer-core"; // <-- KOREKSI IMPORT
-
+// import { launch as coreLaunch } from "puppeteer-core"; // <-- KOREKSI IMPOR
+import puppeteer from "puppeteer-core"; // Mengambil default export dari puppeteer-core
+import * as puppeteerDev from "puppeteer";
 // --- HANDLEBARS HELPERS ---
 Handlebars.registerHelper("addOne", function (index: number) {
   return index + 1;
@@ -606,7 +607,7 @@ class ReportService {
       let browser;
       try {
         if (process.env.NODE_ENV === "development") {
-          browser = await puppeteer.launch({
+          browser = await puppeteerDev.launch({
             args: [
               "--no-sandbox",
               "--disable-setuid-sandbox",
@@ -637,7 +638,7 @@ class ReportService {
             isMobile: false,
             width: 1920,
           };
-          browser = await coreLaunch({
+          browser = await puppeteer.launch({
             args: chromium.args,
             defaultViewport: viewport,
             executablePath: await chromium.executablePath(),
