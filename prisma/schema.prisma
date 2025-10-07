@@ -204,6 +204,7 @@ model TrackInspectionDetails {
   topUpHydraulicQty      Float?
   topUpSwingMachineryQty Float?
   topUpFinalDriveQty     Float?
+  topUpTransmission      Float?
 
   // ==========================================================
   // BULLDOZER SPECIFIC FIELDS
