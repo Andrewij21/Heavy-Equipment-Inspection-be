@@ -42,6 +42,7 @@ const separateTrackData = (
     status,
     approverId,
     approvalDate, // These fields are now handled correctly as optional base fields
+    mechanicId,
     ...trackDetails
   } = cleanedInput;
 
@@ -65,6 +66,7 @@ const separateTrackData = (
     status,
     approverId,
     approvalDate,
+    mechanicId,
   };
 
   const cleanedBaseData = removeUndefined(baseData);
@@ -141,14 +143,31 @@ class TrackService {
    */
   async create(data: TrackInspection) {
     const { baseData, trackDetails } = separateTrackData(data);
+    const mechanicId = baseData.mechanicId; // Ambil mechanicId secara terpisah
+    delete baseData.mechanicId; // Hapus mechanicId dari baseData agar tidak konflik saat spread
+
+    if (!mechanicId) {
+      throw new Error("Mechanic ID is required for inspection creation.");
+    }
     return prisma.inspection.create({
       data: {
-        ...(baseData as InspectionCreateInput),
+        ...(baseData as any),
+        mechanic: {
+          connect: {
+            id: mechanicId,
+          },
+        },
+
+        // 3. Buat Track Details
         trackDetails: {
           create: trackDetails,
         },
       },
-      include: { trackDetails: true, approver: approverSelection },
+      include: {
+        trackDetails: true,
+        approver: approverSelection,
+        mechanic: true,
+      },
     });
   }
 

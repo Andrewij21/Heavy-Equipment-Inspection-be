@@ -35,17 +35,16 @@ enum TrackGeneralType {
 
 // USER MODEL (Updated to link to approved inspections)
 model User {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  username   String?
-  contact    String?
-  email      String  @unique
-  password   String
-  role       String  @default("mechanic")
-  employeeId String?
-  department String?
-
-  // NEW: Relationship linking this User to Inspections they approved
-  approvedInspections Inspection[]
+  id                  String       @id @default(auto()) @map("_id") @db.ObjectId
+  username            String?
+  contact             String?
+  email               String       @unique
+  password            String
+  role                String       @default("mechanic")
+  employeeId          String?
+  department          String?
+  approvedInspections Inspection[] @relation("ApprovedBy")
+  createdInspections  Inspection[] @relation("CreatedBy")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,20 +68,18 @@ model Inspection {
   timeOut        String
   shift          String
 
-  // OPTIONAL HEADER FIELDS
   notes           String?
   groupLeaderName String?
 
-  // NEW APPROVAL FIELDS
-  status InspectionStatus @default(PENDING) // Default is PENDING
+  status InspectionStatus @default(PENDING)
 
-  // 1. Foreign Key (The ID of the user who approved/rejected)
+  mechanicId String @db.ObjectId
+  mechanic   User   @relation("CreatedBy", fields: [mechanicId], references: [id])
+
   approverId String? @db.ObjectId
+  approver   User?   @relation("ApprovedBy", fields: [approverId], references: [id])
 
-  // 2. Relationship Field (Allows eager loading of the User's name/data)
-  approver User? @relation(fields: [approverId], references: [id])
-
-  approvalDate DateTime? // Timestamp of the approval/rejection
+  approvalDate DateTime?
 
   // TYPE DISCRIMINATOR
   equipmentType        EquipmentType

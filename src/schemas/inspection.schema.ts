@@ -46,7 +46,7 @@ const optionalNumber = z.number().optional();
 
 export const trackInspectionSchema = baseInspectionSchema.extend({
   equipmentType: z.literal("track"),
-
+  mechanicId: z.string().min(1, "Mechanic ID is required"),
   // Field baru untuk pemilihan tipe model
   equipmentGeneralType: z.enum(["BigDigger", "SmallPC", "Bulldozer"], {
     message: "Equipment type is required",
