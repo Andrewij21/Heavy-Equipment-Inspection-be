@@ -2,7 +2,10 @@
 
 import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/customeErrors";
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
+import * as puppeteer from "puppeteer";
+import * as puppeteer2 from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import * as XLSX from "xlsx";
 import * as Handlebars from "handlebars";
 import * as fs from "fs";
@@ -602,30 +605,59 @@ class ReportService {
 
       let browser;
       try {
-        browser = await puppeteer.launch({
-          args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--single-process",
-          ],
-          headless: true,
-        });
+        if (process.env.NODE_ENV === "development") {
+          browser = await puppeteer.launch({
+            args: [
+              "--no-sandbox",
+              "--disable-setuid-sandbox",
+              "--disable-gpu",
+              "--disable-dev-shm-usage",
+              "--single-process",
+            ],
+            headless: true,
+          });
+          const page = await browser.newPage();
+          await page.setContent(htmlContent, {
+            waitUntil: "networkidle0",
+            timeout: 30000,
+          });
 
-        const page = await browser.newPage();
-        await page.setContent(htmlContent, {
-          waitUntil: "networkidle0",
-          timeout: 30000,
-        });
+          const pdfBuffer = await page.pdf({
+            format: "a4",
+            printBackground: true,
+            margin: { top: "10mm", right: "5mm", bottom: "10mm", left: "5mm" },
+          });
+          return pdfBuffer as unknown as Buffer;
+        } else {
+          const viewport = {
+            deviceScaleFactor: 1,
+            hasTouch: false,
+            height: 1080,
+            isLandscape: true,
+            isMobile: false,
+            width: 1920,
+          };
+          browser = await puppeteer2.launch({
+            args: chromium.args,
+            defaultViewport: viewport,
+            executablePath: await chromium.executablePath(),
+            headless: true,
+            ignoreHTTPSErrors: true,
+          });
 
-        const pdfBuffer = await page.pdf({
-          format: "A4",
-          printBackground: true,
-          margin: { top: "10mm", right: "5mm", bottom: "10mm", left: "5mm" },
-        });
+          const page = await browser.newPage();
+          await page.setContent(htmlContent, {
+            waitUntil: "networkidle0",
+            timeout: 30000,
+          });
 
-        return pdfBuffer as unknown as Buffer;
+          const pdfBuffer = await page.pdf({
+            format: "a4",
+            printBackground: true,
+            margin: { top: "10mm", right: "5mm", bottom: "10mm", left: "5mm" },
+          });
+          return pdfBuffer as unknown as Buffer;
+        }
       } catch (e) {
         console.error("❌ CRITICAL: Puppeteer/PDF generation failed:", e);
         throw new Error("Failed to generate PDF file due to server error.");
