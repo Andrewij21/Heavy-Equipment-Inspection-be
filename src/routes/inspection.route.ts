@@ -15,7 +15,7 @@ router.use(requireAuth);
 router.get(
   "/",
   // CRITICAL: Only LEADER or ADMIN should view the master list
-  requireRole(ROLES.LEADER, ROLES.ADMIN),
+  requireRole(ROLES.LEADER, ROLES.ADMIN, ROLES.MECHANIC),
   catchAsync(inspectionController.getInspectionsList)
 );
 
