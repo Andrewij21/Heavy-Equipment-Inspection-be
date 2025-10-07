@@ -4,7 +4,6 @@ import { prisma } from "../lib/prisma";
 import { NotFoundError } from "../utils/customeErrors";
 // import puppeteer from "puppeteer";
 import * as puppeteer from "puppeteer";
-import * as puppeteer2 from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import * as XLSX from "xlsx";
 import * as Handlebars from "handlebars";
@@ -13,6 +12,7 @@ import * as path from "path";
 import { Buffer } from "buffer";
 import * as ExcelJS from "exceljs";
 import { Prisma, InspectionStatus } from "@prisma/client";
+import { launch as coreLaunch } from "puppeteer-core"; // <-- KOREKSI IMPORT
 
 // --- HANDLEBARS HELPERS ---
 Handlebars.registerHelper("addOne", function (index: number) {
@@ -637,7 +637,7 @@ class ReportService {
             isMobile: false,
             width: 1920,
           };
-          browser = await puppeteer2.launch({
+          browser = await coreLaunch({
             args: chromium.args,
             defaultViewport: viewport,
             executablePath: await chromium.executablePath(),
