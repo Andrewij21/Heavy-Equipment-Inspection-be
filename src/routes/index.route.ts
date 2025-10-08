@@ -5,6 +5,7 @@ import authRoutes from "./auth.route";
 import inspectionRoutes from "./inspection.route";
 import dashboardRoutes from "./dashboard.route";
 import reportRoutes from "./report.route";
+import profileRoutes from "./profile.route";
 
 const router = Router();
 
@@ -22,5 +23,5 @@ router.use("/tracks", trackRoutes);
 router.use("/inspections", inspectionRoutes);
 router.use("/reports", reportRoutes);
 router.use("/dashboard", dashboardRoutes);
-
+router.use("/profile", profileRoutes);
 export default router;
