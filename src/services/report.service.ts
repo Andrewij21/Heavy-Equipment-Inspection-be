@@ -125,9 +125,9 @@ class ReportService {
           });
 
           const pdfBuffer = await page.pdf({
-            format: "a4",
+            format: "A4",
             printBackground: true,
-            margin: { top: "10mm", right: "5mm", bottom: "10mm", left: "5mm" },
+            margin: { top: "10mm", right: "0mm", bottom: "10mm", left: "0mm" },
           });
           return pdfBuffer as unknown as Buffer;
         } else {
