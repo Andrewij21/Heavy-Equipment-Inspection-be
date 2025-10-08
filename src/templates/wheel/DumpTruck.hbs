@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
+    <style>
+        /* Base styles for high-fidelity rendering */
+        body { font-family: Arial, sans-serif; font-size: 9pt; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 790px; margin: 0 auto; padding: 5mm; } 
+        .header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+        .header h1 { font-size: 14pt; margin: 0; }
+        .info-box { display: flex; justify-content: space-between; border: 1px solid #000; margin-bottom: 15px; }
+        .info-col { width: 33.3%; padding: 5px 8px; border-right: 1px solid #000; box-sizing: border-box; }
+        .info-col:last-child { border-right: none; }
+        .info-label { font-weight: bold; margin-bottom: 2px; display: block; }
+        
+        /* Table Styles (Checklist) */
+        table { width: 99.5%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #000; padding: 4px 6px; text-align: left; vertical-align: top; font-size: 8.5pt; }
+        th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
+        .col-no { width: 5%; text-align: center; }
+        .col-condition { width: 15%; text-align: center; }
+        .section-header { background-color: #dbe5f1; font-weight: bold; text-align: left; padding-left: 8px; }
+
+        /* Finding Table Styles */
+        .finding-table th { background-color: #cccccc; text-transform: uppercase; }
+        .finding-table .col-finding-no { width: 5%; }
+        .finding-table .col-finding-desc { width: 55%; }
+        .finding-table .col-finding-status { width: 15%; text-align: center; }
+
+        /* Signature Block */
+        .signatures { display: flex; justify-content: space-between; width: 100%; margin-top: 30px; font-size: 9pt; }
+        .sig-box { width: 49%; border: 1px solid #000; }
+        .sig-title { text-align: center; font-weight: bold; padding: 5px; background-color: #f2f2f2; border-bottom: 1px solid #000; }
+        .sig-row { display: flex; border-bottom: 1px solid #eee; }
+        .sig-label, .sig-value { padding: 4px; border-right: 1px solid #ddd; width: 50%; box-sizing: border-box; }
+        .sig-value:last-child { border-right: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="path/to/logo.png" style="height: 30px; float: left;" />
+            <h1>DAILY INSPECTION CHECKSHEET DUMP TRUCK</h1>
+            <p>(CN 505 / FLT-01X)</p>
+        </div>
+
+        <div class="info-box">
+            <div class="info-col" style="width: 25%;">
+                <span class="info-label">Date:</span> {{inspection.inspectionDate}}
+            </div>
+            <div class="info-col" style="width: 15%;">
+                <span class="info-label">Unit No:</span> {{inspection.equipmentId}}
+            </div>
+            <div class="info-col" style="width: 20%;">
+                <span class="info-label">SMR:</span> {{inspection.smr}}
+            </div>
+            <div class="info-col" style="width: 20%;">
+                <span class="info-label">Time Down:</span> {{inspection.timeDown}}
+            </div>
+            <div class="info-col" style="width: 20%; border-right: none;">
+                <span class="info-label">Time Out:</span> {{inspection.timeOut}}
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-bottom: 10px;">
+            <small>✓ = Good | X = Bad/Repair required | O = Repaired | NA = Not Available</small>
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-no">No.</th>
+                    <th>COMPONENT & ITEM CHECK/OBSERVE</th>
+                    <th class="col-condition">CONDITION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3" class="section-header">A. Engine System</td>
+                </tr>
+                <tr><td class="col-no">1</td><td>Check engine oil level & any leakage</td><td class="col-condition">{{inspection.wheelDetails.engineOilLevel}}</td></tr>
+                <tr><td class="col-no">2</td><td>Check engine mounting & fitting parts</td><td class="col-condition">{{inspection.wheelDetails.engineMounting}}</td></tr>
+                <tr><td class="col-no">3</td><td>Check water coolant level & any lekage</td><td class="col-condition">{{inspection.wheelDetails.engineCoolantLevel}}</td></tr>
+                <tr><td class="col-no">4</td><td>Check fuel system & any leakage</td><td class="col-condition">{{inspection.wheelDetails.engineFuelSystemLeakage}}</td></tr>
+                <tr><td class="col-no">5</td><td>Check all -belt tension & related parts</td><td class="col-condition">{{inspection.wheelDetails.engineBeltTension}}</td></tr>
+                <tr><td class="col-no">6</td><td>Check air intake & exhaust connection</td><td class="col-condition">{{inspection.wheelDetails.engineAirIntake}}</td></tr>
+                
+                <tr>
+                    <td colspan="3" class="section-header">B. Transmission & Clutch</td>
+                </tr>
+                <tr><td class="col-no">7</td><td>Check transmission oil level and any leakage</td><td class="col-condition">{{inspection.wheelDetails.powertrainTransmissionOilLevel}}</td></tr>
+                <tr><td class="col-no">8</td><td>Check Clutch Function & Wear Pad Clutch</td><td class="col-condition">{{inspection.wheelDetails.powertrainClutchFunction}}</td></tr>
+                <tr><td class="col-no">9</td><td>Check Universal Joint & Lubricate</td><td class="col-condition">{{inspection.wheelDetails.powertrainUniversalJoint}}</td></tr>
+
+                <tr>
+                    <td colspan="3" class="section-header">C. Hydraulic System</td>
+                </tr>
+                <tr><td class="col-no">10</td><td>Check hydraulic oil level</td><td class="col-condition">{{inspection.wheelDetails.hydraulicOilLevel}}</td></tr>
+                <tr><td class="col-no">11</td><td>Check hydraulic cylinder & connection condition</td><td class="col-condition">{{inspection.wheelDetails.hydraulicSystemLeakage}}</td></tr>
+                <tr><td class="col-no">12</td><td>Check any leakage from Pump, Motor, PTO, Hose/ piping connection</td><td class="col-condition">{{inspection.wheelDetails.hydraulicPumpLeakage}}</td></tr>
+                <tr><td class="col-no">13</td><td>Check leak's from control valve</td><td class="col-condition">{{inspection.wheelDetails.hydraulicControlValveLeakage}}</td></tr> 
+
+                <tr>
+                    <td colspan="3" class="section-header">D. Cabin & Electric</td>
+                </tr>
+                <tr><td class="col-no">15</td><td>Cleaning cabin & check panel Function</td><td class="col-condition">{{inspection.wheelDetails.cabinCleaning}}</td></tr>
+                <tr><td class="col-no">16</td><td>Check lock cabin & lock tilt cabin</td><td class="col-condition">{{inspection.wheelDetails.cabinLock}}</td></tr>
+                <tr><td class="col-no">17</td><td>Check Seat & Safety Belt</td><td class="col-condition">{{inspection.wheelDetails.cabinSeatBelt}}</td></tr>
+                <tr><td class="col-no">18</td><td>Check Transmissi & Steering/Travel Control Lever Function</td><td class="col-condition">{{inspection.wheelDetails.cabinControlLever}}</td></tr>
+                <tr><td class="col-no">19</td><td>Check Attachment Control Lever</td><td class="col-condition">{{inspection.wheelDetails.cabinAttachmentLever}}</td></tr>
+                <tr><td class="col-no">20</td><td>Check mirror condition</td><td class="col-condition">{{inspection.wheelDetails.cabinMirror}}</td></tr>
+                <tr><td class="col-no">21</td><td>Check switch function</td><td class="col-condition">{{inspection.wheelDetails.cabinSwitchFunction}}</td></tr>
+                <tr><td class="col-no">22</td><td>Check wiper function</td><td class="col-condition">{{inspection.wheelDetails.cabinWiper}}</td></tr>
+                <tr><td class="col-no">23</td><td>Check horn function</td><td class="col-condition">{{inspection.wheelDetails.cabinHorn}}</td></tr>
+                <tr><td class="col-no">24</td><td>Check all lamp function & Rotary lamp</td><td class="col-condition">{{inspection.wheelDetails.cabinLamps}}</td></tr>
+                <tr><td class="col-no">25</td><td>Check Battery & connection condition</td><td class="col-condition">{{inspection.wheelDetails.cabinBatteryConnection}}</td></tr>
+                <tr><td class="col-no">26</td><td>Check Radio Communication</td><td class="col-condition">{{inspection.wheelDetails.cabinRadioComm}}</td></tr>
+                <tr><td class="col-no">27</td><td>Check all brake function</td><td class="col-condition">{{inspection.wheelDetails.cabinBrakeFunction}}</td></tr>
+                <tr><td class="col-no">28</td><td>Check Emergency Stop function</td><td class="col-condition">{{inspection.wheelDetails.cabinEmergencyStop}}</td></tr>
+      
+                <tr><td class="col-no">26</td><td>Check Reverse Camera</td><td class="col-condition">{{inspection.wheelDetails.reverseCamera}}</td></tr>
+                <tr><td class="col-no">27</td><td>Check MDVR</td><td class="col-condition">{{inspection.wheelDetails.checkMDVR}}</td></tr>
+                <tr><td class="col-no">28</td><td>Check APAR</td><td class="col-condition">{{inspection.wheelDetails.apar}}</td></tr>
+
+               <tr>
+                    <td colspan="3" class="section-header">E. Front Axle, Rear Axle & Brakes</td>
+                </tr>
+                <tr><td class="col-no">29</td><td>Check oil level in the drive axle and any leak</td><td class="col-condition">{{inspection.wheelDetails.structureDriveAxleOilLevel}}</td></tr>
+                <tr><td class="col-no">30</td><td>Check & lubricate Pin Spring, Steering likage & Trunion</td><td class="col-condition">{{inspection.wheelDetails.structurePinSpringSteeringTrunion}}</td></tr>
+                <tr><td class="col-no">31</td><td>Check Mounting & Rubber Torque Rod</td><td class="col-condition">{{inspection.wheelDetails.structureMountingRubberTorqueRod}}</td></tr>
+                <tr><td class="col-no">32</td><td>Check Spring & U Bolt</td><td class="col-condition">{{inspection.wheelDetails.structureSpringUBolt}}</td></tr>
+                <tr><td class="col-no">33</td><td>Check V Stay Front & Rear</td><td class="col-condition">{{inspection.wheelDetails.structureVStayFrontRear}}</td></tr>
+                <tr><td class="col-no">34</td><td>Check ball joint tie rod</td><td class="col-condition">{{inspection.wheelDetails.structureBallJointTieRod}}</td></tr>
+                <tr><td class="col-no">35</td><td>Check ball joint drag link</td><td class="col-condition">{{inspection.wheelDetails.structureBallJointDragLink}}</td></tr>
+                <tr><td class="col-no">36</td><td>Check Shock Absorber</td><td class="col-condition">{{inspection.wheelDetails.structureShockAbsorber}}</td></tr>
+                <tr><td class="col-no">37</td><td>Check Tyre, Bolt Tyre & Tyre Pressure</td><td class="col-condition">{{inspection.wheelDetails.structureTyreBoltPressure}}</td></tr>
+                <tr><td class="col-no">38</td><td>Check Rubber Hollowspring</td><td class="col-condition">{{inspection.wheelDetails.structureRubberHollowspring}}</td></tr>
+                
+                <tr><td class="col-no">39</td><td>Check Back Up Alarm</td><td class="col-condition">{{inspection.wheelDetails.electricalBackupAlarm}}</td></tr>
+                <tr><td class="col-no">40</td><td>Check Dump Body, Pin, Pad, Stabilizer, tail gate & vesel</td><td class="col-condition">{{inspection.wheelDetails.attachmentDumpBodyVessel}}</td></tr>
+                <tr><td class="col-no">41</td><td>Check Safety Dump Function</td><td class="col-condition">{{inspection.wheelDetails.attachmentSafetyDumpFunction}}</td></tr>
+                <tr><td class="col-no">42</td><td>Check Cental Grease</td><td class="col-condition">{{inspection.wheelDetails.greaseCentralGrease}}</td></tr>
+                <tr><td class="col-no">43</td><td>Check All Greasing Point Area</td><td class="col-condition">{{inspection.wheelDetails.greaseAllPointsArea}}</td></tr>
+
+
+                <tr>
+                    <td colspan="3" class="section-header">F. Top-Up Lubricant & Coolant</td>
+                </tr>
+                <tr><td class="col-no"></td><td>Engine (15W-40)</td><td class="col-condition">{{inspection.wheelDetails.topUpEngine}}</td></tr>
+                <tr><td class="col-no"></td><td>Hydraulic (TURALIX 46)</td><td class="col-condition">{{inspection.wheelDetails.topUpHydraulic}}</td></tr>
+                <tr><td class="col-no"></td><td>Transmission (85W-140)</td><td class="col-condition">{{inspection.wheelDetails.topUpTransmission}}</td></tr>
+                <tr><td class="col-no"></td><td>Differential (85W-140)</td><td class="col-condition">{{inspection.wheelDetails.topUpDifferential}}</td></tr>
+                <tr><td class="col-no"></td><td>Final Drive (85W-140)</td><td class="col-condition">{{inspection.wheelDetails.topUpFinalDrive}}</td></tr>
+                <tr><td class="col-no"></td><td>Coolant</td><td class="col-condition">{{inspection.wheelDetails.topUpCoolant}}</td></tr>
+
+                
+            </tbody>
+        </table>
+
+        <table class="finding-table">
+            <thead>
+                <tr>
+                    <th colspan="4">Finding Inspection Unit (Temuan Inspeksi)</th>
+                </tr>
+                <tr>
+                    <th class="col-finding-no">No.</th>
+                    <th class="col-finding-desc">Finding Description</th>
+                    <th class="col-finding-status">Open (✓)</th>
+                    <th class="col-finding-status">Close (✓)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each findings}}
+                <tr>
+                    <td class="col-finding-no">{{addOne @index}}</td> 
+                    <td>{{this.description}}</td>
+                    <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
+                    <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <div class="signatures">
+            <div class="sig-box">
+                <div class="sig-title">Checked By</div>
+                <div class="sig-row">
+                    <div class="sig-label">Name:</div>
+                    <div class="sig-value">{{inspection.mechanicName}}</div>
+                </div>
+            </div>
+            <div class="sig-box">
+                <div class="sig-title">Approved By</div>
+                <div class="sig-row">
+                    <div class="sig-label">Name:</div>
+                    <div class="sig-value">{{inspection.approverName}}</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

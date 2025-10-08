@@ -5,6 +5,7 @@ import authRoutes from "./auth.route";
 import inspectionRoutes from "./inspection.route";
 import dashboardRoutes from "./dashboard.route";
 import reportRoutes from "./report.route";
+import wheelRoutes from "./wheel.route";
 import profileRoutes from "./profile.route";
 
 const router = Router();
@@ -20,6 +21,7 @@ router.get("/health", (req: Request, res: Response) => {
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/tracks", trackRoutes);
+router.use("/wheels", wheelRoutes);
 router.use("/inspections", inspectionRoutes);
 router.use("/reports", reportRoutes);
 router.use("/dashboard", dashboardRoutes);

@@ -33,6 +33,14 @@ enum TrackGeneralType {
   Bulldozer
 }
 
+enum WheelGeneralType {
+  DumpTruck
+  HeavyDumpTruck // Dari CHECKSHEET DAILY INSPECTION WHEEL_page-0002
+  Grader
+  Compactor
+  // Tambahkan sub-tipe Wheel lainnya di sini
+}
+
 // USER MODEL (Updated to link to approved inspections)
 model User {
   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
@@ -83,13 +91,14 @@ model Inspection {
 
   // TYPE DISCRIMINATOR
   equipmentType        EquipmentType
-  equipmentGeneralType TrackGeneralType
+  equipmentGeneralType TrackGeneralType?
+  wheelGeneralType     WheelGeneralType?
 
   // RELATIONSHIP
   trackDetails TrackInspectionDetails?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  wheelDetails WheelInspectionDetails?
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
 }
 
 // 2. DETAIL MODEL: TrackInspectionDetails (All Subtype Checklist Fields)
@@ -259,6 +268,147 @@ model TrackInspectionDetails {
   electricalIsolationSwitch    String?
   electricalGaugePanel         String?
   electricalBackupAlarm        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// DETAIL MODEL: WheelInspectionDetails (Menggabungkan Dump Truck, Grader, Compactor, Heavy Dump Truck)
+model WheelInspectionDetails {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // RELATIONSHIP
+  inspectionId String     @unique @db.ObjectId
+  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+
+  // DYNAMIC/UNSTRUCTURED DATA
+  findings Json?
+
+  // ==========================================================
+  // A. ENGINE SYSTEM (Common across all Wheel types)
+  // ==========================================================
+  engineFuelSystemLeakage String?
+  acBlower                String?
+  reverseCamera           String?
+  checkMDVR               String?
+  apar                    String?
+  coolant                 Float?
+
+  structureDriveAxleOilLevel        String?
+  structurePinSpringSteeringTrunion String?
+  structureMountingRubberTorqueRod  String?
+  structureSpringUBolt              String?
+  structureVStayFrontRear           String?
+  structureBallJointTieRod          String?
+  structureBallJointDragLink        String?
+  structureShockAbsorber            String?
+  structureTyreBoltPressure         String?
+  structureRubberHollowspring       String?
+
+  electricalBackupAlarm String?
+
+  // Bagian Attachment/Grease yang Lebih Spesifik
+  attachmentDumpBodyVessel     String?
+  attachmentSafetyDumpFunction String?
+  greaseCentralGrease          String?
+  greaseAllPointsArea          String?
+
+  engineVisualCheck      String? // Check engine condition from: leaks, lose bolt & etc
+  engineUpperLeaks       String? // Check oil leak, coolant leak dan gas leak at upper engine compartment area
+  engineFuelLine         String? // Check all fuel line for tighneass, wear dan leakage
+  engineOilLevel         String? // Check engine oil level
+  engineMounting         String? // Check engine mounting & fitting parts
+  engineCoolantLevel     String? // Check water coolant level & any lekage
+  engineBeltTension      String? // Check all -belt tension & related parts
+  engineAirIntake        String? // Check air intake & exhaust connection
+  engineExhaustLeakage   String? // Check exhaust manifold & muffler leakage
+  engineOperationalSound String? // Check engine operational sound and low power
+  engineAlternator       String? // Check alternator condition
+  engineStarterMotor     String? // Check starter motor condition
+  engineAcCompressor     String? // Check AC compressor condition
+  engineWaterPump        String? // Check Water Pump condition
+  engineTurbocharger     String? // Check Turbocharger condition
+
+  // ==========================================================
+  // B. POWER TRAIN (Transmission, Axle, Brakes)
+  // ==========================================================
+  powertrainTransmissionOilLevel String? // Check transmission oil level
+  powertrainClutchFunction       String? // Check Clutch Function & Wear Pad Clutch
+  powertrainUniversalJoint       String? // Check Universal Joint & Lubricate
+  powertrainDifferentialOil      String? // Check Differential oil level & leakage
+  powertrainFinalDriveOil        String? // Check Final Drive oil level & leakage
+  powertrainBrakeOperation       String? // Check Brake Function, Brake Pressure & Parking Brake (Grader/HDT)
+  powertrainPropellerShaft       String? // Check Propeller Shaft (HDT/Grader)
+
+  // ==========================================================
+  // C. HYDRAULIC SYSTEM
+  // ==========================================================
+  hydraulicOilLevel             String? // Check hydraulic oil level
+  hydraulicSystemLeakage        String? // Check hydraulic cylinder & connection condition
+  hydraulicPumpLeakage          String? // Check leakage from Pump, Motor, PTO, Hose/ piping connection
+  hydraulicControlValveLeakage  String? // Check leaks from control valve
+  hydraulicWheelLeanCylinder    String? // Check wheel lean cylinder (Grader)
+  hydraulicSteeringCylinder     String? // Check streering cylinder (Grader)
+  hydraulicBladeLiftCylinder    String? // Check blade lift cylinder (Grader)
+  hydraulicSideShiftCylinder    String? // Check side shift cylinder (Grader)
+  hydraulicCenterShiftCylinder  String? // Check center shift cylinder (Grader)
+  hydraulicArticulationCylinder String? // Check articulation cylinder (Grader)
+  hydraulicHoseCondition        String? // Check All Hydraulic hose condition
+
+  // ==========================================================
+  // D. WHEEL / AXLE / STRUCTURE (Compactor, Dump Truck, Grader)
+  // ==========================================================
+  structureFrontAxleOilLevel    String? // Check oil level in the drive axle/front axle
+  structureWheelHubLevel        String? // Check oil level in the wheel hub
+  structureReducingGearLevel    String? // Check oil level in the reducing gear
+  structureNutWheelTirePressure String? // Check nut wheel & tyre pressure
+  structureTireCondition        String? // Check Tire condition (HDT)
+  structureDumpBodyPin          String? // Check Dump Body, Pin, Pad, Stabilizer, tail gate & vesel (Dump Truck/HDT)
+  structureFrameCracks          String? // Check entire Machine frame, chasis body for cracks (Grader)
+  structureRipperAssembly       String? // Check Ripper Assembly (Grader)
+  structureTandemHousing        String? // Check LH/RH Tandem housing for leaks (Grader)
+  structureWheelSpindle         String? // Check all wheel spindle bearing for leaks (Grader)
+  structureCircleDrive          String? // Check circle drive for leaks (Grader)
+  structureOscillationArea      String? // Check Oscillation Area (Grader)
+  structureDrumReduction        String? // Check oil level in the drum reduction gear (Compactor)
+  structureVibrationBearing     String? // Check oil level in vibration bearing (Compactor)
+  structureAllGreasingPoints    String?
+
+  // ==========================================================
+  // E. CABIN & SAFETY DEVICE (Common)
+  // ==========================================================
+  cabinCleaning          String? // Cleaning cabin & check panel Function
+  cabinLock              String? // Check lock cabin & lock tilt cabin
+  cabinSeatBelt          String? // Check Seat & Safety Belt
+  cabinControlLever      String? // Check Transmissi & Steering/Travel Control Lever Function
+  cabinAttachmentLever   String? // Check Attachment Control Lever
+  cabinAcBlower          String? // Check AC / Blower
+  cabinMirror            String? // Check mirror condition
+  cabinSwitchFunction    String? // Check switch function
+  cabinWiper             String? // Check wiper function
+  cabinHorn              String? // Check horn function
+  cabinLamps             String? // Check all lamp function & Rotary lamp
+  cabinBatteryConnection String? // Check Battery & connection condition
+  cabinRadioComm         String? // Check Radio Communication
+  cabinBrakeFunction     String? // Check all brake function
+  cabinEmergencyStop     String? // Check Emergency Stop function
+  cabinApar              String? // Check APAR
+  cabinReverseCamera     String? // Check Reverse Camera function (HDT/Grader)
+  cabinMdvr              String? // Check MDVR (HDT/Grader)
+  cabinMonitoringSystem  String? // Check monitoring system condition (HDT/Grader)
+  // ==========================================================
+  // F. TOP-UP QUANTITIES
+  // ==========================================================
+  topUpEngine            Float? // SAE 15W-40
+  topUpHydraulic         Float? // TURALIK 46
+  topUpTransmission      Float? // 85W-140 / TUDH 46, 68
+  topUpDifferential      Float? // 85W-140 / HD 30
+  topUpFinalDrive        Float? // 85W-140 / HD 30
+  topUpWheelMotor        Float? // 85W-140 (Compactor)
+  topUpVibrator          Float? // 85W-140 (Compactor)
+  topUpCoolant           Float? // AF-NACDM / Coolant
+  topUpGrease            Float? // V220
+  topUpSteering          Float? // ATF 220
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

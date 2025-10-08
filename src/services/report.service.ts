@@ -34,6 +34,7 @@ class ReportService {
       where: { id: { in: inspectionIds } },
       include: {
         trackDetails: true,
+        wheelDetails: true,
         approver: { select: { username: true, email: true, role: true } },
       },
     });
@@ -52,6 +53,7 @@ class ReportService {
     rawInspectionData: any[],
     format: "pdf" | "excel" | "csv"
   ): Promise<Buffer> {
+    console.log({ rawInspectionData });
     if (format === "excel" || format === "csv") {
       if (rawInspectionData.length !== 1) {
         throw new Error(
@@ -75,12 +77,25 @@ class ReportService {
         );
       }
       const rawInspection = rawInspectionData[0];
-
-      const templateName = rawInspection.equipmentGeneralType.replace(
-        /\s/g,
-        ""
-      );
+      // 1. Tentukan Nama General Type yang Benar secara Kondisional
       const equipmentType = rawInspection.equipmentType.toLowerCase();
+      let generalTypeSource: string | undefined;
+
+      if (equipmentType === "track") {
+        generalTypeSource = rawInspection.equipmentGeneralType;
+      } else if (equipmentType === "wheel") {
+        // Asumsi field ini sudah ada di rawInspection jika equipmentType adalah 'wheel'
+        generalTypeSource = rawInspection.wheelGeneralType;
+      }
+
+      if (!generalTypeSource) {
+        throw new Error(
+          `General equipment type source not found for type: ${equipmentType}`
+        );
+      }
+
+      // 2. Buat Template Name (menghapus spasi)
+      const templateName = generalTypeSource.replace(/\s/g, "");
 
       const templatePath = path.join(
         process.cwd(),
@@ -99,10 +114,19 @@ class ReportService {
 
       const templateHtml = fs.readFileSync(templatePath, "utf8");
       const template = Handlebars.compile(templateHtml);
+      // Tentukan object detail yang benar (trackDetails atau wheelDetails)
+      const detailObject =
+        equipmentType === "track"
+          ? rawInspection.trackDetails
+          : equipmentType === "wheel"
+          ? rawInspection.wheelDetails
+          : null;
 
+      // Dapatkan findings dari object detail yang sesuai
+      const findingsArray = detailObject?.findings || [];
       const htmlContent = template({
         inspection: rawInspection,
-        findings: rawInspection.trackDetails?.findings || [],
+        findings: findingsArray,
       });
 
       let browser;
