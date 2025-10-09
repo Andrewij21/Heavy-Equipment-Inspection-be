@@ -284,15 +284,90 @@ model WheelInspectionDetails {
   // DYNAMIC/UNSTRUCTURED DATA
   findings Json?
 
-  // ==========================================================
-  // A. ENGINE SYSTEM (Common across all Wheel types)
-  // ==========================================================
   engineFuelSystemLeakage String?
   acBlower                String?
-  reverseCamera           String?
   checkMDVR               String?
   apar                    String?
   coolant                 Float?
+
+  radiatorConnection  String?
+  engineUnusualSound  String?
+  alternatorCondition String?
+  fanGuardCondition   String?
+  leftFrontWheel      String?
+  hoistCylinder       String?
+  leftRearFinalDrive  String?
+
+  starterMotorCondition String?
+  acCompressorCondition String?
+  turbochargerCondition String?
+  waterPumpCondition    String?
+  beltTension           String?
+  ropsMounting          String?
+  steeringLinkage       String?
+  frontSuspension       String?
+  rearSuspension        String?
+  hydraulicTank         String?
+  tankMounting          String?
+  chassisMainFrame      String?
+  leftRearWheel         String?
+  dumpBody              String?
+  greaseLine            String?
+  hydraulicLine         String?
+  airCleaner            String?
+  steeringOilTank       String?
+  greaseSystem          String?
+  batteryElectrolyte    String?
+  handRail              String?
+  walkways              String?
+
+  rightRearWheel      String?
+  rhFinalDrive        String?
+  rhRearSuspension    String?
+  fuelTankMounting    String?
+  fuelLineCondition   String?
+  rhChassisMounting   String?
+  rhFrontSuspension   String?
+  rhSteeringLinkage   String?
+  rhDumpBodyCondition String?
+
+  rearAxleLooseBolts String?
+  rearAxleOilLeaks   String?
+
+  differentialCondition String?
+  transmissionCondition String?
+  powerTrainLine        String?
+  torqueConverter       String?
+  driveShaftJoint       String?
+
+  cabinGlass          String?
+  cabinRops           String?
+  seatSafetyBelt      String?
+  wiperFunction       String?
+  hornFunction        String?
+  radioCommunication  String?
+  reverseCamera       String?
+  mdvr                String?
+  mirrorCondition     String?
+  doorLock            String?
+  monitoringSystem    String?
+  secondarySteering   String?
+  allBrakeFunction    String?
+  parkingBrakeControl String?
+  emergencyStop       String?
+  fireExtinguisher    String?
+
+  conditionEngineOil       String?
+  conditionHydraulic       String?
+  conditionFrontSuspension String?
+  conditionRearSuspension  String?
+  conditionTransmission    String?
+  conditionDifferential    String?
+  conditionFinalDrive      String?
+  conditionBrakeFluid      String?
+  conditionSteering        String?
+  conditionGrease          String?
+  conditionCoolant         String?
 
   structureDriveAxleOilLevel        String?
   structurePinSpringSteeringTrunion String?

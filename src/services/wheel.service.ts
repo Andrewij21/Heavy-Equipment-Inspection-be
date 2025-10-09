@@ -1,51 +1,6 @@
 import { prisma } from "../lib/prisma";
 import type { WheelInspection } from "../schemas/inspection.schema";
 
-// Helper untuk memisahkan data header dari detail pemeriksaan Wheel
-const separateWheelData = (data: WheelInspection) => {
-  // Note: Karena Anda tidak menyediakan tipe penuh WheelInspection,
-  // kita asumsikan semua field yang bukan 'base' adalah 'wheelDetails'.
-
-  // Field yang HANYA ADA di Inspection (base model)
-  const baseFields = [
-    "equipmentId",
-    "modelUnit",
-    "location",
-    "operatorName",
-    "mechanicName",
-    "inspectionDate",
-    "inspectionTime",
-    "workingHours",
-    "smr",
-    "timeDown",
-    "timeOut",
-    "shift",
-    "notes",
-    "groupLeaderName",
-    "equipmentType",
-    "wheelGeneralType",
-    "status",
-    "approverId",
-    "approvalDate",
-    "mechanicId",
-  ];
-
-  const baseData: any = {};
-  const wheelDetails: any = {};
-
-  for (const key in data) {
-    if (baseFields.includes(key)) {
-      baseData[key] = data[key as keyof WheelInspection];
-    } else {
-      wheelDetails[key] = data[key as keyof WheelInspection];
-    }
-  }
-
-  // Membersihkan nilai undefined/null (opsional, tergantung pada FE/Zod Anda)
-  // const cleanedBaseData = removeUndefined(baseData);
-
-  return { baseData: baseData, wheelDetails: wheelDetails };
-};
 const approverSelection = {
   select: {
     id: true,
@@ -89,21 +44,75 @@ class WheelService {
     ]);
     return { inspections, count };
   }
-  async create(data: WheelInspection) {
-    const { baseData, wheelDetails } = separateWheelData(data);
+  // src/services/wheel.service.ts (Di dalam async create(data))
 
-    const mechanicId = baseData.mechanicId;
-    delete baseData.mechanicId; // Hapus dari baseData agar tidak bentrok saat spread
+  async create(data: any) {
+    // 1. Definisikan secara KETAT SEMUA field header yang ada di model Inspection
+    //    Ini adalah cara paling aman untuk memastikan detail tidak bocor.
+    const {
+      equipmentId,
+      modelUnit,
+      location,
+      operatorName,
+      mechanicName,
+      inspectionDate,
+      inspectionTime,
+      workingHours,
+      smr,
+      timeDown,
+      timeOut,
+      shift,
+      notes,
+      groupLeaderName,
+      equipmentType,
+      wheelGeneralType,
+      mechanicId,
+      approverId,
+      approvalDate,
+      status,
+      // Semua field yang TIDAK di-destructure di sini akan masuk ke 'wheelDetailsPayload'
+      ...wheelDetailsPayload
+    } = data;
 
+    // 2. Kumpulkan field header yang aman
+    const baseData = {
+      equipmentId,
+      modelUnit,
+      location,
+      operatorName,
+      mechanicName,
+      inspectionDate,
+      inspectionTime,
+      workingHours,
+      smr,
+      timeDown,
+      timeOut,
+      shift,
+      notes,
+      groupLeaderName,
+      equipmentType,
+      wheelGeneralType,
+      approverId,
+      approvalDate,
+      status,
+    };
+
+    // 3. Ambil findings dan hapus dari detail, lalu masukkan kembali.
+    const findings = wheelDetailsPayload.findings;
+    delete wheelDetailsPayload.findings;
+
+    // ... (Validasi mechanicId) ...
     if (!mechanicId) {
       throw new Error("Mechanic ID is required for inspection creation.");
     }
 
     // Pastikan field EquipmentType disetel ke 'wheel'
+    // (Field ini sudah ada di baseData, jadi ini hanya double check)
     baseData.equipmentType = "wheel";
 
     return prisma.inspection.create({
       data: {
+        // Sebarkan data header yang aman
         ...(baseData as any),
 
         // Hubungkan (Connect) ke model User
@@ -113,9 +122,12 @@ class WheelService {
           },
         },
 
-        // Buat Wheel Details
+        // Buat Wheel Details (Menggunakan detail yang sudah bersih)
         wheelDetails: {
-          create: wheelDetails,
+          create: {
+            ...wheelDetailsPayload, // Semua field checklist (reverseCamera, engineVisualCheck, dll.)
+            findings: findings, // Findings (array of objects)
+          },
         },
       },
       include: {
