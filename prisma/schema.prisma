@@ -46,6 +46,7 @@ enum SupportGeneralType {
   Crane
   Towerlamp
   Genset
+  WeldingMachine
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -681,6 +682,21 @@ model SupportInspectionDetails {
   electricGrounding         String?
   electricLightningArrester String?
   electricGuarding          String?
+
+  // WeldingMachine
+  engineFan              String?
+  engineCoolantSystem    String?
+  engineRadiatorLevel    String?
+  engineBreather         String?
+  engineFuelTank         String?
+  engineExhaustPipe      String?
+  engineTurbocharger     String?
+  engineFloorCleanliness String?
+
+  electricTerminals         String?
+  electricIndicators        String?
+  electricSwitchMode        String?
+  electricBatteryConnection String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
