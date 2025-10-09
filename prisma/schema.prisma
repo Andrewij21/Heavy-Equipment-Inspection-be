@@ -44,6 +44,7 @@ enum WheelGeneralType {
 enum SupportGeneralType {
   Mobile
   Crane
+  Towerlamp
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -635,6 +636,23 @@ model SupportInspectionDetails {
   craneWireTerminal String?
   craneRopeStretch  String?
   craneHookBlock    String?
+
+  // Towerlamp
+  hydraulicWireRope        String?
+  hydraulicTelescopicTower String?
+
+  electricWorkLamp            String?
+  electricSwitchLamp          String?
+  electricPanelMonitor        String?
+  electricGeneratorConnection String?
+  electricBattery             String?
+  electricGeneratorVoltage    String?
+  electricBreakerCurrent      String?
+  electricFrequency           String?
+
+  // --- SECTION D. OPSIONAL ---
+  optionalVisualSkidding String?
+  optionalApar           String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
