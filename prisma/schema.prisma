@@ -49,6 +49,7 @@ enum SupportGeneralType {
   WeldingMachine
   Compressor
   MultiFlow
+  TyreHandler
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -716,6 +717,55 @@ model SupportInspectionDetails {
   pumpMounting         String?
   boltTightness        String?
   suctionDischargeHose String?
+
+  // Daici
+  engineRadiator               String?
+  engineFanGuard               String?
+  engineUnusualSound           String?
+  engineAlternator             String?
+  engineStarterMotor           String?
+  engineWaterPump              String?
+  engineLeftFrontWheel         String?
+  engineRopsCabin              String?
+  engineSteeringLinkage        String?
+  engineFrontSuspension        String?
+  engineRearSuspension         String?
+  engineBrakeSystem            String?
+  engineHydraulicTank          String?
+  engineBrazeForkLifting       String?
+  engineChassisFrame           String?
+  engineHoistCylinder          String?
+  engineLeftRearWheel          String?
+  engineLeftRearFinalDrive     String?
+  engineGreaseLine             String?
+  engineHydraulicLine          String?
+  engineDifferential           String?
+  engineTransmission           String?
+  enginePowerTrainLine         String?
+  engineDriveShaft             String?
+  engineFrontSuspensionGrease  String?
+  engineSteeringCylinderGrease String?
+  engineSpiderJointGrease      String?
+  engineRearSuspensionGrease   String?
+  engineFrontRearAxleGrease    String?
+  enginePinForkLiftingGrease   String?
+  engineParkingBrake           String?
+  engineSteeringOilTank        String?
+  engineTankMounting           String?
+  engineGreaseSystem           String?
+  engineRightRearWheel         String?
+  engineRhFinalDrive           String?
+  engineBrakeSystem2           String?
+  engineRearSuspension2        String?
+  engineFuelLine               String?
+  engineChassisMounting        String?
+  engineFrontSuspension2       String?
+  engineSteeringLinkage2       String?
+
+  // --- SECTION B. KABIN & KELISTRIKAN ---
+  cabinRops          String?
+  cabinWheelChock    String?
+  cabinEmergencyStop String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

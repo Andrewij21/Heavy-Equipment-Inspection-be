@@ -14,6 +14,7 @@ import { supportChecklistDataGenset } from "../constants/excels/support/genset";
 import { supportChecklistDataWeldingMachine } from "../constants/excels/support/weldingmachine";
 import { supportChecklistDataCompressor } from "../constants/excels/support/compressor";
 import { supportChecklistDataMultiFlow } from "../constants/excels/support/multiflow";
+import { supportChecklistDataTyreHandler } from "../constants/excels/support/TyreHandler";
 // --- STATE TEMPORARY (Untuk nomor baris dan item) ---
 let globalRow = 1;
 let globalItemNo = 0;
@@ -62,6 +63,8 @@ const getSupportChecklistData = (type: string) => {
       return supportChecklistDataCompressor;
     case "MultiFlow":
       return supportChecklistDataMultiFlow;
+    case "TyreHandler":
+      return supportChecklistDataTyreHandler;
 
     default:
       return [];
@@ -583,6 +586,7 @@ const excelLayouts: Record<string, ExcelLayoutFunction> = {
   WeldingMachine: generateStandardSupportlLayout,
   Compressor: generateStandardSupportlLayout,
   MultiFlow: generateStandardSupportlLayout,
+  TyreHandler: generateStandardSupportlLayout,
 };
 
 export const generateExcelFile = async (
