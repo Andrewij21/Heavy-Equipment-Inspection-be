@@ -6,6 +6,7 @@ import { trackChecklistDataBulldozer } from "../constants/excels/track/bulldozer
 import { wheelChecklistDataDumpTruck } from "../constants/excels/wheel/dumpTruck";
 import { wheelChecklistDataHeavyDumpTruck } from "../constants/excels/wheel/heavyDumpTruck";
 import { wheelChecklistDataGrader } from "../constants/excels/wheel/grader";
+import { wheelChecklistDataCompactor } from "../constants/excels/wheel/compactor";
 // --- STATE TEMPORARY (Untuk nomor baris dan item) ---
 let globalRow = 1;
 let globalItemNo = 0;
@@ -32,6 +33,8 @@ const getWheelChecklistData = (type: string) => {
       return wheelChecklistDataHeavyDumpTruck;
     case "Grader":
       return wheelChecklistDataGrader;
+    case "Compactor":
+      return wheelChecklistDataCompactor;
     default:
       return [];
   }
@@ -377,6 +380,7 @@ const excelLayouts: Record<string, ExcelLayoutFunction> = {
   DumpTruck: generateStandardWheelLayout,
   HeavyDumpTruck: generateStandardWheelLayout,
   Grader: generateStandardWheelLayout,
+  Compactor: generateStandardWheelLayout,
 };
 
 export const generateExcelFile = async (

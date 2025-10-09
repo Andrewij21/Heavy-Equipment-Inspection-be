@@ -523,6 +523,30 @@ model WheelInspectionDetails {
   structureArticulationCleanliness String?
   hydraulicTankDamageLeaks         String?
 
+  // Compactor
+  engineFuelSystem String?
+
+  transmissionOilLevel       String?
+  transmissionClutch         String?
+  transmissionUniversalJoint String?
+
+  hydraulicCylinder     String?
+  hydraulicHoseLeakage  String?
+  hydraulicValveLeakage String?
+
+  cabinSteeringLever String?
+  cabinTravelControl String?
+
+  axleDriveOilLevel String?
+  axleWheelHubLevel String?
+  axleReducingGear  String?
+  axleNutWheel      String?
+
+  // --- SECTION AXLE ---
+  axleDriveAxleOilLevel    String?
+  axleReducingGearLevel    String?
+  axleNutWheelTyrePressure String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
