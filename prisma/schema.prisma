@@ -382,7 +382,6 @@ model WheelInspectionDetails {
 
   electricalBackupAlarm String?
 
-  // Bagian Attachment/Grease yang Lebih Spesifik
   attachmentDumpBodyVessel     String?
   attachmentSafetyDumpFunction String?
   greaseCentralGrease          String?
@@ -484,6 +483,45 @@ model WheelInspectionDetails {
   topUpCoolant           Float? // AF-NACDM / Coolant
   topUpGrease            Float? // V220
   topUpSteering          Float? // ATF 220
+
+  // GRADER
+  engineHydraulicPump      String?
+  engineElectricalHarness  String?
+  engineBatteryElectrolyte String?
+  engineBelts              String?
+  engineCoverHandRail      String?
+  engineTransmissionLeaks  String?
+
+  coolingRadiator    String?
+  coolingFanGuard    String?
+  coolingBeltTension String?
+
+  hydraulicRipperCylinder String?
+
+  cabinDoorLock                  String?
+  cabinTransmissionSteeringLever String?
+  cabinSwitch                    String?
+  cabinBattery                   String?
+  cabinRadio                     String?
+  cabinBrake                     String?
+  cabinParkingBrake              String?
+  cabinFireExtinguisher          String?
+
+  topUpEngineOil     Float?
+  topUpCircle        Float?
+  topUpTandem        Float?
+  topUpFrontWheelHub Float?
+  topUpBreak         Float?
+
+  structureBladeGETCondition       String?
+  structureStepLadderCondition     String?
+  structureTandemHousingLeaks      String?
+  structureCoverGuards             String?
+  structureWheelSpindleLeaks       String?
+  fuelTankDamageLeaks              String?
+  structureCircleDriveLeaks        String?
+  structureArticulationCleanliness String?
+  hydraulicTankDamageLeaks         String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
