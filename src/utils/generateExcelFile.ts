@@ -8,6 +8,7 @@ import { wheelChecklistDataHeavyDumpTruck } from "../constants/excels/wheel/heav
 import { wheelChecklistDataGrader } from "../constants/excels/wheel/grader";
 import { wheelChecklistDataCompactor } from "../constants/excels/wheel/compactor";
 import { wheelChecklistDataMobile } from "../constants/excels/support/mobile";
+import { supoortChecklistDataCrane } from "../constants/excels/support/crane";
 // --- STATE TEMPORARY (Untuk nomor baris dan item) ---
 let globalRow = 1;
 let globalItemNo = 0;
@@ -44,6 +45,8 @@ const getSupportChecklistData = (type: string) => {
   switch (type) {
     case "Mobile":
       return wheelChecklistDataMobile;
+    case "Crane":
+      return supoortChecklistDataCrane;
 
     default:
       return [];
@@ -559,6 +562,7 @@ const excelLayouts: Record<string, ExcelLayoutFunction> = {
   Grader: generateStandardWheelLayout,
   Compactor: generateStandardWheelLayout,
   Mobile: generateStandardSupportlLayout,
+  Crane: generateStandardSupportlLayout,
 };
 
 export const generateExcelFile = async (

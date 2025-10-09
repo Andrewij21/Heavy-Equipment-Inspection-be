@@ -43,6 +43,7 @@ enum WheelGeneralType {
 
 enum SupportGeneralType {
   Mobile
+  Crane
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -626,6 +627,14 @@ model SupportInspectionDetails {
   topUpClutchFluid  Float?
   topUpGrease       Float?
   topUpCoolant      Float?
+
+  // Crane
+  craneShackleRope  String?
+  craneRopeWire     String?
+  craneSafetyDevice String?
+  craneWireTerminal String?
+  craneRopeStretch  String?
+  craneHookBlock    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
