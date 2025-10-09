@@ -6,6 +6,7 @@ import inspectionRoutes from "./inspection.route";
 import dashboardRoutes from "./dashboard.route";
 import reportRoutes from "./report.route";
 import wheelRoutes from "./wheel.route";
+import supportRoutes from "./support.route";
 import profileRoutes from "./profile.route";
 
 const router = Router();
@@ -22,6 +23,7 @@ router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/tracks", trackRoutes);
 router.use("/wheels", wheelRoutes);
+router.use("/supports", supportRoutes);
 router.use("/inspections", inspectionRoutes);
 router.use("/reports", reportRoutes);
 router.use("/dashboard", dashboardRoutes);

@@ -41,6 +41,10 @@ enum WheelGeneralType {
   // Tambahkan sub-tipe Wheel lainnya di sini
 }
 
+enum SupportGeneralType {
+  Mobile
+}
+
 // USER MODEL (Updated to link to approved inspections)
 model User {
   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
@@ -93,12 +97,15 @@ model Inspection {
   equipmentType        EquipmentType
   equipmentGeneralType TrackGeneralType?
   wheelGeneralType     WheelGeneralType?
+  supportGeneralType   SupportGeneralType?
 
   // RELATIONSHIP
-  trackDetails TrackInspectionDetails?
-  wheelDetails WheelInspectionDetails?
-  createdAt    DateTime                @default(now())
-  updatedAt    DateTime                @updatedAt
+  trackDetails   TrackInspectionDetails?
+  wheelDetails   WheelInspectionDetails?
+  supportDetails SupportInspectionDetails?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // 2. DETAIL MODEL: TrackInspectionDetails (All Subtype Checklist Fields)
@@ -546,6 +553,79 @@ model WheelInspectionDetails {
   axleDriveAxleOilLevel    String?
   axleReducingGearLevel    String?
   axleNutWheelTyrePressure String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// DETAIL MODEL: WheelInspectionDetails (Menggabungkan Dump Truck, Grader, Compactor, Heavy Dump Truck)
+model SupportInspectionDetails {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  // RELATIONSHIP
+  inspectionId String     @unique @db.ObjectId
+  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+  // DYNAMIC/UNSTRUCTURED DATA
+  findings     Json?
+
+  // Mobile
+  engineOilLevel     String?
+  engineMounting     String?
+  engineCoolantLevel String?
+  engineFuelSystem   String?
+  engineBeltTension  String?
+  engineAirIntake    String?
+
+  transmissionOilLevel       String?
+  transmissionClutch         String?
+  transmissionUniversalJoint String?
+
+  hydraulicOilLevel     String?
+  hydraulicPumpLeakage  String?
+  hydraulicValveLeakage String?
+
+  cabinCleaning          String?
+  cabinLock              String?
+  cabinSteeringLever     String?
+  cabinAttachmentLever   String?
+  cabinBallJointTieRod   String?
+  cabinBallJointDrakLink String?
+  cabinAcBlower          String?
+  cabinSwitchFunction    String?
+  cabinLampFunction      String?
+  cabinBattery           String?
+  cabinSafetyBelt        String?
+  cabinApar              String?
+
+  axleDifferentialOil   String?
+  axleLockCabin         String?
+  axlePinSpring         String?
+  axleTorqueRod         String?
+  axleTyreBrake         String?
+  axleSpringUBolt       String?
+  axleBallJointTieRod   String?
+  axleBallJointDrakLink String?
+  axleShockAbsorber     String?
+  axleBoltTyre          String?
+  axleHollowSpring      String?
+
+  attachmentTankLeakage     String?
+  attachmentBallValve       String?
+  attachmentAirCompressor   String?
+  attachmentAirPump         String?
+  attachmentWaterSprayer    String?
+  attachmentDriveCoupling   String?
+  attachmentWaterPump       String?
+  attachmentFuelPump        String?
+  attachmentCouplingJointer String?
+
+  topUpEngineOil    Float?
+  topUpTransmission Float?
+  topUpHydraulic    Float?
+  topUpDifferential Float?
+  topUpSteering     Float?
+  topUpClutchFluid  Float?
+  topUpGrease       Float?
+  topUpCoolant      Float?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

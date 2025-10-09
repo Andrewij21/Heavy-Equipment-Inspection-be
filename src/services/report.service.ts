@@ -35,6 +35,7 @@ class ReportService {
       include: {
         trackDetails: true,
         wheelDetails: true,
+        supportDetails: true,
         approver: { select: { username: true, email: true, role: true } },
       },
     });
@@ -86,6 +87,8 @@ class ReportService {
       } else if (equipmentType === "wheel") {
         // Asumsi field ini sudah ada di rawInspection jika equipmentType adalah 'wheel'
         generalTypeSource = rawInspection.wheelGeneralType;
+      } else {
+        generalTypeSource = rawInspection.supportGeneralType;
       }
 
       if (!generalTypeSource) {
@@ -120,6 +123,8 @@ class ReportService {
           ? rawInspection.trackDetails
           : equipmentType === "wheel"
           ? rawInspection.wheelDetails
+          : equipmentType === "support"
+          ? rawInspection.supportDetails
           : null;
 
       // Dapatkan findings dari object detail yang sesuai
