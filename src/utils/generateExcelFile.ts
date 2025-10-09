@@ -10,6 +10,7 @@ import { wheelChecklistDataCompactor } from "../constants/excels/wheel/compactor
 import { wheelChecklistDataMobile } from "../constants/excels/support/mobile";
 import { supoortChecklistDataCrane } from "../constants/excels/support/crane";
 import { supportChecklistDataTowerlamp } from "../constants/excels/support/towerlamp";
+import { supportChecklistDataGenset } from "../constants/excels/support/genset";
 // --- STATE TEMPORARY (Untuk nomor baris dan item) ---
 let globalRow = 1;
 let globalItemNo = 0;
@@ -50,6 +51,8 @@ const getSupportChecklistData = (type: string) => {
       return supoortChecklistDataCrane;
     case "Towerlamp":
       return supportChecklistDataTowerlamp;
+    case "Genset":
+      return supportChecklistDataGenset;
 
     default:
       return [];
@@ -567,6 +570,7 @@ const excelLayouts: Record<string, ExcelLayoutFunction> = {
   Mobile: generateStandardSupportlLayout,
   Crane: generateStandardSupportlLayout,
   Towerlamp: generateStandardSupportlLayout,
+  Genset: generateStandardSupportlLayout,
 };
 
 export const generateExcelFile = async (

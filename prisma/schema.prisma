@@ -45,6 +45,7 @@ enum SupportGeneralType {
   Mobile
   Crane
   Towerlamp
+  Genset
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -653,6 +654,33 @@ model SupportInspectionDetails {
   // --- SECTION D. OPSIONAL ---
   optionalVisualSkidding String?
   optionalApar           String?
+
+  // Genset
+  engineOilFilter       String?
+  engineFuelFilter      String?
+  engineAirCleaner      String?
+  engineRadiatorCoolant String?
+  engineRubberMounting  String?
+  engineFanBelt         String?
+  engineVisualCheck     String?
+  engineLeaks           String?
+  engineBearing         String?
+  engineBoltTightening  String?
+
+  electricStartingCharging  String?
+  electricStartingMotor     String?
+  electricStartingSwitch    String?
+  electricAlternator        String?
+  electricWiringHarness     String?
+  electricMcb               String?
+  electricMeters            String?
+  electricSelectorSwitch    String?
+  electricPowerCouple       String?
+  electricAvr               String?
+  electricGeneratorSet      String?
+  electricGrounding         String?
+  electricLightningArrester String?
+  electricGuarding          String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
