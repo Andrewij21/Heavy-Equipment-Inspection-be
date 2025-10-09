@@ -47,6 +47,7 @@ enum SupportGeneralType {
   Towerlamp
   Genset
   WeldingMachine
+  Compressor
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -697,6 +698,11 @@ model SupportInspectionDetails {
   electricIndicators        String?
   electricSwitchMode        String?
   electricBatteryConnection String?
+
+  // Compressor
+  // --- SECTION A. MESIN (ENGINE) ---
+  engineFilterConditions String?
+  topUpCompressor        Float?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
