@@ -48,6 +48,7 @@ enum SupportGeneralType {
   Genset
   WeldingMachine
   Compressor
+  MultiFlow
 }
 
 // USER MODEL (Updated to link to approved inspections)
@@ -703,6 +704,18 @@ model SupportInspectionDetails {
   // --- SECTION A. MESIN (ENGINE) ---
   engineFilterConditions String?
   topUpCompressor        Float?
+
+  // MultiFlow
+  engineVisual    String?
+  engineAirFilter String?
+  engineHose      String?
+
+  // --- SECTION B. PONTON, FRAME, & PUMP ---
+  pontonCondition      String?
+  pumpCondition        String?
+  pumpMounting         String?
+  boltTightness        String?
+  suctionDischargeHose String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
