@@ -210,41 +210,27 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
     addNewSectionHeader(worksheet, section.title);
 
     section.fields.forEach((item) => {
-      const resultValue = data.trackDetails[item.field];
+      // Cek jika tipe item adalah grup temperatur
+      if (item.type === "temperatureGroup") {
+        // Ambil semua nilai yang relevan dari objek 'data' dan 'td'
+        const resultValue = data.trackDetails[item.fieldNames.result];
+        const rhValue = td[item.fieldNames.rh];
+        const lhValue = td[item.fieldNames.lh];
+        const deltaTValue = td[item.fieldNames.deltaT];
 
-      if (item.type === "temp") {
-        // Logic khusus untuk item temperatur (hanya 3 item)
-        if (item.field === "tempCylBoom") {
-          addTempItem(
-            worksheet,
-            "Cylinder Boom",
-            td.tempCylBoomRh,
-            td.tempCylBoomLh,
-            td.deltaTCylBoom,
-            resultValue
-          );
-        } else if (item.field === "tempCylArm") {
-          addTempItem(
-            worksheet,
-            "Cylinder Arm",
-            td.tempCylArmRh,
-            td.tempCylArmLh,
-            td.deltaTCylArm,
-            resultValue
-          );
-        } else if (item.field === "tempCylBucket") {
-          addTempItem(
-            worksheet,
-            "Cylinder Bucket",
-            td.tempCylBucketRh,
-            td.tempCylBucketLh,
-            td.deltaTCylBucket,
-            resultValue
-          );
-        }
-        // Catatan: Item resultEnum pada tempCylBoom/Arm/Bucket sekarang diabaikan di loop addItem biasa
-      } else {
-        // Logic untuk item result (OK/NG/NA) dan topup
+        // Panggil addTempItem SATU KALI dengan semua data yang sudah lengkap
+        addTempItem(
+          worksheet,
+          item.label,
+          rhValue,
+          lhValue,
+          deltaTValue,
+          resultValue
+        );
+      }
+      // Untuk semua tipe lain (result, select, qty, dll.)
+      else {
+        const resultValue = data.trackDetails[item.field];
         addNewItem(worksheet, item.label, resultValue);
       }
     });
@@ -445,41 +431,27 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
     addNewSectionHeader(worksheet, section.title);
 
     section.fields.forEach((item) => {
-      const resultValue = data.wheelDetails[item.field];
+      // Cek jika tipe item adalah grup temperatur
+      if (item.type === "temperatureGroup") {
+        // Ambil semua nilai yang relevan dari objek 'data' dan 'td'
+        const resultValue = data.trackDetails[item.fieldNames.result];
+        const rhValue = td[item.fieldNames.rh];
+        const lhValue = td[item.fieldNames.lh];
+        const deltaTValue = td[item.fieldNames.deltaT];
 
-      if (item.type === "temp") {
-        // Logic khusus untuk item temperatur (hanya 3 item)
-        if (item.field === "tempCylBoom") {
-          addTempItem(
-            worksheet,
-            "Cylinder Boom",
-            td.tempCylBoomRh,
-            td.tempCylBoomLh,
-            td.deltaTCylBoom,
-            resultValue
-          );
-        } else if (item.field === "tempCylArm") {
-          addTempItem(
-            worksheet,
-            "Cylinder Arm",
-            td.tempCylArmRh,
-            td.tempCylArmLh,
-            td.deltaTCylArm,
-            resultValue
-          );
-        } else if (item.field === "tempCylBucket") {
-          addTempItem(
-            worksheet,
-            "Cylinder Bucket",
-            td.tempCylBucketRh,
-            td.tempCylBucketLh,
-            td.deltaTCylBucket,
-            resultValue
-          );
-        }
-        // Catatan: Item resultEnum pada tempCylBoom/Arm/Bucket sekarang diabaikan di loop addItem biasa
-      } else {
-        // Logic untuk item result (OK/NG/NA) dan topup
+        // Panggil addTempItem SATU KALI dengan semua data yang sudah lengkap
+        addTempItem(
+          worksheet,
+          item.label,
+          rhValue,
+          lhValue,
+          deltaTValue,
+          resultValue
+        );
+      }
+      // Untuk semua tipe lain (result, select, qty, dll.)
+      else {
+        const resultValue = data.trackDetails[item.field];
         addNewItem(worksheet, item.label, resultValue);
       }
     });
@@ -684,41 +656,27 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
     addNewSectionHeader(worksheet, section.title);
 
     section.fields.forEach((item) => {
-      const resultValue = data.supportDetails[item.field];
+      // Cek jika tipe item adalah grup temperatur
+      if (item.type === "temperatureGroup") {
+        // Ambil semua nilai yang relevan dari objek 'data' dan 'td'
+        const resultValue = data.trackDetails[item.fieldNames.result];
+        const rhValue = td[item.fieldNames.rh];
+        const lhValue = td[item.fieldNames.lh];
+        const deltaTValue = td[item.fieldNames.deltaT];
 
-      if (item.type === "temp") {
-        // Logic khusus untuk item temperatur (hanya 3 item)
-        if (item.field === "tempCylBoom") {
-          addTempItem(
-            worksheet,
-            "Cylinder Boom",
-            td.tempCylBoomRh,
-            td.tempCylBoomLh,
-            td.deltaTCylBoom,
-            resultValue
-          );
-        } else if (item.field === "tempCylArm") {
-          addTempItem(
-            worksheet,
-            "Cylinder Arm",
-            td.tempCylArmRh,
-            td.tempCylArmLh,
-            td.deltaTCylArm,
-            resultValue
-          );
-        } else if (item.field === "tempCylBucket") {
-          addTempItem(
-            worksheet,
-            "Cylinder Bucket",
-            td.tempCylBucketRh,
-            td.tempCylBucketLh,
-            td.deltaTCylBucket,
-            resultValue
-          );
-        }
-        // Catatan: Item resultEnum pada tempCylBoom/Arm/Bucket sekarang diabaikan di loop addItem biasa
-      } else {
-        // Logic untuk item result (OK/NG/NA) dan topup
+        // Panggil addTempItem SATU KALI dengan semua data yang sudah lengkap
+        addTempItem(
+          worksheet,
+          item.label,
+          rhValue,
+          lhValue,
+          deltaTValue,
+          resultValue
+        );
+      }
+      // Untuk semua tipe lain (result, select, qty, dll.)
+      else {
+        const resultValue = data.trackDetails[item.field];
         addNewItem(worksheet, item.label, resultValue);
       }
     });
@@ -873,35 +831,34 @@ export type ExcelLayoutFunction = (
 export const addTempItem = (
   worksheet: ExcelJS.Worksheet,
   label: string,
-  rhValue: string,
-  lhValue: string,
-  deltaTValue: string,
+  rhValue: string | number, // Tipe bisa number atau string
+  lhValue: string | number,
+  deltaTValue: string | number,
   resultValue: string
 ) => {
   let row = worksheet.getRow(globalRow);
+  console.log({ label, rhValue, lhValue, deltaTValue, resultValue });
+  // DIUBAH: Merge sekarang dari kolom B sampai I untuk seluruh deskripsi
+  worksheet.mergeCells(`B${globalRow}:I${globalRow}`);
 
-  // Label di B:D
-  worksheet.mergeCells(`B${globalRow}:D${globalRow}`);
+  // Kolom A untuk penomoran
+  row.getCell("A").value = N(); // N() adalah fungsi penomoran Anda
 
-  // Nilai Suhu di E:F
-  worksheet.mergeCells(`E${globalRow}:F${globalRow}`);
+  // DIUBAH: Menggabungkan label dan nilai suhu menjadi satu string deskriptif
+  const fullDescription = `${label} (RH: ${rhValue}°C | LH: ${lhValue}°C | ΔT: ${deltaTValue}°C)`;
+  row.getCell("B").value = fullDescription;
 
-  row.getCell("A").value = N();
-  row.getCell("B").value = label;
+  // DIUBAH: Kolom J untuk nilai hasil/status
+  row.getCell("J").value = resultValue;
 
-  row.getCell(
-    "E"
-  ).value = `RH: ${rhValue} °C | LH: ${lhValue} °C | ΔT: ${deltaTValue} °C`;
-
-  // Status Hasil di G
-  row.getCell("G").value = resultValue;
-
+  // Menerapkan border ke semua sel di baris ini
   row.eachCell({ includeEmpty: true }, (cell) => {
     cell.border = allBorders;
   });
 
-  row.getCell("E").alignment = { horizontal: "left" };
-  row.getCell("G").alignment = { horizontal: "left" };
+  // Mengatur alignment
+  row.getCell("B").alignment = { horizontal: "left", vertical: "middle" };
+  row.getCell("J").alignment = { horizontal: "center", vertical: "middle" };
 
   globalRow++;
 };

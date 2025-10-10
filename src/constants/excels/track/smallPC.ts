@@ -141,7 +141,17 @@ export const trackChecklistDataSmallPC: ChecklistSection[] = [
     title: "Measure Cylinder Temperature",
     // Field pengukuran suhu akan dihandle secara khusus di loop
     fields: [
-      { label: "Cylinder Boom Status", field: "tempCylBoom", type: "temp" },
+      {
+        type: "temperatureGroup",
+        label: "Cylinder Boom",
+        // Kelompokkan semua nama field yang berhubungan di sini
+        fieldNames: {
+          result: "tempCylBoom",
+          rh: "tempCylBoomRh",
+          lh: "tempCylBoomLh",
+          deltaT: "deltaTCylBoom",
+        },
+      },
     ],
   },
   {

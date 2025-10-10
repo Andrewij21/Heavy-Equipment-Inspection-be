@@ -139,57 +139,38 @@ export const trackChecklistDataBigDigger: ChecklistSection[] = [
     ],
   },
   {
-    //ada penambahan pada bagian ini khisisnya di tipe result, ntar periksa lagi nanti lalu tambahkan ke zod dan be
     title: "Pengukuran Temperatur Silinder",
     fields: [
       {
-        field: "tempCylBoom",
-        label: "Silinder Boom",
-        type: "result",
+        type: "temperatureGroup",
+        label: "Cylinder Boom",
+        // Kelompokkan semua nama field yang berhubungan di sini
+        fieldNames: {
+          result: "tempCylBoom",
+          rh: "tempCylBoomRh",
+          lh: "tempCylBoomLh",
+          deltaT: "deltaTCylBoom",
+        },
       },
       {
-        field: "tempCylBoomRh",
-        label: "Silinder Boom Kanan (RH)",
-        type: "temp",
+        type: "temperatureGroup",
+        label: "Cylinder Arm",
+        fieldNames: {
+          result: "tempCylArm",
+          rh: "tempCylArmRh",
+          lh: "tempCylArmLh",
+          deltaT: "deltaTCylArm",
+        },
       },
       {
-        field: "tempCylBoomLh",
-        label: "Silinder Boom Kiri (LH)",
-        type: "temp",
-      },
-      {
-        field: "deltaTCylBoom",
-        label: "Perbedaan Suhu Silinder Boom (\u0394T)",
-        type: "temp",
-      },
-
-      { field: "tempCylArm", label: "Silinder Arm", type: "result" },
-      { field: "tempCylArmRh", label: "Silinder Arm Kanan (RH)", type: "temp" },
-      { field: "tempCylArmLh", label: "Silinder Arm Kiri (LH)", type: "temp" },
-      {
-        field: "deltaTCylArm",
-        label: "Perbedaan Suhu Silinder Arm (\u0394T)",
-        type: "temp",
-      },
-      {
-        field: "tempCylBucket",
-        label: "Silinder Bucket",
-        type: "result",
-      },
-      {
-        field: "tempCylBucketRh",
-        label: "Silinder Bucket Kanan (RH)",
-        type: "temp",
-      },
-      {
-        field: "tempCylBucketLh",
-        label: "Silinder Bucket Kiri (LH)",
-        type: "temp",
-      },
-      {
-        field: "deltaTCylBucket",
-        label: "Perbedaan Suhu Silinder Bucket (\u0394T)",
-        type: "temp",
+        type: "temperatureGroup",
+        label: "Cylinder Bucket",
+        fieldNames: {
+          result: "tempCylBucket",
+          rh: "tempCylBucketRh",
+          lh: "tempCylBucketLh",
+          deltaT: "deltaTCylBucket",
+        },
       },
     ],
   },
