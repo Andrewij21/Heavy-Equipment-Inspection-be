@@ -221,6 +221,11 @@ export const wheelChecklistDataDumpTruck: ChecklistSection[] = [
         label: "Check Back Up Alarm",
         type: "result",
       },
+    ],
+  },
+  {
+    title: "Attachment",
+    fields: [
       {
         field: "attachmentDumpBodyVessel", // Check Dump Body, Pin, Pad, Stabilizer, tail gate & vesel
         label: "Check Dump Body, Pin, Pad, Stabilizer, tail gate & vesel",
@@ -263,12 +268,6 @@ export const wheelChecklistDataDumpTruck: ChecklistSection[] = [
         label: "Differential (85W-140)",
         type: "topup",
       },
-      {
-        field: "topUpFinalDrive",
-        label: "Final Drive (85W-140)",
-        type: "topup",
-      },
-      { field: "topUpCoolant", label: "Coolant", type: "topup" },
     ],
   },
 ];
