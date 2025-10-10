@@ -19,6 +19,24 @@ import { supportChecklistDataTyreHandler } from "../constants/excels/support/Tyr
 let globalRow = 1;
 let globalItemNo = 0;
 const N = () => ++globalItemNo;
+const formIdMap: { [key: string]: string } = {
+  BIGDIGGER: "AMM-SBS-F-PLT-01AA",
+  SMALLPC: "AMM-SBS-F-PLT-01AB",
+  BULLDOZER: "AMM-SBS-F-PLT-01AC",
+  COMPACTOR: "AMM-SBS-F-PLT-01Y",
+  DUMPTRUCK: "AMM-SBS-F-PLT-01X",
+  GRADER: "AMM-SBS-F.PLT-01Z",
+  HEAVYDUMPTRUCK: "AMM-SBS.F.PLT-01W",
+  COMPRESSOR: "AMM-SBS-F-PLT-01AK",
+  CRANE: "AMM-SBS-F-PLT-01AG",
+  GENSET: "AMM-SBS-F-PLT-01AJ",
+  MOBILE: "AMM-SBS-F.PLT-01AD",
+  MULTIFLOW: "AMM-SBS-F-PLT-01AM",
+  TOWERLAMP: "AMM-SBS-F-PLT-01AI",
+  TYREHANDLER: "AMM-SBS-F PLT-01AH",
+  WELDINGMACHINE: "AMM-SBS-F-PLT-01AL",
+};
+const defaultId = "AMM-SBS-F-PLT-01AD";
 const getTrackChecklistData = (type: string) => {
   switch (type) {
     case "BigDigger":
@@ -76,7 +94,7 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   globalItemNo = 0;
   const type = data.equipmentGeneralType;
   const td = data.trackDetails || {};
-
+  const formId = formIdMap[type.toUpperCase()] || defaultId;
   worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
   worksheet.getCell(
     `A${globalRow}`
@@ -180,8 +198,7 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "left" };
 
   worksheet.mergeCells(`H${globalRow}:J${globalRow}`);
-  worksheet.getCell(`H${globalRow}`).value =
-    data.formId || "AMM-SBS-F-PLT-01AD"; // Ambil dari data
+  worksheet.getCell(`H${globalRow}`).value = formId; // Ambil dari data
   worksheet.getCell(`H${globalRow}`).font = { bold: true };
   worksheet.getCell(`H${globalRow}`).alignment = { horizontal: "right" };
   globalRow += 2;
@@ -296,6 +313,7 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   globalItemNo = 0;
   const type = data.wheelGeneralType;
   const td = data.wheelDetails || {};
+  const formId = formIdMap[type.toUpperCase()] || defaultId;
 
   worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
   worksheet.getCell(
@@ -400,8 +418,7 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "left" };
 
   worksheet.mergeCells(`H${globalRow}:J${globalRow}`);
-  worksheet.getCell(`H${globalRow}`).value =
-    data.formId || "AMM-SBS-F-PLT-01AD"; // Ambil dari data
+  worksheet.getCell(`H${globalRow}`).value = formId; // Ambil dari data
   worksheet.getCell(`H${globalRow}`).font = { bold: true };
   worksheet.getCell(`H${globalRow}`).alignment = { horizontal: "right" };
   globalRow += 2;
@@ -521,6 +538,7 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   globalItemNo = 0;
   const type = data.supportGeneralType;
   const td = data.wheelDetails || {};
+  const formId = formIdMap[type.toUpperCase()] || defaultId;
 
   worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
   worksheet.getCell(
@@ -623,10 +641,9 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.getCell(`A${globalRow}`).value = legendText;
   worksheet.getCell(`A${globalRow}`).font = { bold: true };
   worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "left" };
-
+  // MASUKKAN KODE UNTUK TIPE SUPPORT DAN WHEEL
   worksheet.mergeCells(`H${globalRow}:J${globalRow}`);
-  worksheet.getCell(`H${globalRow}`).value =
-    data.formId || "AMM-SBS-F-PLT-01AD"; // Ambil dari data
+  worksheet.getCell(`H${globalRow}`).value = formId; // Ambil dari data
   worksheet.getCell(`H${globalRow}`).font = { bold: true };
   worksheet.getCell(`H${globalRow}`).alignment = { horizontal: "right" };
   globalRow += 2;
