@@ -224,17 +224,8 @@ model TrackInspectionDetails {
   upperRadiator String?
   // ================================
 
-  // Big Digger/Bulldozer naming
-  topUpCoolantQty        Float?
-  topUpEngineQty         Float?
-  topUpHydraulicQty      Float?
-  topUpSwingMachineryQty Float?
-  topUpFinalDriveQty     Float?
-  topUpTransmission      Float?
-
-  // ==========================================================
-  // BULLDOZER SPECIFIC FIELDS
-  // ==========================================================
+  // Bulldozer
+  // Engine
   engineOilLevelLeakage     String?
   engineCoolantLevelLeakage String?
   engineFuelSystemLeakage   String?
@@ -243,12 +234,20 @@ model TrackInspectionDetails {
   engineExhaustLeakage      String?
   engineOperationalSound    String?
 
+  // Power Train
   powertrainTransmissionOil    String?
   powertrainTorqueConverterOil String?
   powertrainDifferentialOil    String?
   powertrainFinalDriveOil      String?
   powertrainBrakeOperation     String?
   powertrainPropellerShaft     String?
+
+  topUpCoolantQty        Float?
+  topUpEngineQty         Float?
+  topUpHydraulicQty      Float?
+  topUpSwingMachineryQty Float?
+  topUpFinalDriveQty     Float?
+  topUpTransmission      Float?
 
   hydraulicOilLevel           String?
   hydraulicSystemLeakage      String?
@@ -259,6 +258,7 @@ model TrackInspectionDetails {
   hydraulicCylinderLiftRipper String?
   hydraulicCylinderTiltRipper String?
 
+  // Structure/Frame/Autolube
   structureAutolube            String?
   structureEqualizerBarSeal    String?
   structurePivotShaftLeakage   String?
@@ -277,6 +277,7 @@ model TrackInspectionDetails {
   structureCarrieRoller        String?
   structureRipperPoint         String?
 
+  // Electrical System
   electricalBatteryMounting    String?
   electricalBatteryElectrolyte String?
   electricalTerminalCleaning   String?
@@ -285,6 +286,7 @@ model TrackInspectionDetails {
   electricalIsolationSwitch    String?
   electricalGaugePanel         String?
   electricalBackupAlarm        String?
+  // ==================================
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
