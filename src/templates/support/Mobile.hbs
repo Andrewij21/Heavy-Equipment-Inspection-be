@@ -1,70 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
-    <style>
+     <style>
+        /* Style Baru untuk Tata Letak Grid Header */
+        /* Style Baru untuk Tata Letak Grid Header (3 Kolom per Baris) */
+        /* Main container to hold both tables */
+        .inspection-header {
+            display: flex;
+            /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
+            gap: 30px;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Common style for both tables */
+        .info-table {
+            border-collapse: collapse;
+        }
+
+        /* Style for all table cells (td) */
+        .info-table td {
+            border: 1px solid #333;
+            padding: 6px 10px;
+            /* Ukuran font diubah menjadi lebih kecil */
+            font-size: 12px;
+        }
+
+        /* Specifically for the label cells */
+        .info-label-cell {
+            font-weight: bold;
+            min-width: 80px;
+        }
+
+        .safety-notice {
+            text-align: center;
+            /* Membuat semua teks di dalamnya rata tengah */
+            margin-top: 10px;
+            /* Memberi jarak dari tabel di atasnya */
+            font-size: 12px;
+            /* Menyamakan ukuran font dengan tabel */
+        }
+
+        .safety-notice p {
+            margin-top: 5px;
+            /* Memberi sedikit jarak antara judul bold dan paragraf */
+        }
+
         /* Base styles for high-fidelity rendering */
-        body { font-family: Arial, sans-serif; font-size: 9pt; margin: 0; padding: 0; }
-        .container { width: 100%; max-width: 790px; margin: 0 auto; padding: 5mm; } 
-        .header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
-        .header h1 { font-size: 14pt; margin: 0; }
-        .info-box { display: flex; justify-content: space-between; border: 1px solid #000; margin-bottom: 15px; }
-        .info-col { width: 33.3%; padding: 5px 8px; border-right: 1px solid #000; box-sizing: border-box; }
-        .info-col:last-child { border-right: none; }
-        .info-label { font-weight: bold; margin-bottom: 2px; display: block; }
-        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 790px;
+            margin: 0 auto;
+            padding: 5mm;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .header h1 {
+            font-size: 14pt;
+            margin: 0;
+        }
+
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #000;
+            margin-bottom: 15px;
+        }
+
+        .info-col {
+            width: 33.3%;
+            padding: 5px 8px;
+            border-right: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        .info-col:last-child {
+            border-right: none;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-bottom: 2px;
+            display: block;
+        }
+
         /* Table Styles (Checklist) */
-        table { width: 99.5%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #000; padding: 4px 6px; text-align: left; vertical-align: top; font-size: 8.5pt; }
-        th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
-        .col-no { width: 5%; text-align: center; }
-        .col-condition { width: 15%; text-align: center; }
-        .section-header { background-color: #dbe5f1; font-weight: bold; text-align: left; padding-left: 8px; }
+        table {
+            width: 99.5%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 8.5pt;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .col-no {
+            width: 5%;
+            text-align: center;
+        }
+
+        .col-condition {
+            width: 15%;
+            text-align: center;
+        }
+
+        .section-header {
+            background-color: #dbe5f1;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 8px;
+        }
 
         /* Finding Table Styles */
-        .finding-table th { background-color: #cccccc; text-transform: uppercase; }
-        .finding-table .col-finding-no { width: 5%; }
-        .finding-table .col-finding-desc { width: 55%; }
-        .finding-table .col-finding-status { width: 15%; text-align: center; }
+        .finding-table th {
+            background-color: #cccccc;
+            text-transform: uppercase;
+        }
+
+        .finding-table .col-finding-no {
+            width: 5%;
+        }
+
+        .finding-table .col-finding-desc {
+            width: 55%;
+        }
+
+        .finding-table .col-finding-status {
+            width: 15%;
+            text-align: center;
+        }
 
         /* Signature Block */
-        .signatures { display: flex; justify-content: space-between; width: 100%; margin-top: 30px; font-size: 9pt; }
-        .sig-box { width: 49%; border: 1px solid #000; }
-        .sig-title { text-align: center; font-weight: bold; padding: 5px; background-color: #f2f2f2; border-bottom: 1px solid #000; }
-        .sig-row { display: flex; border-bottom: 1px solid #eee; }
-        .sig-label, .sig-value { padding: 4px; border-right: 1px solid #ddd; width: 50%; box-sizing: border-box; }
-        .sig-value:last-child { border-right: none; }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 9pt;
+        }
+
+        .sig-box {
+            width: 49%;
+            border: 1px solid #000;
+        }
+
+        .sig-title {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #000;
+        }
+
+        .sig-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sig-label,
+        .sig-value {
+            padding: 4px;
+            border-right: 1px solid #ddd;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .sig-value:last-child {
+            border-right: none;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <img src="path/to/logo.png" style="height: 30px; float: left;" />
-            <h1>DAILY INSPECTION CHECKSHEET MOBILE SUPPORT UNIT</h1>
-            <p>Unit: {{inspection.modelUnit}} / Location: {{inspection.location}}</p>
+            <h1>DAILY INSPECTION CHECKSHEET MOBILE</h1>
         </div>
 
-        <div class="info-box">
-            <div class="info-col" style="width: 25%;">
-                <span class="info-label">Tanggal:</span> {{inspection.inspectionDate}}
-            </div>
-            <div class="info-col" style="width: 15%;">
-                <span class="info-label">No. Unit:</span> {{inspection.equipmentId}}
-            </div>
-            <div class="info-col" style="width: 20%;">
-                <span class="info-label">SMR:</span> {{inspection.smr}}
-            </div>
-            <div class="info-col" style="width: 20%;">
-                <span class="info-label">Time Down:</span> {{inspection.timeDown}}
-            </div>
-            <div class="info-col" style="width: 20%; border-right: none;">
-                <span class="info-label">Time Out:</span> {{inspection.timeOut}}
-            </div>
+        <div class="inspection-header">
+
+            <table class="info-table">
+                <tr>
+                    <td class="info-label-cell">Date</td>
+                    <td>{{inspection.inspectionDate}}</td>
+                    <td class="info-label-cell">SMR</td>
+                    <td>{{inspection.smr}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Unit No</td>
+                    <td>{{inspection.equipmentId}}</td>
+                    <td class="info-label-cell">Location</td>
+                    <td>{{inspection.location}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Type</td>
+                    <td>{{inspection.equipmentType}}</td>
+                    <td class="info-label-cell">Shift</td>
+                    <td>{{inspection.shift}}</td>
+                </tr>
+            </table>
+
+            <table class="info-table">
+                <tr>
+                    <td class="info-label-cell">Time Down</td>
+                    <td>{{inspection.timeDown}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Time Out</td>
+                    <td>{{inspection.timeOut}}</td>
+                </tr>
+            </table>
+
         </div>
 
-        <p style="text-align: center; margin-bottom: 10px;">
+        <div class="safety-notice">
+            <strong>IMPORTANT BE SAFETY</strong>
+            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the
+                Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+        </div>
+        <p
+            style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
             <small>✓ = Baik | X = Rusak/Perlu Perbaikan | O = Sudah Diperbaiki | NA = Tidak Tersedia</small>
+
+            <small>AMM-SBS-F.PLT-01AD</small>
         </p>
 
         <table>
@@ -76,78 +264,302 @@
                 </tr>
             </thead>
             <tbody>
-                
-                <tr><td colspan="3" class="section-header">A. Mesin (Engine)</td></tr>
-                <tr><td class="col-no">1</td><td>Periksa level oli mesin & kebocoran</td><td class="col-condition">{{inspection.supportDetails.engineOilLevel}}</td></tr>
-                <tr><td class="col-no">2</td><td>Periksa dudukan mesin</td><td class="col-condition">{{inspection.supportDetails.engineMounting}}</td></tr>
-                <tr><td class="col-no">3</td><td>Periksa level air coolant & kebocoran</td><td class="col-condition">{{inspection.supportDetails.engineCoolantLevel}}</td></tr>
-                <tr><td class="col-no">4</td><td>Periksa sistem bahan bakar & kebocoran</td><td class="col-condition">{{inspection.supportDetails.engineFuelSystem}}</td></tr>
-                <tr><td class="col-no">5</td><td>Periksa ketegangan semua belt & komponen terkait</td><td class="col-condition">{{inspection.supportDetails.engineBeltTension}}</td></tr>
-                <tr><td class="col-no">6</td><td>Periksa saluran udara & sambungan knalpot</td><td class="col-condition">{{inspection.supportDetails.engineAirIntake}}</td></tr>
 
-                <tr><td colspan="3" class="section-header">B. Transmisi & Kopling (Clutch)</td></tr>
-                <tr><td class="col-no">7</td><td>Periksa level oli & kebocoran</td><td class="col-condition">{{inspection.supportDetails.transmissionOilLevel}}</td></tr>
-                <tr><td class="col-no">8</td><td>Periksa Fungsi Kopling & Keausan Pad Kopling</td><td class="col-condition">{{inspection.supportDetails.transmissionClutch}}</td></tr>
-                <tr><td class="col-no">9</td><td>Periksa universal joint</td><td class="col-condition">{{inspection.supportDetails.transmissionUniversalJoint}}</td></tr>
+                <tr>
+                    <td colspan="3" class="section-header">A. Mesin (Engine)</td>
+                </tr>
+                <tr>
+                    <td class="col-no">1</td>
+                    <td>Periksa level oli mesin & kebocoran</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineOilLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">2</td>
+                    <td>Periksa dudukan mesin</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineMounting}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">3</td>
+                    <td>Periksa level air coolant & kebocoran</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineCoolantLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">4</td>
+                    <td>Periksa sistem bahan bakar & kebocoran</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFuelSystem}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">5</td>
+                    <td>Periksa ketegangan semua belt & komponen terkait</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineBeltTension}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">6</td>
+                    <td>Periksa saluran udara & sambungan knalpot</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineAirIntake}}</td>
+                </tr>
 
-                <tr><td colspan="3" class="section-header">C. Hidrolik</td></tr>
-                <tr><td class="col-no">10</td><td>Periksa level oli hidrolik</td><td class="col-condition">{{inspection.supportDetails.hydraulicOilLevel}}</td></tr>
-                <tr><td class="col-no">11</td><td>Periksa kondisi silinder hidrolik & sambungan</td><td class="col-condition">{{inspection.supportDetails.hydraulicCylinder}}</td></tr>
-                <tr><td class="col-no">12</td><td>Periksa kebocoran pada pompa, motor, PTO, selang/pipa</td><td class="col-condition">{{inspection.supportDetails.hydraulicPumpLeakage}}</td></tr>
-                <tr><td class="col-no">13</td><td>Periksa kebocoran pada control valve</td><td class="col-condition">{{inspection.supportDetails.hydraulicValveLeakage}}</td></tr>
+                <tr>
+                    <td colspan="3" class="section-header">B. Transmisi & Kopling (Clutch)</td>
+                </tr>
+                <tr>
+                    <td class="col-no">7</td>
+                    <td>Periksa level oli & kebocoran</td>
+                    <td class="col-condition">{{inspection.supportDetails.transmissionOilLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">8</td>
+                    <td>Periksa Fungsi Kopling & Keausan Pad Kopling</td>
+                    <td class="col-condition">{{inspection.supportDetails.transmissionClutch}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">9</td>
+                    <td>Periksa universal joint</td>
+                    <td class="col-condition">{{inspection.supportDetails.transmissionUniversalJoint}}</td>
+                </tr>
 
-               <tr><td colspan="3" class="section-header">D. Kabin & Kelistrikan</td></tr>
-<tr><td class="col-no">14</td><td>Bersihkan kabin & periksa fungsi panel</td><td class="col-condition">{{inspection.supportDetails.cabinCleaning}}</td></tr>
-<tr><td class="col-no">15</td><td>Periksa kunci kabin & pengunci kemiringan kabin</td><td class="col-condition">{{inspection.supportDetails.cabinLock}}</td></tr>
-<tr><td class="col-no">16</td><td>Periksa fungsi tuas transmisi & kemudi</td><td class="col-condition">{{inspection.supportDetails.cabinSteeringLever}}</td></tr>
-<tr><td class="col-no">17</td><td>Periksa tuas kontrol attachment</td><td class="col-condition">{{inspection.supportDetails.cabinAttachmentLever}}</td></tr>
-<tr><td class="col-no">18</td><td>Periksa ball joint tie rod</td><td class="col-condition">{{inspection.supportDetails.cabinBallJointTieRod}}</td></tr>
-<tr><td class="col-no">19</td><td>Periksa ball joint drag link</td><td class="col-condition">{{inspection.supportDetails.cabinBallJointDrakLink}}</td></tr>
-<tr><td class="col-no">20</td><td>Periksa AC / Blower</td><td class="col-condition">{{inspection.supportDetails.cabinAcBlower}}</td></tr>
-<tr><td class="col-no">21</td><td>Periksa fungsi switch</td><td class="col-condition">{{inspection.supportDetails.cabinSwitchFunction}}</td></tr>
-<tr><td class="col-no">22</td><td>Periksa semua lampu & lampu rotary</td><td class="col-condition">{{inspection.supportDetails.cabinLampFunction}}</td></tr>
-<tr><td class="col-no">23</td><td>Periksa aki & kondisi koneksi</td><td class="col-condition">{{inspection.supportDetails.cabinBattery}}</td></tr>
-<tr><td class="col-no">24</td><td>Periksa sabuk pengaman</td><td class="col-condition">{{inspection.supportDetails.cabinSafetyBelt}}</td></tr>
-<tr><td class="col-no">25</td><td>Periksa APAR</td><td class="col-condition">{{inspection.supportDetails.cabinApar}}</td></tr>
+                <tr>
+                    <td colspan="3" class="section-header">C. Hidrolik</td>
+                </tr>
+                <tr>
+                    <td class="col-no">10</td>
+                    <td>Periksa level oli hidrolik</td>
+                    <td class="col-condition">{{inspection.supportDetails.hydraulicOilLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">11</td>
+                    <td>Periksa kondisi silinder hidrolik & sambungan</td>
+                    <td class="col-condition">{{inspection.supportDetails.hydraulicCylinder}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">12</td>
+                    <td>Periksa kebocoran pada pompa, motor, PTO, selang/pipa</td>
+                    <td class="col-condition">{{inspection.supportDetails.hydraulicPumpLeakage}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">13</td>
+                    <td>Periksa kebocoran pada control valve</td>
+                    <td class="col-condition">{{inspection.supportDetails.hydraulicValveLeakage}}</td>
+                </tr>
 
+                <tr>
+                    <td colspan="3" class="section-header">D. Kabin & Kelistrikan</td>
+                </tr>
+                <tr>
+                    <td class="col-no">14</td>
+                    <td>Bersihkan kabin & periksa fungsi panel</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinCleaning}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">15</td>
+                    <td>Periksa kunci kabin & pengunci kemiringan kabin</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinLock}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">16</td>
+                    <td>Periksa fungsi tuas transmisi & kemudi</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinSteeringLever}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">17</td>
+                    <td>Periksa tuas kontrol attachment</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinAttachmentLever}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">18</td>
+                    <td>Periksa ball joint tie rod</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinBallJointTieRod}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">19</td>
+                    <td>Periksa ball joint drag link</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinBallJointDrakLink}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">20</td>
+                    <td>Periksa AC / Blower</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinAcBlower}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">21</td>
+                    <td>Periksa fungsi switch</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinSwitchFunction}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">22</td>
+                    <td>Periksa semua lampu & lampu rotary</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinLampFunction}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">23</td>
+                    <td>Periksa aki & kondisi koneksi</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinBattery}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">24</td>
+                    <td>Periksa sabuk pengaman</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinSafetyBelt}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">25</td>
+                    <td>Periksa APAR</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinApar}}</td>
+                </tr>
 
-<tr><td colspan="3" class="section-header">E. As Roda Depan, Belakang & Rem</td></tr>
-<tr><td class="col-no">26</td><td>Periksa level oli diferensial & kebocoran</td><td class="col-condition">{{inspection.supportDetails.axleDifferentialOil}}</td></tr>
-<tr><td class="col-no">27</td><td>Periksa kunci kabin & pengunci kemiringan kabin</td><td class="col-condition">{{inspection.supportDetails.axleLockCabin}}</td></tr>
-<tr><td class="col-no">28</td><td>Periksa & lumasi pin per, linkage kemudi & trunion</td><td class="col-condition">{{inspection.supportDetails.axlePinSpring}}</td></tr>
-<tr><td class="col-no">29</td><td>Periksa dudukan & karet torque rod</td><td class="col-condition">{{inspection.supportDetails.axleTorqueRod}}</td></tr>
-<tr><td class="col-no">30</td><td>Periksa ban & fungsi rem</td><td class="col-condition">{{inspection.supportDetails.axleTyreBrake}}</td></tr>
-<tr><td class="col-no">31</td><td>Periksa per & U-Bolt</td><td class="col-condition">{{inspection.supportDetails.axleSpringUBolt}}</td></tr>
-<tr><td class="col-no">32</td><td>Periksa ball joint tie rod</td><td class="col-condition">{{inspection.supportDetails.axleBallJointTieRod}}</td></tr>
-<tr><td class="col-no">33</td><td>Periksa ball joint drag link</td><td class="col-condition">{{inspection.supportDetails.axleBallJointDrakLink}}</td></tr>
-<tr><td class="col-no">34</td><td>Periksa shock absorber</td><td class="col-condition">{{inspection.supportDetails.axleShockAbsorber}}</td></tr>
-<tr><td class="col-no">35</td><td>Periksa baut roda</td><td class="col-condition">{{inspection.supportDetails.axleBoltTyre}}</td></tr>
-<tr><td class="col-no">36</td><td>Periksa karet hollow spring</td><td class="col-condition">{{inspection.supportDetails.axleHollowSpring}}</td></tr>
+                <tr>
+                    <td colspan="3" class="section-header">E. As Roda Depan, Belakang & Rem</td>
+                </tr>
+                <tr>
+                    <td class="col-no">26</td>
+                    <td>Periksa level oli diferensial & kebocoran</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleDifferentialOil}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">27</td>
+                    <td>Periksa kunci kabin & pengunci kemiringan kabin</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleLockCabin}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">28</td>
+                    <td>Periksa & lumasi pin per, linkage kemudi & trunion</td>
+                    <td class="col-condition">{{inspection.supportDetails.axlePinSpring}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">29</td>
+                    <td>Periksa dudukan & karet torque rod</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleTorqueRod}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">30</td>
+                    <td>Periksa ban & fungsi rem</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleTyreBrake}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">31</td>
+                    <td>Periksa per & U-Bolt</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleSpringUBolt}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">32</td>
+                    <td>Periksa ball joint tie rod</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleBallJointTieRod}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">33</td>
+                    <td>Periksa ball joint drag link</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleBallJointDrakLink}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">34</td>
+                    <td>Periksa shock absorber</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleShockAbsorber}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">35</td>
+                    <td>Periksa baut roda</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleBoltTyre}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">36</td>
+                    <td>Periksa karet hollow spring</td>
+                    <td class="col-condition">{{inspection.supportDetails.axleHollowSpring}}</td>
+                </tr>
 
-<tr><td colspan="3" class="section-header">F. Attachment</td></tr>
-<tr><td class="col-no">37</td><td>Periksa bodi & kebocoran tangki WT - LT - FT</td><td class="col-condition">{{inspection.supportDetails.attachmentTankLeakage}}</td></tr>
-<tr><td class="col-no">38</td><td>Periksa ball valve, selang, pipa & gun WT - LT - FT</td><td class="col-condition">{{inspection.supportDetails.attachmentBallValve}}</td></tr>
-<tr><td class="col-no">39</td><td>Periksa kompresor udara LT</td><td class="col-condition">{{inspection.supportDetails.attachmentAirCompressor}}</td></tr>
-<tr><td class="col-no">40</td><td>Periksa semua pompa udara & tekanan manometer LT</td><td class="col-condition">{{inspection.supportDetails.attachmentAirPump}}</td></tr>
-<tr><td class="col-no">41</td><td>Periksa sprayer air & water canon WT</td><td class="col-condition">{{inspection.supportDetails.attachmentWaterSprayer}}</td></tr>
-<tr><td class="col-no">42</td><td>Periksa drive coupling WT</td><td class="col-condition">{{inspection.supportDetails.attachmentDriveCoupling}}</td></tr>
-<tr><td class="col-no">43</td><td>Periksa pompa air & tekanan manometer WT</td><td class="col-condition">{{inspection.supportDetails.attachmentWaterPump}}</td></tr>
-<tr><td class="col-no">44</td><td>Periksa pompa bahan bakar & tekanan manometer FT</td><td class="col-condition">{{inspection.supportDetails.attachmentFuelPump}}</td></tr>
-<tr><td class="col-no">45</td><td>Periksa coupling jointer FT & LT</td><td class="col-condition">{{inspection.supportDetails.attachmentCouplingJointer}}</td></tr>
+                <tr>
+                    <td colspan="3" class="section-header">F. Attachment</td>
+                </tr>
+                <tr>
+                    <td class="col-no">37</td>
+                    <td>Periksa bodi & kebocoran tangki WT - LT - FT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentTankLeakage}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">38</td>
+                    <td>Periksa ball valve, selang, pipa & gun WT - LT - FT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentBallValve}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">39</td>
+                    <td>Periksa kompresor udara LT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentAirCompressor}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">40</td>
+                    <td>Periksa semua pompa udara & tekanan manometer LT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentAirPump}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">41</td>
+                    <td>Periksa sprayer air & water canon WT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentWaterSprayer}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">42</td>
+                    <td>Periksa drive coupling WT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentDriveCoupling}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">43</td>
+                    <td>Periksa pompa air & tekanan manometer WT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentWaterPump}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">44</td>
+                    <td>Periksa pompa bahan bakar & tekanan manometer FT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentFuelPump}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">45</td>
+                    <td>Periksa coupling jointer FT & LT</td>
+                    <td class="col-condition">{{inspection.supportDetails.attachmentCouplingJointer}}</td>
+                </tr>
 
-
-               <tr><td colspan="3" class="section-header">G. Penambahan Pelumas & Pendingin</td></tr>
-<tr><td class="col-no">46</td><td>Oli Mesin (SAE 15W-40)</td><td class="col-condition">{{inspection.supportDetails.topUpEngineOil}} L</td></tr>
-<tr><td class="col-no">47</td><td>Oli Transmisi (80W-90)</td><td class="col-condition">{{inspection.supportDetails.topUpTransmission}} L</td></tr>
-<tr><td class="col-no">48</td><td>Oli Hidrolik (TELLUS 46)</td><td class="col-condition">{{inspection.supportDetails.topUpHydraulic}} L</td></tr>
-<tr><td class="col-no">49</td><td>Oli Diferensial (85W-140)</td><td class="col-condition">{{inspection.supportDetails.topUpDifferential}} L</td></tr>
-<tr><td class="col-no">50</td><td>Oli Power Steering (ATF 220)</td><td class="col-condition">{{inspection.supportDetails.topUpSteering}} L</td></tr>
-<tr><td class="col-no">51</td><td>Minyak Kopling (DOT 3)</td><td class="col-condition">{{inspection.supportDetails.topUpClutchFluid}} L</td></tr>
-<tr><td class="col-no">52</td><td>Grease (EP NLGI-2)</td><td class="col-condition">{{inspection.supportDetails.topUpGrease}} L</td></tr>
-<tr><td class="col-no">53</td><td>Coolant (VCS)</td><td class="col-condition">{{inspection.supportDetails.topUpCoolant}} L</td></tr>
-                </tbody>
+                <tr>
+                    <td colspan="3" class="section-header">G. Penambahan Pelumas & Pendingin</td>
+                </tr>
+                <tr>
+                    <td class="col-no">46</td>
+                    <td>Oli Mesin (SAE 15W-40)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">47</td>
+                    <td>Oli Transmisi (80W-90)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpTransmission}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">48</td>
+                    <td>Oli Hidrolik (TELLUS 46)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpHydraulic}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">49</td>
+                    <td>Oli Diferensial (85W-140)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpDifferential}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">50</td>
+                    <td>Oli Power Steering (ATF 220)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpSteering}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">51</td>
+                    <td>Minyak Kopling (DOT 3)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpClutchFluid}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">52</td>
+                    <td>Grease (EP NLGI-2)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">53</td>
+                    <td>Coolant (VCS)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpCoolant}}</td>
+                </tr>
+            </tbody>
         </table>
-        
+
         <table class="finding-table">
             <thead>
                 <tr>
@@ -162,12 +574,12 @@
             </thead>
             <tbody>
                 {{#each findings}}
-                <tr>
-                    <td class="col-finding-no">{{addOne @index}}</td> 
-                    <td>{{this.description}}</td>
-                    <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
-                    <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
-                </tr>
+                    <tr>
+                        <td class="col-finding-no">{{addOne @index}}</td>
+                        <td>{{this.description}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                    </tr>
                 {{/each}}
             </tbody>
         </table>
@@ -188,7 +600,8 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
+
 </html>

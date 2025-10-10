@@ -1,70 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
+        /* Style Baru untuk Tata Letak Grid Header */
+        /* Style Baru untuk Tata Letak Grid Header (3 Kolom per Baris) */
+        /* Main container to hold both tables */
+        .inspection-header {
+            display: flex;
+            /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
+            gap: 30px;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Common style for both tables */
+        .info-table {
+            border-collapse: collapse;
+        }
+
+        /* Style for all table cells (td) */
+        .info-table td {
+            border: 1px solid #333;
+            padding: 6px 10px;
+            /* Ukuran font diubah menjadi lebih kecil */
+            font-size: 12px;
+        }
+
+        /* Specifically for the label cells */
+        .info-label-cell {
+            font-weight: bold;
+            min-width: 80px;
+        }
+
+        .safety-notice {
+            text-align: center;
+            /* Membuat semua teks di dalamnya rata tengah */
+            margin-top: 10px;
+            /* Memberi jarak dari tabel di atasnya */
+            font-size: 12px;
+            /* Menyamakan ukuran font dengan tabel */
+        }
+
+        .safety-notice p {
+            margin-top: 5px;
+            /* Memberi sedikit jarak antara judul bold dan paragraf */
+        }
+
         /* Base styles for high-fidelity rendering */
-        body { font-family: Arial, sans-serif; font-size: 9pt; margin: 0; padding: 0; }
-        .container { width: 100%; max-width: 790px; margin: 0 auto; padding: 5mm; } 
-        .header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
-        .header h1 { font-size: 14pt; margin: 0; }
-        .info-box { display: flex; justify-content: space-between; border: 1px solid #000; margin-bottom: 15px; }
-        .info-col { width: 33.3%; padding: 5px 8px; border-right: 1px solid #000; box-sizing: border-box; }
-        .info-col:last-child { border-right: none; }
-        .info-label { font-weight: bold; margin-bottom: 2px; display: block; }
-        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 790px;
+            margin: 0 auto;
+            padding: 5mm;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .header h1 {
+            font-size: 14pt;
+            margin: 0;
+        }
+
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #000;
+            margin-bottom: 15px;
+        }
+
+        .info-col {
+            width: 33.3%;
+            padding: 5px 8px;
+            border-right: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        .info-col:last-child {
+            border-right: none;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-bottom: 2px;
+            display: block;
+        }
+
         /* Table Styles (Checklist) */
-        table { width: 99.5%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #000; padding: 4px 6px; text-align: left; vertical-align: top; font-size: 8.5pt; }
-        th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
-        .col-no { width: 5%; text-align: center; }
-        .col-condition { width: 15%; text-align: center; }
-        .section-header { background-color: #dbe5f1; font-weight: bold; text-align: left; padding-left: 8px; }
+        table {
+            width: 99.5%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 8.5pt;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .col-no {
+            width: 5%;
+            text-align: center;
+        }
+
+        .col-condition {
+            width: 15%;
+            text-align: center;
+        }
+
+        .section-header {
+            background-color: #dbe5f1;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 8px;
+        }
 
         /* Finding Table Styles */
-        .finding-table th { background-color: #cccccc; text-transform: uppercase; }
-        .finding-table .col-finding-no { width: 5%; }
-        .finding-table .col-finding-desc { width: 55%; }
-        .finding-table .col-finding-status { width: 15%; text-align: center; }
+        .finding-table th {
+            background-color: #cccccc;
+            text-transform: uppercase;
+        }
+
+        .finding-table .col-finding-no {
+            width: 5%;
+        }
+
+        .finding-table .col-finding-desc {
+            width: 55%;
+        }
+
+        .finding-table .col-finding-status {
+            width: 15%;
+            text-align: center;
+        }
 
         /* Signature Block */
-        .signatures { display: flex; justify-content: space-between; width: 100%; margin-top: 30px; font-size: 9pt; }
-        .sig-box { width: 49%; border: 1px solid #000; }
-        .sig-title { text-align: center; font-weight: bold; padding: 5px; background-color: #f2f2f2; border-bottom: 1px solid #000; }
-        .sig-row { display: flex; border-bottom: 1px solid #eee; }
-        .sig-label, .sig-value { padding: 4px; border-right: 1px solid #ddd; width: 50%; box-sizing: border-box; }
-        .sig-value:last-child { border-right: none; }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 9pt;
+        }
+
+        .sig-box {
+            width: 49%;
+            border: 1px solid #000;
+        }
+
+        .sig-title {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #000;
+        }
+
+        .sig-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sig-label,
+        .sig-value {
+            padding: 4px;
+            border-right: 1px solid #ddd;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .sig-value:last-child {
+            border-right: none;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <img src="path/to/logo.png" style="height: 30px; float: left;" />
             <h1>DAILY INSPECTION CHECKSHEET WELDING MACHINE</h1>
-            <p>Unit: {{inspection.modelUnit}} / Location: {{inspection.location}}</p>
         </div>
 
-        <div class="info-box">
-            <div class="info-col" style="width: 25%;">
-                <span class="info-label">Date:</span> {{inspection.inspectionDate}}
-            </div>
-            <div class="info-col" style="width: 15%;">
-                <span class="info-label">Unit No:</span> {{inspection.equipmentId}}
-            </div>
-            <div class="info-col" style="width: 20%;">
-                <span class="info-label">SMR:</span> {{inspection.smr}}
-            </div>
-            <div class="info-col" style="width: 20%;">
-                <span class="info-label">Time Down:</span> {{inspection.timeDown}}
-            </div>
-            <div class="info-col" style="width: 20%; border-right: none;">
-                <span class="info-label">Time Out:</span> {{inspection.timeOut}}
-            </div>
+        <div class="inspection-header">
+
+            <table class="info-table">
+                <tr>
+                    <td class="info-label-cell">Date</td>
+                    <td>{{inspection.inspectionDate}}</td>
+                    <td class="info-label-cell">SMR</td>
+                    <td>{{inspection.smr}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Unit No</td>
+                    <td>{{inspection.equipmentId}}</td>
+                    <td class="info-label-cell">Location</td>
+                    <td>{{inspection.location}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Type</td>
+                    <td>{{inspection.equipmentType}}</td>
+                    <td class="info-label-cell">Shift</td>
+                    <td>{{inspection.shift}}</td>
+                </tr>
+            </table>
+
+            <table class="info-table">
+                <tr>
+                    <td class="info-label-cell">Time Down</td>
+                    <td>{{inspection.timeDown}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Time Out</td>
+                    <td>{{inspection.timeOut}}</td>
+                </tr>
+            </table>
+
         </div>
 
-        <p style="text-align: center; margin-bottom: 10px;">
-            <small>✓ = Good | X = Bad/Repair Required | O = Repaired | NA = Not Available</small>
+        <div class="safety-notice">
+            <strong>IMPORTANT BE SAFETY</strong>
+            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+        </div>
+        <p
+            style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
+            <small>✓ = Baik | X = Rusak/Perlu Perbaikan | O = Sudah Diperbaiki | NA = Tidak Tersedia</small>
+
+            <small>AMM-SBS-F-PLT-01AL</small>
         </p>
 
         <table>
@@ -76,34 +263,105 @@
                 </tr>
             </thead>
             <tbody>
-                
-                <tr><td colspan="3" class="section-header">A. Engine</td></tr>
-                <tr><td class="col-no">1</td><td>Repair/replace if fan is damaged</td><td class="col-condition">{{inspection.supportDetails.engineFan}}</td></tr>
-                <tr><td class="col-no">2</td><td>Check cooling system</td><td class="col-condition">{{inspection.supportDetails.engineCoolantSystem}}</td></tr>
-                <tr><td class="col-no">3</td><td>Check radiator water level</td><td class="col-condition">{{inspection.supportDetails.engineRadiatorLevel}}</td></tr>
-                <tr><td class="col-no">4</td><td>Check and clean engine breather</td><td class="col-condition">{{inspection.supportDetails.engineBreather}}</td></tr>
-                <tr><td class="col-no">5</td><td>Check fuel tank cap, fuel line & connections. Also check for tank leaks</td><td class="col-condition">{{inspection.supportDetails.engineFuelTank}}</td></tr>
-                <tr><td class="col-no">6</td><td>Check/repair exhaust pipe (muffler) for leaks and damage</td><td class="col-condition">{{inspection.supportDetails.engineExhaustPipe}}</td></tr>
-                <tr><td class="col-no">7</td><td>Check turbocharger condition for leaks and damage</td><td class="col-condition">{{inspection.supportDetails.engineTurbocharger}}</td></tr>
-                <tr><td class="col-no">8</td><td>Check engine floor cleanliness / clean if dirty</td><td class="col-condition">{{inspection.supportDetails.engineFloorCleanliness}}</td></tr>
 
-                <tr><td colspan="3" class="section-header">B. Electrical System</td></tr>
-                <tr><td class="col-no">9</td><td>Check electrode terminals & cables</td><td class="col-condition">{{inspection.supportDetails.electricTerminals}}</td></tr>
-                <tr><td class="col-no">10</td><td>Check all indicators & gauges on control panel</td><td class="col-condition">{{inspection.supportDetails.electricIndicators}}</td></tr>
-                <tr><td class="col-no">11</td><td>Check battery electrolyte level, terminals, and cables</td><td class="col-condition">{{inspection.supportDetails.electricBattery}}</td></tr>
-                <tr><td class="col-no">12</td><td>Check selector switch mode (Off, Run, Start)</td><td class="col-condition">{{inspection.supportDetails.electricSwitchMode}}</td></tr>
-                <tr><td class="col-no">13</td><td>Check battery & connection condition</td><td class="col-condition">{{inspection.supportDetails.electricBatteryConnection}}</td></tr>
-                
-                
-              <tr><td colspan="3" class="section-header">C. Opsional</td></tr>
-<tr><td class="col-no">27</td><td>Periksa APAR</td><td class="col-condition">{{inspection.supportDetails.optionalApar}}</td></tr>
+                <tr>
+                    <td colspan="3" class="section-header">A. Engine</td>
+                </tr>
+                <tr>
+                    <td class="col-no">1</td>
+                    <td>Repair/replace if fan is damaged</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFan}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">2</td>
+                    <td>Check cooling system</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineCoolantSystem}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">3</td>
+                    <td>Check radiator water level</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRadiatorLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">4</td>
+                    <td>Check and clean engine breather</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineBreather}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">5</td>
+                    <td>Check fuel tank cap, fuel line & connections. Also check for tank leaks</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFuelTank}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">6</td>
+                    <td>Check/repair exhaust pipe (muffler) for leaks and damage</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineExhaustPipe}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">7</td>
+                    <td>Check turbocharger condition for leaks and damage</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineTurbocharger}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">8</td>
+                    <td>Check engine floor cleanliness / clean if dirty</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFloorCleanliness}}</td>
+                </tr>
 
-<tr><td colspan="3" class="section-header">D. Penambahan Pelumas & Pendingin</td></tr>
-<tr><td class="col-no">28</td><td>Cairan Pendingin (Coolant)</td><td class="col-condition">{{inspection.supportDetails.topUpCoolant}} L</td></tr>
-<tr><td class="col-no">29</td><td>Oli Mesin (SAE 15W-40)</td><td class="col-condition">{{inspection.supportDetails.topUpEngineOil}} L</td></tr>
-                </tbody>
+                <tr>
+                    <td colspan="3" class="section-header">B. Electrical System</td>
+                </tr>
+                <tr>
+                    <td class="col-no">9</td>
+                    <td>Check electrode terminals & cables</td>
+                    <td class="col-condition">{{inspection.supportDetails.electricTerminals}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">10</td>
+                    <td>Check all indicators & gauges on control panel</td>
+                    <td class="col-condition">{{inspection.supportDetails.electricIndicators}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">11</td>
+                    <td>Check battery electrolyte level, terminals, and cables</td>
+                    <td class="col-condition">{{inspection.supportDetails.electricBattery}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">12</td>
+                    <td>Check selector switch mode (Off, Run, Start)</td>
+                    <td class="col-condition">{{inspection.supportDetails.electricSwitchMode}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">13</td>
+                    <td>Check battery & connection condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.electricBatteryConnection}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="section-header">C. Opsional</td>
+                </tr>
+                <tr>
+                    <td class="col-no">27</td>
+                    <td>Periksa APAR</td>
+                    <td class="col-condition">{{inspection.supportDetails.optionalApar}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="section-header">D. Penambahan Pelumas & Pendingin</td>
+                </tr>
+                <tr>
+                    <td class="col-no">28</td>
+                    <td>Cairan Pendingin (Coolant)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpCoolant}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">29</td>
+                    <td>Oli Mesin (SAE 15W-40)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
+                </tr>
+            </tbody>
         </table>
-        
+
         <table class="finding-table">
             <thead>
                 <tr>
@@ -118,12 +376,12 @@
             </thead>
             <tbody>
                 {{#each findings}}
-                <tr>
-                    <td class="col-finding-no">{{addOne @index}}</td> 
-                    <td>{{this.description}}</td>
-                    <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
-                    <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
-                </tr>
+                    <tr>
+                        <td class="col-finding-no">{{addOne @index}}</td>
+                        <td>{{this.description}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                    </tr>
                 {{/each}}
             </tbody>
         </table>
@@ -144,7 +402,8 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
+
 </html>
