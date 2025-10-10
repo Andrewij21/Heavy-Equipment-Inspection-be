@@ -298,11 +298,71 @@ model WheelInspectionDetails {
   // DYNAMIC/UNSTRUCTURED DATA
   findings Json?
 
+  // Dumptruck
+  engineOilLevel          String?
+  engineMounting          String?
+  engineCoolantLevel      String?
   engineFuelSystemLeakage String?
-  acBlower                String?
-  checkMDVR               String?
-  apar                    String?
-  coolant                 Float?
+  engineBeltTension       String?
+  engineAirIntake         String?
+
+  // Powertrain Fields
+  powertrainTransmissionOilLevel String?
+  powertrainClutchFunction       String?
+  powertrainUniversalJoint       String?
+
+  // Hydraulic System Fields
+  hydraulicOilLevel            String?
+  hydraulicSystemLeakage       String?
+  hydraulicPumpLeakage         String?
+  hydraulicControlValveLeakage String?
+
+  cabinCleaning          String?
+  cabinLock              String?
+  cabinSeatBelt          String?
+  cabinControlLever      String?
+  cabinAttachmentLever   String?
+  acBlower               String?
+  cabinMirror            String?
+  cabinSwitchFunction    String?
+  cabinWiper             String?
+  cabinHorn              String?
+  cabinLamps             String?
+  cabinBatteryConnection String?
+  cabinRadioComm         String?
+  cabinBrakeFunction     String?
+  cabinEmergencyStop     String?
+  reverseCamera          String?
+  checkMDVR              String?
+  apar                   String?
+
+  // Structure & Electrical Fields
+  structureDriveAxleOilLevel        String?
+  structurePinSpringSteeringTrunion String?
+  structureMountingRubberTorqueRod  String?
+  structureSpringUBolt              String?
+  structureVStayFrontRear           String?
+  structureBallJointTieRod          String?
+  structureBallJointDragLink        String?
+  structureShockAbsorber            String?
+  structureTyreBoltPressure         String?
+  structureRubberHollowspring       String?
+  electricalBackupAlarm             String?
+
+  // Attachment & Grease Fields
+  attachmentDumpBodyVessel     String?
+  attachmentSafetyDumpFunction String?
+  greaseCentralGrease          String?
+  greaseAllPointsArea          String?
+
+  // Top-Up Lubricant & Coolant Fields
+  coolant           Float @default(0)
+  topUpEngine       Float @default(0)
+  topUpHydraulic    Float @default(0)
+  topUpTransmission Float @default(0)
+  topUpDifferential Float @default(0)
+  topUpFinalDrive   Float @default(0)
+  topUpCoolant      Float @default(0)
 
   radiatorConnection  String?
   engineUnusualSound  String?
@@ -360,7 +420,6 @@ model WheelInspectionDetails {
   wiperFunction       String?
   hornFunction        String?
   radioCommunication  String?
-  reverseCamera       String?
   mdvr                String?
   mirrorCondition     String?
   doorLock            String?
@@ -383,32 +442,9 @@ model WheelInspectionDetails {
   conditionGrease          String?
   conditionCoolant         String?
 
-  structureDriveAxleOilLevel        String?
-  structurePinSpringSteeringTrunion String?
-  structureMountingRubberTorqueRod  String?
-  structureSpringUBolt              String?
-  structureVStayFrontRear           String?
-  structureBallJointTieRod          String?
-  structureBallJointDragLink        String?
-  structureShockAbsorber            String?
-  structureTyreBoltPressure         String?
-  structureRubberHollowspring       String?
-
-  electricalBackupAlarm String?
-
-  attachmentDumpBodyVessel     String?
-  attachmentSafetyDumpFunction String?
-  greaseCentralGrease          String?
-  greaseAllPointsArea          String?
-
   engineVisualCheck      String? // Check engine condition from: leaks, lose bolt & etc
   engineUpperLeaks       String? // Check oil leak, coolant leak dan gas leak at upper engine compartment area
   engineFuelLine         String? // Check all fuel line for tighneass, wear dan leakage
-  engineOilLevel         String? // Check engine oil level
-  engineMounting         String? // Check engine mounting & fitting parts
-  engineCoolantLevel     String? // Check water coolant level & any lekage
-  engineBeltTension      String? // Check all -belt tension & related parts
-  engineAirIntake        String? // Check air intake & exhaust connection
   engineExhaustLeakage   String? // Check exhaust manifold & muffler leakage
   engineOperationalSound String? // Check engine operational sound and low power
   engineAlternator       String? // Check alternator condition
@@ -420,21 +456,16 @@ model WheelInspectionDetails {
   // ==========================================================
   // B. POWER TRAIN (Transmission, Axle, Brakes)
   // ==========================================================
-  powertrainTransmissionOilLevel String? // Check transmission oil level
-  powertrainClutchFunction       String? // Check Clutch Function & Wear Pad Clutch
-  powertrainUniversalJoint       String? // Check Universal Joint & Lubricate
-  powertrainDifferentialOil      String? // Check Differential oil level & leakage
-  powertrainFinalDriveOil        String? // Check Final Drive oil level & leakage
-  powertrainBrakeOperation       String? // Check Brake Function, Brake Pressure & Parking Brake (Grader/HDT)
-  powertrainPropellerShaft       String? // Check Propeller Shaft (HDT/Grader)
+
+  powertrainDifferentialOil String? // Check Differential oil level & leakage
+  powertrainFinalDriveOil   String? // Check Final Drive oil level & leakage
+  powertrainBrakeOperation  String? // Check Brake Function, Brake Pressure & Parking Brake (Grader/HDT)
+  powertrainPropellerShaft  String? // Check Propeller Shaft (HDT/Grader)
 
   // ==========================================================
   // C. HYDRAULIC SYSTEM
   // ==========================================================
-  hydraulicOilLevel             String? // Check hydraulic oil level
-  hydraulicSystemLeakage        String? // Check hydraulic cylinder & connection condition
-  hydraulicPumpLeakage          String? // Check leakage from Pump, Motor, PTO, Hose/ piping connection
-  hydraulicControlValveLeakage  String? // Check leaks from control valve
+
   hydraulicWheelLeanCylinder    String? // Check wheel lean cylinder (Grader)
   hydraulicSteeringCylinder     String? // Check streering cylinder (Grader)
   hydraulicBladeLiftCylinder    String? // Check blade lift cylinder (Grader)
@@ -462,41 +493,18 @@ model WheelInspectionDetails {
   structureVibrationBearing     String? // Check oil level in vibration bearing (Compactor)
   structureAllGreasingPoints    String?
 
-  // ==========================================================
-  // E. CABIN & SAFETY DEVICE (Common)
-  // ==========================================================
-  cabinCleaning          String? // Cleaning cabin & check panel Function
-  cabinLock              String? // Check lock cabin & lock tilt cabin
-  cabinSeatBelt          String? // Check Seat & Safety Belt
-  cabinControlLever      String? // Check Transmissi & Steering/Travel Control Lever Function
-  cabinAttachmentLever   String? // Check Attachment Control Lever
-  cabinAcBlower          String? // Check AC / Blower
-  cabinMirror            String? // Check mirror condition
-  cabinSwitchFunction    String? // Check switch function
-  cabinWiper             String? // Check wiper function
-  cabinHorn              String? // Check horn function
-  cabinLamps             String? // Check all lamp function & Rotary lamp
-  cabinBatteryConnection String? // Check Battery & connection condition
-  cabinRadioComm         String? // Check Radio Communication
-  cabinBrakeFunction     String? // Check all brake function
-  cabinEmergencyStop     String? // Check Emergency Stop function
-  cabinApar              String? // Check APAR
-  cabinReverseCamera     String? // Check Reverse Camera function (HDT/Grader)
-  cabinMdvr              String? // Check MDVR (HDT/Grader)
-  cabinMonitoringSystem  String? // Check monitoring system condition (HDT/Grader)
+  cabinApar             String? // Check APAR
+  cabinReverseCamera    String? // Check Reverse Camera function (HDT/Grader)
+  cabinMdvr             String? // Check MDVR (HDT/Grader)
+  cabinMonitoringSystem String? // Check monitoring system condition (HDT/Grader)
   // ==========================================================
   // F. TOP-UP QUANTITIES
   // ==========================================================
-  topUpEngine            Float? // SAE 15W-40
-  topUpHydraulic         Float? // TURALIK 46
-  topUpTransmission      Float? // 85W-140 / TUDH 46, 68
-  topUpDifferential      Float? // 85W-140 / HD 30
-  topUpFinalDrive        Float? // 85W-140 / HD 30
-  topUpWheelMotor        Float? // 85W-140 (Compactor)
-  topUpVibrator          Float? // 85W-140 (Compactor)
-  topUpCoolant           Float? // AF-NACDM / Coolant
-  topUpGrease            Float? // V220
-  topUpSteering          Float? // ATF 220
+
+  topUpWheelMotor Float? // 85W-140 (Compactor)
+  topUpVibrator   Float? // 85W-140 (Compactor)
+  topUpGrease     Float? // V220
+  topUpSteering   Float? // ATF 220
 
   // GRADER
   engineHydraulicPump      String?

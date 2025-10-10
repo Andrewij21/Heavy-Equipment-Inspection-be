@@ -1,5 +1,4 @@
 import { prisma } from "../lib/prisma";
-import type { WheelInspection } from "../schemas/inspection.schema";
 
 const approverSelection = {
   select: {
