@@ -407,51 +407,123 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   const type = data.supportGeneralType;
   const td = data.wheelDetails || {};
 
-  // --- 2. HEADER TINGKAT ATAS & INFORMASI ---
-
-  // Title
-  worksheet.mergeCells(`A${globalRow}:G${globalRow}`);
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
   worksheet.getCell(
     `A${globalRow}`
   ).value = `DAILY INSPECTION CHECKSHEET (${data.supportGeneralType.toUpperCase()})`;
   worksheet.getCell(`A${globalRow}`).font = { bold: true, size: 14 };
   worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
   globalRow += 2;
+  // --- BAGIAN 0: PENGATURAN AWAL ---
+  // Atur lebar kolom agar layout terlihat bagus
+  worksheet.getColumn("A").width = 10;
+  worksheet.getColumn("B").width = 15;
+  worksheet.getColumn("C").width = 4; // Spasi
+  worksheet.getColumn("D").width = 10;
+  worksheet.getColumn("E").width = 15;
+  worksheet.getColumn("F").width = 5; // Spasi besar
+  worksheet.getColumn("G").width = 12;
+  worksheet.getColumn("H").width = 15;
+  worksheet.getColumn("I").width = 15;
+  worksheet.getColumn("J").width = 15;
 
-  // Info Rows (Header Informasi)
-  worksheet.mergeCells(`A${globalRow}:B${globalRow}`);
-  worksheet.getCell(`A${globalRow}`).value = "Date:";
-  worksheet.getCell(`C${globalRow}`).value = data.inspectionDate;
-  worksheet.mergeCells(`D${globalRow}:E${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = "SMR:";
-  worksheet.getCell(`F${globalRow}`).value = data.smr;
-  worksheet.getCell(`F${globalRow}`).alignment = { horizontal: "left" };
+  // --- BAGIAN 1: HEADER INFORMASI (SESUAI GAMBAR) ---
+  const infoRowStart = globalRow;
+  const headerFont = { bold: true };
+
+  // Baris 1
+  worksheet.getCell(`A${infoRowStart}`).value = "Date";
+  worksheet.getCell(`A${infoRowStart}`).font = headerFont;
+  worksheet.getCell(`B${infoRowStart}`).value = data.inspectionDate;
+
+  worksheet.getCell(`D${infoRowStart}`).value = "SMR";
+  worksheet.getCell(`D${infoRowStart}`).font = headerFont;
+  worksheet.getCell(`E${infoRowStart}`).value = data.smr;
+
+  worksheet.getCell(`I${infoRowStart}`).value = "Time Down";
+  worksheet.getCell(`I${infoRowStart}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
+
+  // Baris 2
+  worksheet.getCell(`A${infoRowStart + 1}`).value = "Unit No";
+  worksheet.getCell(`A${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`B${infoRowStart + 1}`).value = data.equipmentId;
+
+  worksheet.getCell(`D${infoRowStart + 1}`).value = "Location";
+  worksheet.getCell(`D${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
+
+  // === DIPINDAHKAN KE KOLOM I dan J ===
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "Time Out";
+  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
+
+  // Baris 3
+  worksheet.getCell(`A${infoRowStart + 2}`).value = "Type";
+  worksheet.getCell(`A${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`B${infoRowStart + 2}`).value = data.supportGeneralType;
+
+  worksheet.getCell(`D${infoRowStart + 2}`).value = "Shift";
+  worksheet.getCell(`D${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`E${infoRowStart + 2}`).value = data.shift; // Pastikan data ini ada
+
+  // Memberi border pada semua sel header
+  // Memberi border pada semua sel header sesuai posisi baru
+  for (let i = 0; i < 3; i++) {
+    const row = worksheet.getRow(infoRowStart + i);
+    // Border untuk tabel kiri
+    row.getCell("A").border = allBorders;
+    row.getCell("B").border = allBorders;
+    row.getCell("D").border = allBorders;
+    row.getCell("E").border = allBorders;
+
+    // Border untuk tabel kanan (hanya 2 baris pertama)
+    if (i < 2) {
+      row.getCell("I").border = allBorders;
+      row.getCell("J").border = allBorders;
+    }
+  }
+  globalRow = infoRowStart + 4;
+
+  // --- BAGIAN 2: SAFETY NOTICE ---
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  worksheet.getCell(`A${globalRow}`).value = '"IMPORTANT BE SAFETY"';
+  worksheet.getCell(`A${globalRow}`).font = { bold: true };
+  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
   globalRow++;
 
-  worksheet.mergeCells(`A${globalRow}:B${globalRow}`);
-  worksheet.getCell(`A${globalRow}`).value = "Unit No:";
-  worksheet.getCell(`C${globalRow}`).value = data.equipmentId;
-  worksheet.mergeCells(`D${globalRow}:E${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = "Mechanic:";
-  worksheet.getCell(`F${globalRow}`).value = data.mechanicName;
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  worksheet.getCell(`A${globalRow}`).value =
+    "Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out";
+  worksheet.getCell(`A${globalRow}`).alignment = {
+    horizontal: "center",
+    vertical: "middle",
+    wrapText: true,
+  };
   globalRow += 2;
 
-  // --- 3. HEADER TABEL CHECKLIST UTAMA ---
+  const legendText =
+    "✓ = Good ,   X = Bad/Repair required ,   Ⓧ = Repaired ,   NA = Not Available";
+  worksheet.mergeCells(`A${globalRow}:G${globalRow}`);
+  worksheet.getCell(`A${globalRow}`).value = legendText;
+  worksheet.getCell(`A${globalRow}`).font = { bold: true };
+  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "left" };
+
+  worksheet.mergeCells(`H${globalRow}:J${globalRow}`);
+  worksheet.getCell(`H${globalRow}`).value =
+    data.formId || "AMM-SBS-F-PLT-01AD"; // Ambil dari data
+  worksheet.getCell(`H${globalRow}`).font = { bold: true };
+  worksheet.getCell(`H${globalRow}`).alignment = { horizontal: "right" };
+  globalRow += 2;
+
   let currentHeaderRow = worksheet.getRow(globalRow);
-
-  // Menggunakan merge B:F untuk label
-  worksheet.mergeCells(`B${globalRow}:F${globalRow}`);
-
+  worksheet.mergeCells(`B${globalRow}:I${globalRow}`);
   currentHeaderRow.values = [
     "No.",
     "COMPONENT & ITEM CHECK/OBSERVE",
-    "",
-    "",
-    "",
-    "",
+    ...Array(7).fill(null),
     "STATUS",
   ];
-
   currentHeaderRow.font = { bold: true };
   currentHeaderRow.fill = {
     type: "pattern",
@@ -462,11 +534,11 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
     cell.border = allBorders;
   });
   globalRow++;
+
   const wheelChecklistData = getSupportChecklistData(type);
   // --- 4. LOOPING UNTUK CHECKLIST ---
-  console.log({ wheelChecklistData: wheelChecklistData[0].fields });
   wheelChecklistData.forEach((section) => {
-    addSectionHeader(worksheet, section.title);
+    addNewSectionHeader(worksheet, section.title);
 
     section.fields.forEach((item) => {
       const resultValue = data.supportDetails[item.field];
@@ -504,7 +576,7 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
         // Catatan: Item resultEnum pada tempCylBoom/Arm/Bucket sekarang diabaikan di loop addItem biasa
       } else {
         // Logic untuk item result (OK/NG/NA) dan topup
-        addItem(worksheet, item.label, resultValue);
+        addNewItem(worksheet, item.label, resultValue);
       }
     });
   });
@@ -654,28 +726,6 @@ export type ExcelLayoutFunction = (
   data: any
 ) => number;
 
-// --- HELPER FUNCTION UNTUK MEMBUAT BARIS ---
-
-// Helper untuk menambahkan item checklist non-suhu/topup (Condition di G)
-export const addItem = (
-  worksheet: ExcelJS.Worksheet,
-  label: string,
-  value: string
-) => {
-  let row = worksheet.getRow(globalRow);
-  worksheet.mergeCells(`B${globalRow}:F${globalRow}`);
-
-  row.getCell("A").value = N();
-  row.getCell("B").value = label;
-  row.getCell("G").value = value;
-  row.getCell("G").alignment = { horizontal: "left" };
-
-  row.eachCell({ includeEmpty: true }, (cell) => {
-    cell.border = allBorders;
-  });
-  globalRow++;
-};
-
 // Helper untuk menambahkan item suhu (RH/LH/Delta di E:F, Status di G)
 export const addTempItem = (
   worksheet: ExcelJS.Worksheet,
@@ -712,7 +762,27 @@ export const addTempItem = (
 
   globalRow++;
 };
+// --- HELPER FUNCTION UNTUK MEMBUAT BARIS ---
 
+// Helper untuk menambahkan item checklist non-suhu/topup (Condition di G)
+export const addItem = (
+  worksheet: ExcelJS.Worksheet,
+  label: string,
+  value: string
+) => {
+  let row = worksheet.getRow(globalRow);
+  worksheet.mergeCells(`B${globalRow}:F${globalRow}`);
+
+  row.getCell("A").value = N();
+  row.getCell("B").value = label;
+  row.getCell("G").value = value;
+  row.getCell("G").alignment = { horizontal: "left" };
+
+  row.eachCell({ includeEmpty: true }, (cell) => {
+    cell.border = allBorders;
+  });
+  globalRow++;
+};
 // Helper untuk membuat header section
 export const addSectionHeader = (
   worksheet: ExcelJS.Worksheet,
@@ -725,6 +795,47 @@ export const addSectionHeader = (
   worksheet.getCell(`A${globalRow}`).fill = fill;
   worksheet.getCell(`A${globalRow}`).border = allBorders;
   //   worksheet.getCell("A").alignment = { horizontal: "left" };
+
+  globalRow++;
+};
+
+export const addNewItem = (
+  worksheet: ExcelJS.Worksheet,
+  label: string,
+  value: string
+) => {
+  let row = worksheet.getRow(globalRow);
+  // DIUBAH: Merge sekarang dari kolom B sampai I
+  worksheet.mergeCells(`B${globalRow}:I${globalRow}`);
+
+  row.getCell("A").value = N(); // N() adalah fungsi penomoran Anda
+  row.getCell("B").value = label;
+
+  // DIUBAH: Nilai/status sekarang diletakkan di kolom J
+  row.getCell("J").value = value;
+  // DIUBAH: Alignment diatur untuk kolom J dan dibuat center
+  row.getCell("J").alignment = { horizontal: "center", vertical: "middle" };
+
+  row.eachCell({ includeEmpty: true }, (cell) => {
+    cell.border = allBorders;
+  });
+  globalRow++;
+};
+
+export const addNewSectionHeader = (
+  worksheet: ExcelJS.Worksheet,
+  title: string,
+  fill: any = sectionFill // sectionFill adalah variabel fill default Anda
+) => {
+  // DIUBAH: Merge sekarang dari kolom A sampai J agar memenuhi lebar tabel
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+
+  const cell = worksheet.getCell(`A${globalRow}`);
+  cell.value = title;
+  cell.font = { bold: true };
+  cell.fill = fill;
+  cell.border = allBorders;
+  cell.alignment = { vertical: "middle" }; // Tambahan agar teks di tengah vertikal
 
   globalRow++;
 };
