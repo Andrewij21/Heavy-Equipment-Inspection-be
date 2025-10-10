@@ -342,53 +342,39 @@ export const wheelChecklistDataHeavyDumpTruck: ChecklistSection[] = [
   {
     title: "I. Penambahan Pelumas & Coolant",
     fields: [
+      { field: "conditionCoolant", label: "Coolant", type: "topup" },
+
       {
         field: "conditionEngineOil",
-        label: "Oli Mesin (SAE 15W-40)",
-        type: "result",
+        label: "Oli Mesin (15W-40)",
+        type: "topup",
+      },
+      {
+        field: "conditionTransmission",
+        label: "Transmisi (HD-30)",
+        type: "topup",
+      },
+      {
+        field: "conditionDifferential",
+        label: "Differensial (HD-30)",
+        type: "topup",
+      },
+      {
+        field: "conditionFinalDrive",
+        label: "Final Drive (HD-30)",
+        type: "topup",
+      },
+      { field: "conditionBrakeFluid", label: "Rem (HD-30)", type: "topup" },
+      {
+        field: "conditionSuspension",
+        label: "Suspensi (TURALIK 46)",
+        type: "topup",
       },
       {
         field: "conditionHydraulic",
         label: "Hidraulik (TURALIK 46)",
-        type: "result",
+        type: "topup",
       },
-      {
-        field: "conditionFrontSuspension",
-        label: "Suspensi Depan (TURALIK 46)",
-        type: "result",
-      },
-      {
-        field: "conditionRearSuspension",
-        label: "Suspensi Belakang (TURALIK 46)",
-        type: "result",
-      },
-      {
-        field: "conditionTransmission",
-        label: "Transmisi (SAE-30)",
-        type: "result",
-      },
-      {
-        field: "conditionDifferential",
-        label: "Differensial (SAE-30)",
-        type: "result",
-      },
-      {
-        field: "conditionFinalDrive",
-        label: "Final Drive (SAE-30)",
-        type: "result",
-      },
-      { field: "conditionBrakeFluid", label: "Rem (SAE-30)", type: "result" },
-      {
-        field: "conditionSteering",
-        label: "Kemudi (Steering)",
-        type: "result",
-      },
-      {
-        field: "conditionGrease",
-        label: "Gemuk (Grease) (V220)",
-        type: "result",
-      },
-      { field: "conditionCoolant", label: "Coolant", type: "result" },
     ],
   },
 ];

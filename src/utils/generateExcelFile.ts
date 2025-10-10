@@ -294,7 +294,7 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   // Baris 3
   worksheet.getCell(`A${infoRowStart + 2}`).value = "Type";
   worksheet.getCell(`A${infoRowStart + 2}`).font = headerFont;
-  worksheet.getCell(`B${infoRowStart + 2}`).value = data.supportGeneralType;
+  worksheet.getCell(`B${infoRowStart + 2}`).value = data.wheelGeneralType;
 
   worksheet.getCell(`D${infoRowStart + 2}`).value = "Shift";
   worksheet.getCell(`D${infoRowStart + 2}`).font = headerFont;

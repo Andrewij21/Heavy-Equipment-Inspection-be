@@ -364,37 +364,46 @@ model WheelInspectionDetails {
   topUpFinalDrive   Float @default(0)
   topUpCoolant      Float @default(0)
 
-  radiatorConnection  String?
-  engineUnusualSound  String?
-  alternatorCondition String?
-  fanGuardCondition   String?
-  leftFrontWheel      String?
-  hoistCylinder       String?
-  leftRearFinalDrive  String?
+  // heavy dumptruck
 
+  // Engine System
+  engineVisualCheck     String?
+  engineUpperLeaks      String?
+  engineFuelLine        String?
+  engineUnusualSound    String?
+  alternatorCondition   String?
   starterMotorCondition String?
   acCompressorCondition String?
   turbochargerCondition String?
   waterPumpCondition    String?
-  beltTension           String?
-  ropsMounting          String?
-  steeringLinkage       String?
-  frontSuspension       String?
-  rearSuspension        String?
-  hydraulicTank         String?
-  tankMounting          String?
-  chassisMainFrame      String?
-  leftRearWheel         String?
-  dumpBody              String?
-  greaseLine            String?
-  hydraulicLine         String?
-  airCleaner            String?
-  steeringOilTank       String?
-  greaseSystem          String?
-  batteryElectrolyte    String?
-  handRail              String?
-  walkways              String?
 
+  // Cooling System
+  radiatorConnection String?
+  fanGuardCondition  String?
+  beltTension        String?
+
+  leftFrontWheel     String?
+  ropsMounting       String?
+  steeringLinkage    String?
+  frontSuspension    String?
+  rearSuspension     String?
+  hydraulicTank      String?
+  tankMounting       String?
+  chassisMainFrame   String?
+  hoistCylinder      String?
+  leftRearWheel      String?
+  leftRearFinalDrive String?
+  dumpBody           String?
+  greaseLine         String?
+  hydraulicLine      String?
+  airCleaner         String?
+  steeringOilTank    String?
+  greaseSystem       String?
+  batteryElectrolyte String?
+  handRail           String?
+  walkways           String?
+
+  // Right Side Checks
   rightRearWheel      String?
   rhFinalDrive        String?
   rhRearSuspension    String?
@@ -405,15 +414,18 @@ model WheelInspectionDetails {
   rhSteeringLinkage   String?
   rhDumpBodyCondition String?
 
+  // Rear Axle Assembly
   rearAxleLooseBolts String?
   rearAxleOilLeaks   String?
 
+  // Power Train (lanjutan)
   differentialCondition String?
   transmissionCondition String?
   powerTrainLine        String?
   torqueConverter       String?
   driveShaftJoint       String?
 
+  // Cabin & Safety Devices
   cabinGlass          String?
   cabinRops           String?
   seatSafetyBelt      String?
@@ -430,21 +442,21 @@ model WheelInspectionDetails {
   emergencyStop       String?
   fireExtinguisher    String?
 
-  conditionEngineOil       String?
-  conditionHydraulic       String?
+  conditionCoolant      Float?
+  conditionEngineOil    Float?
+  conditionTransmission Float?
+  conditionDifferential Float?
+  conditionFinalDrive   Float?
+  conditionBrakeFluid   Float?
+  conditionSuspension   Float?
+  conditionHydraulic    Float?
+  // ============================
+
   conditionFrontSuspension String?
   conditionRearSuspension  String?
-  conditionTransmission    String?
-  conditionDifferential    String?
-  conditionFinalDrive      String?
-  conditionBrakeFluid      String?
   conditionSteering        String?
   conditionGrease          String?
-  conditionCoolant         String?
 
-  engineVisualCheck      String? // Check engine condition from: leaks, lose bolt & etc
-  engineUpperLeaks       String? // Check oil leak, coolant leak dan gas leak at upper engine compartment area
-  engineFuelLine         String? // Check all fuel line for tighneass, wear dan leakage
   engineExhaustLeakage   String? // Check exhaust manifold & muffler leakage
   engineOperationalSound String? // Check engine operational sound and low power
   engineAlternator       String? // Check alternator condition
