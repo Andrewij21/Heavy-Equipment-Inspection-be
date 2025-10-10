@@ -33,11 +33,15 @@ export class TrackController {
   };
 
   createInspection = async (req: Request, res: Response) => {
-    // 1. Validate data using the Zod schema
-    const parsed = trackInspectionSchema.parse(req.body);
+    // ASUMSI: req.user.id disetel oleh middleware requireAuth
+    const data = req.body;
 
-    // 2. Pass validated data to the service for database creation
-    const inspection = await trackService.create(parsed);
+    // Tambahkan mechanicId dari sesi pengguna
+    const payload = {
+      ...data,
+      equipmentType: "track", // Pastikan tipe equipment benar
+    };
+    const inspection = await trackService.create(payload);
 
     sendApiResponse(res, 201, {
       message: "Track inspection created successfully",
@@ -76,12 +80,10 @@ export class TrackController {
     if (!approverId) {
       // This should theoretically be caught by requireAuth/requireRole,
       // but included for type safety and robustness.
-      return res
-        .status(401)
-        .json({
-          success: false,
-          error: "Authentication failed. Approver ID missing.",
-        });
+      return res.status(401).json({
+        success: false,
+        error: "Authentication failed. Approver ID missing.",
+      });
     }
 
     // Validation to ensure the status is a valid enum value

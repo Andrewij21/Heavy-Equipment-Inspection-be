@@ -126,9 +126,8 @@ model TrackInspectionDetails {
   // DYNAMIC/UNSTRUCTURED DATA
   findings Json? // Array of { description, status } objects
 
-  // ==========================================================
-  // COMMON TRACK CHECKLIST FIELDS (Result Type: "ok" | "failure")
-  // ==========================================================
+  // Big digger
+  // Lower Structure Fields
   lowerLockOutSwitch       String?
   lowerTrackLinkTension    String?
   lowerTrackShoeBolt       String?
@@ -140,11 +139,11 @@ model TrackInspectionDetails {
   lowerDrainWaterSediment  String?
   lowerHydraulicOilLevel   String?
 
+  // Upper Structure Fields
   upperEngineOilLevel     String?
   upperEngineVisual       String?
   upperCoolantLevel       String?
-  upperRadiatorEtc        String? // Used by BigDigger/Schema
-  upperRadiator           String? // Used by SmallPC (if different from upperRadiatorEtc)
+  upperRadiatorEtc        String?
   upperTurboInlet         String?
   upperAirCleaner         String?
   upperCompartmentLeaks   String?
@@ -157,47 +156,25 @@ model TrackInspectionDetails {
   upperCylinderLeaks      String?
   upperCoverHandRail      String?
 
-  // Cabin & Safety Checks
-  cabinMonitorPanel      String?
-  cabinSwitches          String?
-  cabinGauge             String?
-  cabinControlLever      String?
-  cabinRadioComm         String?
-  cabinFmRadio           String?
-  cabinWorkLamp          String?
-  cabinTravelAlarm       String?
-  cabinHorn              String?
-  cabinMirror            String?
-  cabinRotaryLamp        String?
-  cabinWiper             String?
-  cabinWindowWasher      String?
-  cabinAcFunction        String?
-  cabinFuseRelay         String?
-  cabinOperatorSeat      String?
-  safetyFireExtinguisher String?
-  safetyEmergencyStop    String?
-  safetyCabinRops        String?
-  safetyBelt             String?
+  // Temperature - Cylinder Boom
+  tempCylBoom   String? // Hasil select (OK/NG/dll.)
+  tempCylBoomRh Float? // Suhu Kanan (RH)
+  tempCylBoomLh Float? // Suhu Kiri (LH)
+  deltaTCylBoom Float? // Perbedaan Suhu (ΔT)
 
-  // ==========================================================
-  // TEMPERATURES (Float)
-  // ==========================================================
-  deltaTCylBoom   Float? // Perbedaan Suhu Silinder Boom (ΔT)
-  deltaTCylArm    Float? // Perbedaan Suhu Silinder Arm (ΔT)
-  deltaTCylBucket Float? // Perbedaan Suhu Silinder Bucket (ΔT)
-  tempCylBoom     String?
-  tempCylBoomRh   Float?
-  tempCylBoomLh   Float?
-  tempCylArm      String?
-  tempCylArmRh    Float?
-  tempCylArmLh    Float?
-  tempCylBucket   String?
-  tempCylBucketRh Float?
-  tempCylBucketLh Float?
+  // Temperature - Cylinder Arm
+  tempCylArm   String? // Hasil select (OK/NG/dll.)
+  tempCylArmRh Float? // Suhu Kanan (RH)
+  tempCylArmLh Float? // Suhu Kiri (LH)
+  deltaTCylArm Float? // Perbedaan Suhu (ΔT)
 
-  // ==========================================================
-  // GREASE FIELDS (String as requested, but usually Float/Int)
-  // ==========================================================
+  // Temperature - Cylinder Bucket
+  tempCylBucket   String? // Hasil select (OK/NG/dll.)
+  tempCylBucketRh Float? // Suhu Kanan (RH)
+  tempCylBucketLh Float? // Suhu Kiri (LH)
+  deltaTCylBucket Float? // Perbedaan Suhu (ΔT)
+
+  // Grease Points
   greaseBoomCylFoot        String?
   greaseBoomFootPin        String?
   greaseBoomCylRod         String?
@@ -211,15 +188,39 @@ model TrackInspectionDetails {
   greaseBucketCylRod       String?
   greaseBucketLinkCoupling String?
 
-  // ==========================================================
-  // TOP-UP QUANTITIES (Float - should be numerical)
-  // ==========================================================
-  // Small PC naming
-  topUpCoolant        Float?
-  topUpEngine         Float?
-  topUpHydraulic      Float?
-  topUpSwingMachinery Float?
-  topUpFinalDrive     Float?
+  // Cabin Inspection
+  cabinMonitorPanel String?
+  cabinSwitches     String?
+  cabinGauge        String?
+  cabinControlLever String?
+  cabinRadioComm    String?
+  cabinFmRadio      String?
+  cabinWorkLamp     String?
+  cabinTravelAlarm  String?
+  cabinHorn         String?
+  cabinMirror       String?
+  cabinRotaryLamp   String?
+  cabinWiper        String?
+  cabinWindowWasher String?
+  cabinAcFunction   String?
+  cabinFuseRelay    String?
+  cabinOperatorSeat String?
+
+  // Safety Equipment Inspection
+  safetyFireExtinguisher String?
+  safetyEmergencyStop    String?
+  safetyCabinRops        String?
+  safetyBelt             String?
+
+  // Oil Top-Up
+  topUpCoolant        Float @default(0)
+  topUpEngine         Float @default(0)
+  topUpHydraulic      Float @default(0)
+  topUpSwingMachinery Float @default(0)
+  topUpFinalDrive     Float @default(0)
+  // =======================
+
+  upperRadiator String? // Used by SmallPC (if different from upperRadiatorEtc)
 
   // Big Digger/Bulldozer naming
   topUpCoolantQty        Float?

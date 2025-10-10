@@ -72,57 +72,128 @@ const getSupportChecklistData = (type: string) => {
 };
 
 const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
-  // Reset nomor item untuk setiap layout
   globalRow = 1;
   globalItemNo = 0;
   const type = data.equipmentGeneralType;
   const td = data.trackDetails || {};
 
-  // --- 2. HEADER TINGKAT ATAS & INFORMASI ---
-
-  // Title
-  worksheet.mergeCells(`A${globalRow}:G${globalRow}`);
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
   worksheet.getCell(
     `A${globalRow}`
   ).value = `DAILY INSPECTION CHECKSHEET (${data.equipmentGeneralType.toUpperCase()})`;
   worksheet.getCell(`A${globalRow}`).font = { bold: true, size: 14 };
   worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
   globalRow += 2;
+  // --- BAGIAN 0: PENGATURAN AWAL ---
+  // Atur lebar kolom agar layout terlihat bagus
+  worksheet.getColumn("A").width = 10;
+  worksheet.getColumn("B").width = 15;
+  worksheet.getColumn("C").width = 4; // Spasi
+  worksheet.getColumn("D").width = 10;
+  worksheet.getColumn("E").width = 15;
+  worksheet.getColumn("F").width = 5; // Spasi besar
+  worksheet.getColumn("G").width = 12;
+  worksheet.getColumn("H").width = 15;
+  worksheet.getColumn("I").width = 15;
+  worksheet.getColumn("J").width = 15;
 
-  // Info Rows (Header Informasi)
-  worksheet.mergeCells(`A${globalRow}:B${globalRow}`);
-  worksheet.getCell(`A${globalRow}`).value = "Date:";
-  worksheet.getCell(`C${globalRow}`).value = data.inspectionDate;
-  worksheet.mergeCells(`D${globalRow}:E${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = "SMR:";
-  worksheet.getCell(`F${globalRow}`).value = data.smr;
-  worksheet.getCell(`F${globalRow}`).alignment = { horizontal: "left" };
+  // --- BAGIAN 1: HEADER INFORMASI (SESUAI GAMBAR) ---
+  const infoRowStart = globalRow;
+  const headerFont = { bold: true };
+
+  // Baris 1
+  worksheet.getCell(`A${infoRowStart}`).value = "Date";
+  worksheet.getCell(`A${infoRowStart}`).font = headerFont;
+  worksheet.getCell(`B${infoRowStart}`).value = data.inspectionDate;
+
+  worksheet.getCell(`D${infoRowStart}`).value = "SMR";
+  worksheet.getCell(`D${infoRowStart}`).font = headerFont;
+  worksheet.getCell(`E${infoRowStart}`).value = data.smr;
+
+  worksheet.getCell(`I${infoRowStart}`).value = "Time Down";
+  worksheet.getCell(`I${infoRowStart}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
+
+  // Baris 2
+  worksheet.getCell(`A${infoRowStart + 1}`).value = "Unit No";
+  worksheet.getCell(`A${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`B${infoRowStart + 1}`).value = data.equipmentId;
+
+  worksheet.getCell(`D${infoRowStart + 1}`).value = "Location";
+  worksheet.getCell(`D${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
+
+  // === DIPINDAHKAN KE KOLOM I dan J ===
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "Time Out";
+  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
+
+  // Baris 3
+  worksheet.getCell(`A${infoRowStart + 2}`).value = "Type";
+  worksheet.getCell(`A${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`B${infoRowStart + 2}`).value = data.equipmentGeneralType;
+
+  worksheet.getCell(`D${infoRowStart + 2}`).value = "Shift";
+  worksheet.getCell(`D${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`E${infoRowStart + 2}`).value = data.shift; // Pastikan data ini ada
+
+  // Memberi border pada semua sel header
+  // Memberi border pada semua sel header sesuai posisi baru
+  for (let i = 0; i < 3; i++) {
+    const row = worksheet.getRow(infoRowStart + i);
+    // Border untuk tabel kiri
+    row.getCell("A").border = allBorders;
+    row.getCell("B").border = allBorders;
+    row.getCell("D").border = allBorders;
+    row.getCell("E").border = allBorders;
+
+    // Border untuk tabel kanan (hanya 2 baris pertama)
+    if (i < 2) {
+      row.getCell("I").border = allBorders;
+      row.getCell("J").border = allBorders;
+    }
+  }
+  globalRow = infoRowStart + 4;
+
+  // --- BAGIAN 2: SAFETY NOTICE ---
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  worksheet.getCell(`A${globalRow}`).value = '"IMPORTANT BE SAFETY"';
+  worksheet.getCell(`A${globalRow}`).font = { bold: true };
+  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
   globalRow++;
 
-  worksheet.mergeCells(`A${globalRow}:B${globalRow}`);
-  worksheet.getCell(`A${globalRow}`).value = "Unit No:";
-  worksheet.getCell(`C${globalRow}`).value = data.equipmentId;
-  worksheet.mergeCells(`D${globalRow}:E${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = "Mechanic:";
-  worksheet.getCell(`F${globalRow}`).value = data.mechanicName;
+  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  worksheet.getCell(`A${globalRow}`).value =
+    "Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out";
+  worksheet.getCell(`A${globalRow}`).alignment = {
+    horizontal: "center",
+    vertical: "middle",
+    wrapText: true,
+  };
   globalRow += 2;
 
-  // --- 3. HEADER TABEL CHECKLIST UTAMA ---
+  const legendText =
+    "✓ = Good ,   X = Bad/Repair required ,   Ⓧ = Repaired ,   NA = Not Available";
+  worksheet.mergeCells(`A${globalRow}:G${globalRow}`);
+  worksheet.getCell(`A${globalRow}`).value = legendText;
+  worksheet.getCell(`A${globalRow}`).font = { bold: true };
+  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "left" };
+
+  worksheet.mergeCells(`H${globalRow}:J${globalRow}`);
+  worksheet.getCell(`H${globalRow}`).value =
+    data.formId || "AMM-SBS-F-PLT-01AD"; // Ambil dari data
+  worksheet.getCell(`H${globalRow}`).font = { bold: true };
+  worksheet.getCell(`H${globalRow}`).alignment = { horizontal: "right" };
+  globalRow += 2;
+
   let currentHeaderRow = worksheet.getRow(globalRow);
-
-  // Menggunakan merge B:F untuk label
-  worksheet.mergeCells(`B${globalRow}:F${globalRow}`);
-
+  worksheet.mergeCells(`B${globalRow}:I${globalRow}`);
   currentHeaderRow.values = [
     "No.",
     "COMPONENT & ITEM CHECK/OBSERVE",
-    "",
-    "",
-    "",
-    "",
+    ...Array(7).fill(null),
     "STATUS",
   ];
-
   currentHeaderRow.font = { bold: true };
   currentHeaderRow.fill = {
     type: "pattern",
@@ -136,7 +207,7 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   const trackChecklistData = getTrackChecklistData(type);
   // --- 4. LOOPING UNTUK CHECKLIST ---
   trackChecklistData.forEach((section) => {
-    addSectionHeader(worksheet, section.title);
+    addNewSectionHeader(worksheet, section.title);
 
     section.fields.forEach((item) => {
       const resultValue = data.trackDetails[item.field];
@@ -174,7 +245,7 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
         // Catatan: Item resultEnum pada tempCylBoom/Arm/Bucket sekarang diabaikan di loop addItem biasa
       } else {
         // Logic untuk item result (OK/NG/NA) dan topup
-        addItem(worksheet, item.label, resultValue);
+        addNewItem(worksheet, item.label, resultValue);
       }
     });
   });

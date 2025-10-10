@@ -1,46 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
-    <style>
-        /* Base styles for high-fidelity rendering */
-        body { font-family: Arial, sans-serif; font-size: 9pt; margin: 0; padding: 0; }
-        /* Mengurangi padding agar konten lebih leluasa di halaman A4 */
-        .container { width: 100%; max-width: 790px; margin: 0 auto; padding: 5mm; } 
-        .header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
-        .header h1 { font-size: 14pt; margin: 0; }
-        .info-box { display: flex; justify-content: space-between; border: 1px solid #000; margin-bottom: 15px; }
-        .info-col { width: 33.3%; padding: 5px 8px; border-right: 1px solid #000; box-sizing: border-box; }
-        .info-col:last-child { border-right: none; }
-        .info-label { font-weight: bold; margin-bottom: 2px; display: block; }
-        
-        /* Table Styles (Checklist) */
-        table { 
-            width: 99.5%; /* Mencegah overflow 100% yang menyebabkan pemotongan */ 
-            border-collapse: collapse; margin-bottom: 20px; 
+   <style>
+         .inspection-header {
+            display: flex;
+            /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
+            gap: 30px;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 20px;
         }
-        th, td { border: 1px solid #000; padding: 4px 6px; text-align: left; vertical-align: top; font-size: 8.5pt; }
-        th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
-        .col-no { width: 5%; text-align: center; }
-        .col-condition { width: 15%; text-align: center; }
-        .section-header { background-color: #dbe5f1; font-weight: bold; text-align: left; padding-left: 8px; }
+
+        /* Common style for both tables */
+        .info-table {
+            border-collapse: collapse;
+        }
+
+        /* Style for all table cells (td) */
+        .info-table td {
+            border: 1px solid #333;
+            padding: 6px 10px;
+            /* Ukuran font diubah menjadi lebih kecil */
+            font-size: 12px;
+        }
+
+        /* Specifically for the label cells */
+        .info-label-cell {
+            font-weight: bold;
+            min-width: 80px;
+        }
+
+        .safety-notice {
+            text-align: center;
+            /* Membuat semua teks di dalamnya rata tengah */
+            margin-top: 10px;
+            /* Memberi jarak dari tabel di atasnya */
+            font-size: 12px;
+            /* Menyamakan ukuran font dengan tabel */
+        }
+
+        .safety-notice p {
+            margin-top: 5px;
+            /* Memberi sedikit jarak antara judul bold dan paragraf */
+        }
+        /* Base styles for high-fidelity rendering */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 790px;
+            margin: 0 auto;
+            padding: 5mm;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .header h1 {
+            font-size: 14pt;
+            margin: 0;
+        }
+
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #000;
+            margin-bottom: 15px;
+        }
+
+        .info-col {
+            width: 33.3%;
+            padding: 5px 8px;
+            border-right: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        .info-col:last-child {
+            border-right: none;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        /* Table Styles (Checklist) */
+        table {
+            width: 99.5%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 8.5pt;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .col-no {
+            width: 5%;
+            text-align: center;
+        }
+
+        .col-condition {
+            width: 15%;
+            text-align: center;
+        }
+
+        .section-header {
+            background-color: #dbe5f1;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 8px;
+        }
 
         /* Finding Table Styles */
-        .finding-table th { background-color: #cccccc; text-transform: uppercase; }
-        .finding-table .col-finding-no { width: 5%; }
-        .finding-table .col-finding-desc { width: 55%; }
-        .finding-table .col-finding-status { width: 15%; text-align: center; }
+        .finding-table th {
+            background-color: #cccccc;
+            text-transform: uppercase;
+        }
+
+        .finding-table .col-finding-no {
+            width: 5%;
+        }
+
+        .finding-table .col-finding-desc {
+            width: 55%;
+        }
+
+        .finding-table .col-finding-status {
+            width: 15%;
+            text-align: center;
+        }
 
         /* Signature Block */
-        .signatures { display: flex; justify-content: space-between; width: 100%; margin-top: 30px; font-size: 9pt; }
-        .sig-box { width: 49%; border: 1px solid #000; }
-        .sig-title { text-align: center; font-weight: bold; padding: 5px; background-color: #f2f2f2; border-bottom: 1px solid #000; }
-        .sig-row { display: flex; border-bottom: 1px solid #eee; }
-        .sig-label, .sig-value { padding: 4px; border-right: 1px solid #ddd; width: 50%; box-sizing: border-box; }
-        .sig-value:last-child { border-right: none; }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 9pt;
+        }
+
+        .sig-box {
+            width: 49%;
+            border: 1px solid #000;
+        }
+
+        .sig-title {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #000;
+        }
+
+        .sig-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sig-label,
+        .sig-value {
+            padding: 4px;
+            border-right: 1px solid #ddd;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .sig-value:last-child {
+            border-right: none;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -49,26 +204,51 @@
             <p>(PC1250, PC2000, 395, 6015)</p>
         </div>
 
-        <div class="info-box">
-            <div class="info-col" style="width: 25%;">
-                <span class="info-label">Date:</span> {{inspection.inspectionDate}}
-            </div>
-            <div class="info-col" style="width: 15%;">
-                <span class="info-label">Unit No:</span> {{inspection.equipmentId}}
-            </div>
-            <div class="info-col" style="width: 20%;">
-                <span class="info-label">SMR:</span> {{inspection.smr}}
-            </div>
-            <div class="info-col" style="width: 20%;">
-                <span class="info-label">Time Down:</span> {{inspection.timeDown}}
-            </div>
-            <div class="info-col" style="width: 20%; border-right: none;">
-                <span class="info-label">Time Out:</span> {{inspection.timeOut}}
-            </div>
+       <div class="inspection-header">
+
+            <table class="info-table">
+                <tr>
+                    <td class="info-label-cell">Date</td>
+                    <td>{{inspection.inspectionDate}}</td>
+                    <td class="info-label-cell">SMR</td>
+                    <td>{{inspection.smr}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Unit No</td>
+                    <td>{{inspection.equipmentId}}</td>
+                    <td class="info-label-cell">Location</td>
+                    <td>{{inspection.location}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Type</td>
+                    <td>{{inspection.equipmentType}}</td>
+                    <td class="info-label-cell">Shift</td>
+                    <td>{{inspection.shift}}</td>
+                </tr>
+            </table>
+
+            <table class="info-table">
+                <tr>
+                    <td class="info-label-cell">Time Down</td>
+                    <td>{{inspection.timeDown}}</td>
+                </tr>
+                <tr>
+                    <td class="info-label-cell">Time Out</td>
+                    <td>{{inspection.timeOut}}</td>
+                </tr>
+            </table>
+
         </div>
 
-        <p style="text-align: center; margin-bottom: 10px;">
-            <small>✓ = Good | X = Bad/Repair Required | O = Repaired | NA = Not Available | AMM-SBS-F-PLT-01AA</small>
+        <div class="safety-notice">
+            <strong>IMPORTANT BE SAFETY</strong>
+            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+        </div>
+        <p
+            style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
+            <small>✓ = Baik | X = Rusak/Perlu Perbaikan | O = Sudah Diperbaiki | NA = Tidak Tersedia</small>
+
+            <small>AMM-SBS-F-PLT-01AA</small>
         </p>
 
         <table>
@@ -83,41 +263,138 @@
                 <tr>
                     <td colspan="3" class="section-header">Lower Frame Area Check (Pemeriksaan Area Rangka Bawah)</td>
                 </tr>
-                <tr><td class="col-no">1</td><td>Check Lock Out Switch</td><td class="col-condition">{{inspection.trackDetails.lowerLockOutSwitch}}</td></tr>
-                <tr><td class="col-no">2</td><td>Check RH & LH Track Link Tension</td><td class="col-condition">{{inspection.trackDetails.lowerTrackLinkTension}}</td></tr>
-                <tr><td class="col-no">3</td><td>Check RH & LH Track Shoe Bolt</td><td class="col-condition">{{inspection.trackDetails.lowerTrackShoeBolt}}</td></tr>
-                <tr><td class="col-no">4</td><td>Check Condition of idler, Roller & Wear Guard</td><td class="col-condition">{{inspection.trackDetails.lowerIdlerRollerGuard}}</td></tr>
-                <tr><td class="col-no">5</td><td>Check condition under guard, cover & counter weight</td><td class="col-condition">{{inspection.trackDetails.lowerUnderGuard}}</td></tr>
-                <tr><td class="col-no">6</td><td>Check Final Drive & Teeth Sprocket condition</td><td class="col-condition">{{inspection.trackDetails.lowerFinalDriveSprocket}}</td></tr>
-                <tr><td class="col-no">7</td><td>Check Swing Circle condition</td><td class="col-condition">{{inspection.trackDetails.lowerSwingCircle}}</td></tr>
-                <tr><td class="col-no">8</td><td>Check Boom, Arm Stick, Link Bucket & Bucket</td><td class="col-condition">{{inspection.trackDetails.lowerAttachmentCondition}}</td></tr>
-                <tr><td class="col-no">9</td><td>Drain water sediment from fuel tank & water separator</td><td class="col-condition">{{inspection.trackDetails.lowerDrainWaterSediment}}</td></tr>
-                <tr><td class="col-no">10</td><td>Check Hydraulic oil level</td><td class="col-condition">{{inspection.trackDetails.lowerHydraulicOilLevel}}</td></tr>
-                
                 <tr>
-                    <td colspan="3" class="section-header">Upper Structure Area Check (Pemeriksaan Area Rangka Atas)</td>
+                    <td class="col-no">1</td>
+                    <td>Check Lock Out Switch</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerLockOutSwitch}}</td>
                 </tr>
-                <tr><td class="col-no">11</td><td>Check engine oil level</td><td class="col-condition">{{inspection.trackDetails.upperEngineOilLevel}}</td></tr>
-                <tr><td class="col-no">12</td><td>Visual Check engine condition from: leak, Lost bolt, etc</td><td class="col-condition">{{inspection.trackDetails.upperEngineVisual}}</td></tr>
-                <tr><td class="col-no">13</td><td>Check Coolant Level</td><td class="col-condition">{{inspection.trackDetails.upperCoolantLevel}}</td></tr>
-                <tr><td class="col-no">14</td><td>Check Radiator, Aftercooler, Hdy oil cooler & connection</td><td class="col-condition">{{inspection.trackDetails.upperRadiatorEtc}}</td></tr>
-                <tr><td class="col-no">15</td><td>Check Condition of turbo inlet elbow</td><td class="col-condition">{{inspection.trackDetails.upperTurboInlet}}</td></tr>
-                <tr><td class="col-no">16</td><td>Check Air Cleaner (add if necessary)</td><td class="col-condition">{{inspection.trackDetails.upperAirCleaner}}</td></tr>
-                <tr><td class="col-no">17</td><td>Check Oil Leaks, Coolant Leak & Gas leak at upper engine compartment area</td><td class="col-condition">{{inspection.trackDetails.upperCompartmentLeaks}}</td></tr>
-                <tr><td class="col-no">18</td><td>Check Hydraulic Pump & Line Condition</td><td class="col-condition">{{inspection.trackDetails.upperHydraulicPump}}</td></tr>
-                <tr><td class="col-no">19</td><td>Check Control Valve & Line Condition</td><td class="col-condition">{{inspection.trackDetails.upperControlValve}}</td></tr>
-                <tr><td class="col-no">20</td><td>Check Swing Machine oil level</td><td class="col-condition">{{inspection.trackDetails.upperSwingMachineOil}}</td></tr>
-                <tr><td class="col-no">21</td><td>Check Elektrik Wiring</td><td class="col-condition">{{inspection.trackDetails.upperElectricWiring}}</td></tr>
-                <tr><td class="col-no">22</td><td>Check Battery Electrolit level</td><td class="col-condition">{{inspection.trackDetails.upperBatteryElectrolyte}}</td></tr>
-                <tr><td class="col-no">23</td><td>Check fan Belt, & AC Compresor Belt</td><td class="col-condition">{{inspection.trackDetails.upperFanBelts}}</td></tr>
-                <tr><td class="col-no">24</td><td>Check All Cylinder For Oil Leaks</td><td class="col-condition">{{inspection.trackDetails.upperCylinderLeaks}}</td></tr>
-                
-              <tr>
+                <tr>
+                    <td class="col-no">2</td>
+                    <td>Check RH & LH Track Link Tension</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerTrackLinkTension}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">3</td>
+                    <td>Check RH & LH Track Shoe Bolt</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerTrackShoeBolt}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">4</td>
+                    <td>Check Condition of idler, Roller & Wear Guard</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerIdlerRollerGuard}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">5</td>
+                    <td>Check condition under guard, cover & counter weight</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerUnderGuard}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">6</td>
+                    <td>Check Final Drive & Teeth Sprocket condition</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerFinalDriveSprocket}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">7</td>
+                    <td>Check Swing Circle condition</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerSwingCircle}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">8</td>
+                    <td>Check Boom, Arm Stick, Link Bucket & Bucket</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerAttachmentCondition}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">9</td>
+                    <td>Drain water sediment from fuel tank & water separator</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerDrainWaterSediment}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">10</td>
+                    <td>Check Hydraulic oil level</td>
+                    <td class="col-condition">{{inspection.trackDetails.lowerHydraulicOilLevel}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" class="section-header">Upper Structure Area Check (Pemeriksaan Area Rangka Atas)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-no">11</td>
+                    <td>Check engine oil level</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperEngineOilLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">12</td>
+                    <td>Visual Check engine condition from: leak, Lost bolt, etc</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperEngineVisual}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">13</td>
+                    <td>Check Coolant Level</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperCoolantLevel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">14</td>
+                    <td>Check Radiator, Aftercooler, Hdy oil cooler & connection</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperRadiatorEtc}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">15</td>
+                    <td>Check Condition of turbo inlet elbow</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperTurboInlet}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">16</td>
+                    <td>Check Air Cleaner (add if necessary)</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperAirCleaner}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">17</td>
+                    <td>Check Oil Leaks, Coolant Leak & Gas leak at upper engine compartment area</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperCompartmentLeaks}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">18</td>
+                    <td>Check Hydraulic Pump & Line Condition</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperHydraulicPump}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">19</td>
+                    <td>Check Control Valve & Line Condition</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperControlValve}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">20</td>
+                    <td>Check Swing Machine oil level</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperSwingMachineOil}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">21</td>
+                    <td>Check Elektrik Wiring</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperElectricWiring}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">22</td>
+                    <td>Check Battery Electrolit level</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperBatteryElectrolyte}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">23</td>
+                    <td>Check fan Belt, & AC Compresor Belt</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperFanBelts}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">24</td>
+                    <td>Check All Cylinder For Oil Leaks</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperCylinderLeaks}}</td>
+                </tr>
+
+                <tr>
                     <td class="col-no">25</td>
                     <td>
-                        Measure ∆T Cylinder boom. 
-                        Cyl RH = {{inspection.trackDetails.tempCylBoomRh}} °C | 
-                        Cyl LH = {{inspection.trackDetails.tempCylBoomLh}} °C | 
+                        Measure ∆T Cylinder boom.
+                        Cyl RH = {{inspection.trackDetails.tempCylBoomRh}} °C |
+                        Cyl LH = {{inspection.trackDetails.tempCylBoomLh}} °C |
                         ∆T = {{inspection.trackDetails.deltaTCylBoom}} °C
                     </td>
                     <td class="col-condition">{{inspection.trackDetails.tempCylBoom}}</td>
@@ -125,9 +402,9 @@
                 <tr>
                     <td class="col-no">26</td>
                     <td>
-                        Measure ∆T Cylinder arm. 
-                        Cyl RH = {{inspection.trackDetails.tempCylArmRh}} °C | 
-                        Cyl LH = {{inspection.trackDetails.tempCylArmLh}} °C | 
+                        Measure ∆T Cylinder arm.
+                        Cyl RH = {{inspection.trackDetails.tempCylArmRh}} °C |
+                        Cyl LH = {{inspection.trackDetails.tempCylArmLh}} °C |
                         ∆T = {{inspection.trackDetails.deltaTCylArm}} °C
                     </td>
                     <td class="col-condition">{{inspection.trackDetails.tempCylArm}}</td>
@@ -135,69 +412,221 @@
                 <tr>
                     <td class="col-no">27</td>
                     <td>
-                        Measure ∆T Cylinder bucket. 
-                        Cyl RH = {{inspection.trackDetails.tempCylBucketRh}} °C | 
-                        Cyl LH = {{inspection.trackDetails.tempCylBucketLh}} °C | 
+                        Measure ∆T Cylinder bucket.
+                        Cyl RH = {{inspection.trackDetails.tempCylBucketRh}} °C |
+                        Cyl LH = {{inspection.trackDetails.tempCylBucketLh}} °C |
                         ∆T = {{inspection.trackDetails.deltaTCylBucket}} °C
                     </td>
                     <td class="col-condition">{{inspection.trackDetails.tempCylBucket}}</td>
                 </tr>
-                
-                <tr><td class="col-no">28</td><td>Check All Cover & Hand Rail</td><td class="col-condition">{{inspection.trackDetails.upperCoverHandRail}}</td></tr>
-                
+
+                <tr>
+                    <td class="col-no">28</td>
+                    <td>Check All Cover & Hand Rail</td>
+                    <td class="col-condition">{{inspection.trackDetails.upperCoverHandRail}}</td>
+                </tr>
+
                 <tr>
                     <td colspan="3" class="section-header">Check Grease Condition at (Periksa Kondisi Grease Pada)</td>
                 </tr>
-                <tr><td class="col-no">29</td><td>Boom Cylinder Foot Pin (2 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBoomCylFoot}}</td></tr>
-                <tr><td class="col-no">30</td><td>Boom Foot Pin (2 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBoomFootPin}}</td></tr>
-                <tr><td class="col-no">31</td><td>Boom Cylinder Rod End (2 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBoomCylRod}}</td></tr>
-                <tr><td class="col-no">32</td><td>Arm Cylinder Foot Pin (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseArmCylFoot}}</td></tr>
-                <tr><td class="col-no">33</td><td>Boom Arm Coupling Pin (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBoomArmCoupling}}</td></tr>
-                <tr><td class="col-no">34</td><td>Arm Cylinder Rod End (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseArmCylRod}}</td></tr>
-                <tr><td class="col-no">35</td><td>Bucket Cylinder Foot Pin (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBucketCylFoot}}</td></tr>
-                <tr><td class="col-no">36</td><td>Arm & Link Coupling Pin (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseArmLinkCoupling}}</td></tr>
-                <tr><td class="col-no">37</td><td>Arm & Bucket Coupling Pin (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseArmBucketCoupling}}</td></tr>
-                <tr><td class="col-no">38</td><td>Link Coupling Pin (2 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseLinkCoupling}}</td></tr>
-                <tr><td class="col-no">39</td><td>Bucket Cylinder Rod End (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBucketCylRod}}</td></tr>
-                <tr><td class="col-no">40</td><td>Bucket & Link Copling Pin (1 Point)</td><td class="col-condition">{{inspection.trackDetails.greaseBucketLinkCoupling}}</td></tr>
+                <tr>
+                    <td class="col-no">29</td>
+                    <td>Boom Cylinder Foot Pin (2 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBoomCylFoot}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">30</td>
+                    <td>Boom Foot Pin (2 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBoomFootPin}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">31</td>
+                    <td>Boom Cylinder Rod End (2 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBoomCylRod}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">32</td>
+                    <td>Arm Cylinder Foot Pin (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseArmCylFoot}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">33</td>
+                    <td>Boom Arm Coupling Pin (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBoomArmCoupling}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">34</td>
+                    <td>Arm Cylinder Rod End (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseArmCylRod}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">35</td>
+                    <td>Bucket Cylinder Foot Pin (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBucketCylFoot}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">36</td>
+                    <td>Arm & Link Coupling Pin (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseArmLinkCoupling}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">37</td>
+                    <td>Arm & Bucket Coupling Pin (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseArmBucketCoupling}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">38</td>
+                    <td>Link Coupling Pin (2 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseLinkCoupling}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">39</td>
+                    <td>Bucket Cylinder Rod End (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBucketCylRod}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">40</td>
+                    <td>Bucket & Link Copling Pin (1 Point)</td>
+                    <td class="col-condition">{{inspection.trackDetails.greaseBucketLinkCoupling}}</td>
+                </tr>
 
                 <tr>
                     <td colspan="3" class="section-header">Inside Cabin Check (Pemeriksaan Cabin)</td>
                 </tr>
-                <tr><td class="col-no">41</td><td>Monitor Panel</td><td class="col-condition">{{inspection.trackDetails.cabinMonitorPanel}}</td></tr>
-                <tr><td class="col-no">42</td><td>Switches</td><td class="col-condition">{{inspection.trackDetails.cabinSwitches}}</td></tr>
-                <tr><td class="col-no">43</td><td>Gauge (Jarum Penunjuk)</td><td class="col-condition">{{inspection.trackDetails.cabinGauge}}</td></tr>
-                <tr><td class="col-no">44</td><td>Control Lever & Control Pedal</td><td class="col-condition">{{inspection.trackDetails.cabinControlLever}}</td></tr>
-                <tr><td class="col-no">45</td><td>Radio Communication</td><td class="col-condition">{{inspection.trackDetails.cabinRadioComm}}</td></tr>
-                <tr><td class="col-no">46</td><td>FM Radio</td><td class="col-condition">{{inspection.trackDetails.cabinFmRadio}}</td></tr>
-                <tr><td class="col-no">47</td><td>Work Lamp (Lampu Kerja)</td><td class="col-condition">{{inspection.trackDetails.cabinWorkLamp}}</td></tr>
-                <tr><td class="col-no">48</td><td>Travel alarm</td><td class="col-condition">{{inspection.trackDetails.cabinTravelAlarm}}</td></tr>
-                <tr><td class="col-no">49</td><td>Horn (Klakson)</td><td class="col-condition">{{inspection.trackDetails.cabinHorn}}</td></tr>
-                <tr><td class="col-no">50</td><td>Mirror & Bracket</td><td class="col-condition">{{inspection.trackDetails.cabinMirror}}</td></tr>
-                <tr><td class="col-no">51</td><td>Rotary Lamp</td><td class="col-condition">{{inspection.trackDetails.cabinRotaryLamp}}</td></tr>
-                <tr><td class="col-no">52</td><td>Wiper & Blade</td><td class="col-condition">{{inspection.trackDetails.cabinWiper}}</td></tr>
-                <tr><td class="col-no">53</td><td>Window Washer</td><td class="col-condition">{{inspection.trackDetails.cabinWindowWasher}}</td></tr>
-                <tr><td class="col-no">54</td><td>Air Conditoner Function & Gas Level</td><td class="col-condition">{{inspection.trackDetails.cabinAcFunction}}</td></tr>
-                <tr><td class="col-no">55</td><td>Check Fuse, Relay & Gas Level</td><td class="col-condition">{{inspection.trackDetails.cabinFuseRelay}}</td></tr>
-                <tr><td class="col-no">56</td><td>Check Operator Seat Condition</td><td class="col-condition">{{inspection.trackDetails.cabinOperatorSeat}}</td></tr>
-                
+                <tr>
+                    <td class="col-no">41</td>
+                    <td>Monitor Panel</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinMonitorPanel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">42</td>
+                    <td>Switches</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinSwitches}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">43</td>
+                    <td>Gauge (Jarum Penunjuk)</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinGauge}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">44</td>
+                    <td>Control Lever & Control Pedal</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinControlLever}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">45</td>
+                    <td>Radio Communication</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinRadioComm}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">46</td>
+                    <td>FM Radio</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinFmRadio}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">47</td>
+                    <td>Work Lamp (Lampu Kerja)</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinWorkLamp}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">48</td>
+                    <td>Travel alarm</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinTravelAlarm}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">49</td>
+                    <td>Horn (Klakson)</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinHorn}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">50</td>
+                    <td>Mirror & Bracket</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinMirror}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">51</td>
+                    <td>Rotary Lamp</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinRotaryLamp}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">52</td>
+                    <td>Wiper & Blade</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinWiper}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">53</td>
+                    <td>Window Washer</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinWindowWasher}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">54</td>
+                    <td>Air Conditoner Function & Gas Level</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinAcFunction}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">55</td>
+                    <td>Check Fuse, Relay & Gas Level</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinFuseRelay}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">56</td>
+                    <td>Check Operator Seat Condition</td>
+                    <td class="col-condition">{{inspection.trackDetails.cabinOperatorSeat}}</td>
+                </tr>
+
                 <tr>
                     <td colspan="3" class="section-header">Safety Function (Pemeriksaan Alat Keselamatan)</td>
                 </tr>
-                <tr><td class="col-no">57</td><td>Check Fire Extinghuiser</td><td class="col-condition">{{inspection.trackDetails.safetyFireExtinguisher}}</td></tr>
-                <tr><td class="col-no">58</td><td>Check Function Emergancy Stop</td><td class="col-condition">{{inspection.trackDetails.safetyEmergencyStop}}</td></tr>
-                <tr><td class="col-no">59</td><td>Check Condition of cabin & ROPS</td><td class="col-condition">{{inspection.trackDetails.safetyCabinRops}}</td></tr>
-                <tr><td class="col-no">60</td><td>Check Safety Belt condition</td><td class="col-condition">{{inspection.trackDetails.safetyBelt}}</td></tr>
-                
+                <tr>
+                    <td class="col-no">57</td>
+                    <td>Check Fire Extinghuiser</td>
+                    <td class="col-condition">{{inspection.trackDetails.safetyFireExtinguisher}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">58</td>
+                    <td>Check Function Emergancy Stop</td>
+                    <td class="col-condition">{{inspection.trackDetails.safetyEmergencyStop}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">59</td>
+                    <td>Check Condition of cabin & ROPS</td>
+                    <td class="col-condition">{{inspection.trackDetails.safetyCabinRops}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">60</td>
+                    <td>Check Safety Belt condition</td>
+                    <td class="col-condition">{{inspection.trackDetails.safetyBelt}}</td>
+                </tr>
+
                 <tr>
                     <td colspan="3" class="section-header">Add Oil</td>
                 </tr>
-                <tr><td class="col-no">61</td><td>Coolant (AF-NACDM)</td><td class="col-condition">{{inspection.trackDetails.topUpCoolant}}</td></tr>
-                <tr><td class="col-no">62</td><td>Engine (15W-40)</td><td class="col-condition">{{inspection.trackDetails.topUpEngine}}</td></tr>
-                <tr><td class="col-no">63</td><td>Hydraulic (TURALIK 46)</td><td class="col-condition">{{inspection.trackDetails.topUpHydraulic}}</td></tr>
-                <tr><td class="col-no">64</td><td>Swing Machinary (HD 50 / HD 30)</td><td class="col-condition">{{inspection.trackDetails.topUpSwingMachinery}}</td></tr>
-                <tr><td class="col-no">65</td><td>Final Drive (HD 50 / HD 30)</td><td class="col-condition">{{inspection.trackDetails.topUpFinalDrive}}</td></tr>
-                
+                <tr>
+                    <td class="col-no">61</td>
+                    <td>Coolant (AF-NACDM)</td>
+                    <td class="col-condition">{{inspection.trackDetails.topUpCoolant}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">62</td>
+                    <td>Engine (15W-40)</td>
+                    <td class="col-condition">{{inspection.trackDetails.topUpEngine}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">63</td>
+                    <td>Hydraulic (TURALIK 46)</td>
+                    <td class="col-condition">{{inspection.trackDetails.topUpHydraulic}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">64</td>
+                    <td>Swing Machinary (HD 50 / HD 30)</td>
+                    <td class="col-condition">{{inspection.trackDetails.topUpSwingMachinery}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">65</td>
+                    <td>Final Drive (HD 50 / HD 30)</td>
+                    <td class="col-condition">{{inspection.trackDetails.topUpFinalDrive}}</td>
+                </tr>
+
             </tbody>
         </table>
 
@@ -215,12 +644,12 @@
             </thead>
             <tbody>
                 {{#each findings}}
-                <tr>
-                    <td class="col-finding-no">{{addOne @index}}</td> 
-                    <td>{{this.description}}</td>
-                    <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
-                    <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
-                </tr>
+                    <tr>
+                        <td class="col-finding-no">{{addOne @index}}</td>
+                        <td>{{this.description}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                    </tr>
                 {{/each}}
             </tbody>
         </table>
@@ -241,7 +670,8 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
+
 </html>

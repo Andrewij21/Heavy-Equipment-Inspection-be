@@ -141,36 +141,126 @@ class TrackService {
   /**
    * Creates a new Inspection. Status defaults to PENDING.
    */
-  async create(data: TrackInspection) {
-    const { baseData, trackDetails } = separateTrackData(data);
-    const mechanicId = baseData.mechanicId; // Ambil mechanicId secara terpisah
-    delete baseData.mechanicId; // Hapus mechanicId dari baseData agar tidak konflik saat spread
+  // async create(data: TrackInspection) {
+  //   const { baseData, trackDetails } = separateTrackData(data);
+  //   const mechanicId = baseData.mechanicId; // Ambil mechanicId secara terpisah
+  //   delete baseData.mechanicId; // Hapus mechanicId dari baseData agar tidak konflik saat spread
 
+  //   if (!mechanicId) {
+  //     throw new Error("Mechanic ID is required for inspection creation.");
+  //   }
+  //   return prisma.inspection.create({
+  //     data: {
+  //       ...(baseData as any),
+  //       mechanic: {
+  //         connect: {
+  //           id: mechanicId,
+  //         },
+  //       },
+
+  //       // 3. Buat Track Details
+  //       trackDetails: {
+  //         create: trackDetails,
+  //       },
+  //     },
+  //     include: {
+  //       trackDetails: true,
+  //       approver: approverSelection,
+  //       mechanic: true,
+  //     },
+  //   });
+  // }
+  async create(data: any) {
+    // 1. Definisikan secara KETAT SEMUA field header yang ada di model Inspection
+    //    Ini adalah cara paling aman untuk memastikan detail tidak bocor.
+    const {
+      equipmentId,
+      modelUnit,
+      location,
+      operatorName,
+      mechanicName,
+      inspectionDate,
+      inspectionTime,
+      workingHours,
+      smr,
+      timeDown,
+      timeOut,
+      shift,
+      notes,
+      groupLeaderName,
+      equipmentType,
+      equipmentGeneralType,
+      mechanicId,
+      approverId,
+      approvalDate,
+      status,
+      // Semua field yang TIDAK di-destructure di sini akan masuk ke 'wheelDetailsPayload'
+      ...trackDetailsPayload
+    } = data;
+
+    // 2. Kumpulkan field header yang aman
+    const baseData = {
+      equipmentId,
+      modelUnit,
+      location,
+      operatorName,
+      mechanicName,
+      inspectionDate,
+      inspectionTime,
+      workingHours,
+      smr,
+      timeDown,
+      timeOut,
+      shift,
+      notes,
+      groupLeaderName,
+      equipmentType,
+      equipmentGeneralType,
+      approverId,
+      approvalDate,
+      status,
+    };
+
+    // 3. Ambil findings dan hapus dari detail, lalu masukkan kembali.
+    const findings = trackDetailsPayload.findings;
+    delete trackDetailsPayload.findings;
+
+    // ... (Validasi mechanicId) ...
     if (!mechanicId) {
       throw new Error("Mechanic ID is required for inspection creation.");
     }
+
+    // Pastikan field EquipmentType disetel ke 'wheel'
+    // (Field ini sudah ada di baseData, jadi ini hanya double check)
+    baseData.equipmentType = "track";
+
     return prisma.inspection.create({
       data: {
+        // Sebarkan data header yang aman
         ...(baseData as any),
+
+        // Hubungkan (Connect) ke model User
         mechanic: {
           connect: {
             id: mechanicId,
           },
         },
 
-        // 3. Buat Track Details
+        // Buat Wheel Details (Menggunakan detail yang sudah bersih)
         trackDetails: {
-          create: trackDetails,
+          create: {
+            ...trackDetailsPayload, // Semua field checklist (reverseCamera, engineVisualCheck, dll.)
+            findings: findings, // Findings (array of objects)
+          },
         },
       },
       include: {
         trackDetails: true,
-        approver: approverSelection,
+        approver: { select: { id: true, username: true, email: true } },
         mechanic: true,
       },
     });
   }
-
   /**
    * Updates an Inspection (base fields and details).
    */
