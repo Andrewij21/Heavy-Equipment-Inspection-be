@@ -19,7 +19,17 @@ router.get(
   catchAsync(inspectionController.getInspectionsList)
 );
 router.get("/:id", catchAsync(inspectionController.getInspection));
-
-// Note: Specific CRUD (Create/Update/Delete) for each type should remain on their specific routes (e.g., /tracks, /wheels)
+router.patch(
+  "/:id/status",
+  requireRole(ROLES.LEADER, ROLES.ADMIN),
+  catchAsync(inspectionController.updateStatus)
+);
+// DELETE /api/v1/tracks/:id (Delete inspection)
+// Deletion is usually restricted to higher authority (ADMIN or LEADER)
+router.delete(
+  "/:id",
+  requireRole(ROLES.ADMIN, ROLES.LEADER),
+  catchAsync(inspectionController.deleteInspection)
+);
 
 export default router;

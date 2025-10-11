@@ -1,6 +1,6 @@
 // src/services/inspection.service.ts
 import { prisma } from "../lib/prisma";
-import { Inspection } from "@prisma/client"; // Import the base Inspection model type
+import { Inspection, type InspectionStatus } from "@prisma/client"; // Import the base Inspection model type
 import { NotFoundError } from "../utils/customeErrors";
 const approverSelection = {
   select: {
@@ -68,6 +68,39 @@ class InspectionService {
     });
     if (!inspection) throw new NotFoundError("Inspection not found");
     return inspection;
+  }
+  async updateStatus(
+    id: string,
+    newStatus: InspectionStatus,
+    approverId: string
+  ) {
+    const updated = await prisma.inspection.update({
+      where: { id },
+      data: {
+        status: newStatus,
+        approverId: approverId,
+        approvalDate: new Date(),
+      },
+      include: {
+        trackDetails: true,
+        wheelDetails: true,
+        supportDetails: true,
+        approver: approverSelection,
+      },
+    });
+
+    if (!updated) {
+      throw new NotFoundError("Inspection not found .");
+    }
+
+    return updated;
+  }
+
+  /**
+   * Deletes the Inspection and cascades the deletion to the TrackInspectionDetails.
+   */
+  async delete(id: string) {
+    return prisma.inspection.delete({ where: { id } });
   }
 }
 
