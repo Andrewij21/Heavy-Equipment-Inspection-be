@@ -1,7 +1,14 @@
 // src/services/inspection.service.ts
 import { prisma } from "../lib/prisma";
 import { Inspection } from "@prisma/client"; // Import the base Inspection model type
-
+import { NotFoundError } from "../utils/customeErrors";
+const approverSelection = {
+  select: {
+    id: true,
+    username: true,
+    email: true,
+  },
+};
 class InspectionService {
   /**
    * Fetches all Inspection records (Track, Wheel, Support) for high-level viewing (e.g., Leader dashboard).
@@ -48,6 +55,19 @@ class InspectionService {
     ]);
 
     return { inspections, count };
+  }
+  async getById(id: string) {
+    const inspection = await prisma.inspection.findFirst({
+      where: { id },
+      include: {
+        trackDetails: true,
+        wheelDetails: true,
+        supportDetails: true,
+        approver: approverSelection,
+      },
+    });
+    if (!inspection) throw new NotFoundError("Inspection not found");
+    return inspection;
   }
 }
 

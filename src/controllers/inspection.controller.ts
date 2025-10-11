@@ -4,6 +4,14 @@ import { inspectionService } from "../services/inspection.service";
 import { sendApiResponse } from "../utils/sendApiResponse";
 
 export class InspectionController {
+  getInspection = async (req: Request, res: Response) => {
+    const inspection = await inspectionService.getById(req.params.id);
+
+    sendApiResponse(res, 200, {
+      message: "Inspection fetched successfully",
+      data: inspection,
+    });
+  };
   getInspectionsList = async (req: Request, res: Response) => {
     const { page, limit, q, status } = req.query;
 

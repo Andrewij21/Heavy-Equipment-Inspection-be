@@ -18,6 +18,7 @@ router.get(
   requireRole(ROLES.LEADER, ROLES.ADMIN, ROLES.MECHANIC),
   catchAsync(inspectionController.getInspectionsList)
 );
+router.get("/:id", catchAsync(inspectionController.getInspection));
 
 // Note: Specific CRUD (Create/Update/Delete) for each type should remain on their specific routes (e.g., /tracks, /wheels)
 
