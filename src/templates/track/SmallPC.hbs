@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
-         .inspection-header {
+        .inspection-header {
             display: flex;
             /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
             gap: 30px;
@@ -46,6 +46,7 @@
             margin-top: 5px;
             /* Memberi sedikit jarak antara judul bold dan paragraf */
         }
+
         /* Base styles for high-fidelity rendering */
         body {
             font-family: Arial, sans-serif;
@@ -204,7 +205,7 @@
             <p>(PC500, PC400, PC300, PC210)</p>
         </div>
 
-       <div class="inspection-header">
+        <div class="inspection-header">
 
             <table class="info-table">
                 <tr>
@@ -242,7 +243,8 @@
 
         <div class="safety-notice">
             <strong>IMPORTANT BE SAFETY</strong>
-            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the
+                Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
         </div>
         <p
             style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
@@ -260,7 +262,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="3" class="section-header">Lower Frame Area Check (Pemeriksaan Area Rangka Bawah)</td>
+                    <td colspan="3" class="section-header">Lower Frame Area Check</td>
                 </tr>
                 <tr>
                     <td class="col-no">1</td>
@@ -279,17 +281,17 @@
                 </tr>
                 <tr>
                     <td class="col-no">4</td>
-                    <td>Check Condition of idler, Roller & Wear Guard</td>
+                    <td>Check Condition of Idler, Roller & Wear Guard</td>
                     <td class="col-condition">{{inspection.trackDetails.lowerIdlerRollerGuard}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">5</td>
-                    <td>Check condition under guard, cover & counter weight</td>
+                    <td>Check condition under guard, cover & counterweight</td>
                     <td class="col-condition">{{inspection.trackDetails.lowerUnderGuard}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">6</td>
-                    <td>Check Final Drive & Teeth Sprocket condition</td>
+                    <td>Check Final Drive & Sprocket Teeth condition</td>
                     <td class="col-condition">{{inspection.trackDetails.lowerFinalDriveSprocket}}</td>
                 </tr>
                 <tr>
@@ -299,7 +301,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">8</td>
-                    <td>Check Boom, Arm Stick, Link Bucket & Bucket</td>
+                    <td>Check Boom, Arm Stick, Bucket Link & Bucket</td>
                     <td class="col-condition">{{inspection.trackDetails.lowerAttachmentCondition}}</td>
                 </tr>
                 <tr>
@@ -314,8 +316,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">Upper Structure Area Check (Pemeriksaan Area Rangka Atas)
-                    </td>
+                    <td colspan="3" class="section-header">Upper Structure Area Check</td>
                 </tr>
                 <tr>
                     <td class="col-no">11</td>
@@ -324,7 +325,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">12</td>
-                    <td>Visual Check engine condition from: leak, Lost bolt, etc</td>
+                    <td>Visual Check engine condition for: leaks, lost bolts, etc.</td>
                     <td class="col-condition">{{inspection.trackDetails.upperEngineVisual}}</td>
                 </tr>
                 <tr>
@@ -334,7 +335,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">14</td>
-                    <td>Check Radiator, Aftercooler, Hdy oil cooler & connection</td>
+                    <td>Check Radiator, Aftercooler, Hydraulic oil cooler & connection</td>
                     <td class="col-condition">{{inspection.trackDetails.upperRadiator}}</td>
                 </tr>
                 <tr>
@@ -349,7 +350,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">17</td>
-                    <td>Check Oil Leaks, Coolant Leak & Gas leak at upper engine compartment area</td>
+                    <td>Check for Oil, Coolant & Gas leaks in upper engine compartment area</td>
                     <td class="col-condition">{{inspection.trackDetails.upperCompartmentLeaks}}</td>
                 </tr>
                 <tr>
@@ -364,63 +365,61 @@
                 </tr>
                 <tr>
                     <td class="col-no">20</td>
-                    <td>Check Swing Machine oil level</td>
+                    <td>Check Swing Machinery oil level</td>
                     <td class="col-condition">{{inspection.trackDetails.upperSwingMachineOil}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">21</td>
-                    <td>Check Elektrik Wiring</td>
+                    <td>Check Electric Wiring</td>
                     <td class="col-condition">{{inspection.trackDetails.upperElectricWiring}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">22</td>
-                    <td>Check Battery Electrolit level</td>
+                    <td>Check Battery Electrolyte level</td>
                     <td class="col-condition">{{inspection.trackDetails.upperBatteryElectrolyte}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">23</td>
-                    <td>Check fan Belt, & AC Compresor Belt</td>
+                    <td>Check Fan Belt & AC Compressor Belt</td>
                     <td class="col-condition">{{inspection.trackDetails.upperFanBelts}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">24</td>
-                    <td>Check All Cylinder For Oil Leaks</td>
+                    <td>Check All Cylinders For Oil Leaks</td>
                     <td class="col-condition">{{inspection.trackDetails.upperCylinderLeaks}}</td>
                 </tr>
-
                 <tr>
                     <td class="col-no">25</td>
                     <td>
-                        Measure ∆T Cylinder boom.
+                        Measure ∆T Boom Cylinder.
                         Cyl RH = {{inspection.trackDetails.tempCylBoomRh}} °C |
                         Cyl LH = {{inspection.trackDetails.tempCylBoomLh}} °C |
                         ∆T = {{inspection.trackDetails.deltaTCylBoom}} °C
                     </td>
                     <td class="col-condition">{{inspection.trackDetails.tempCylBoom}}</td>
                 </tr>
-
                 <tr>
                     <td class="col-no">28</td>
-                    <td>Check All Cover & Hand Rail</td>
+                    <td>Check All Covers & Hand Rails</td>
                     <td class="col-condition">{{inspection.trackDetails.upperCoverHandRail}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">Check Grease Condition at (Periksa Kondisi Grease Pada)</td>
+                    <td colspan="3" class="section-header">Check Grease Condition at</td>
                 </tr>
                 <tr>
                     <td class="col-no">29</td>
-                    <td>Boom Cylinder Foot Pin (2 Point)</td>
+                    <td>Boom Cylinder Foot Pin (2 Points)</td>
                     <td class="col-condition">{{inspection.trackDetails.greaseBoomCylFoot}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">30</td>
-                    <td>Boom Foot Pin (2 Point)</td>
+                    <td>Boom Foot Pin (2 Points)</td>
                     <td class="col-condition">{{inspection.trackDetails.greaseBoomFootPin}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">31</td>
-                    <td>Boom Cylinder Rod End (2 Point)</td>
+                    <td>Boom Cylinder Rod End (2 Points)</td>
                     <td class="col-condition">{{inspection.trackDetails.greaseBoomCylRod}}</td>
                 </tr>
                 <tr>
@@ -430,7 +429,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">33</td>
-                    <td>Boom Arm Coupling Pin (1 Point)</td>
+                    <td>Boom-Arm Coupling Pin (1 Point)</td>
                     <td class="col-condition">{{inspection.trackDetails.greaseBoomArmCoupling}}</td>
                 </tr>
                 <tr>
@@ -455,7 +454,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">38</td>
-                    <td>Link Coupling Pin (2 Point)</td>
+                    <td>Link Coupling Pin (2 Points)</td>
                     <td class="col-condition">{{inspection.trackDetails.greaseLinkCoupling}}</td>
                 </tr>
                 <tr>
@@ -465,12 +464,12 @@
                 </tr>
                 <tr>
                     <td class="col-no">40</td>
-                    <td>Bucket & Link Copling Pin (1 Point)</td>
+                    <td>Bucket & Link Coupling Pin (1 Point)</td>
                     <td class="col-condition">{{inspection.trackDetails.greaseBucketLinkCoupling}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">Inside Cabin Check (Pemeriksaan Cabin)</td>
+                    <td colspan="3" class="section-header">Inside Cabin Check</td>
                 </tr>
                 <tr>
                     <td class="col-no">41</td>
@@ -484,7 +483,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">43</td>
-                    <td>Gauge (Jarum Penunjuk)</td>
+                    <td>Gauges</td>
                     <td class="col-condition">{{inspection.trackDetails.cabinGauge}}</td>
                 </tr>
                 <tr>
@@ -504,17 +503,17 @@
                 </tr>
                 <tr>
                     <td class="col-no">47</td>
-                    <td>Work Lamp (Lampu Kerja)</td>
+                    <td>Work Lamp</td>
                     <td class="col-condition">{{inspection.trackDetails.cabinWorkLamp}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">48</td>
-                    <td>Travel alarm</td>
+                    <td>Travel Alarm</td>
                     <td class="col-condition">{{inspection.trackDetails.cabinTravelAlarm}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">49</td>
-                    <td>Horn (Klakson)</td>
+                    <td>Horn</td>
                     <td class="col-condition">{{inspection.trackDetails.cabinHorn}}</td>
                 </tr>
                 <tr>
@@ -539,7 +538,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">54</td>
-                    <td>Air Conditoner Function & Gas Level</td>
+                    <td>Air Conditioner Function & Gas Level</td>
                     <td class="col-condition">{{inspection.trackDetails.cabinAcFunction}}</td>
                 </tr>
                 <tr>
@@ -554,26 +553,26 @@
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">Safety Function (Pemeriksaan Alat Keselamatan)</td>
+                    <td colspan="3" class="section-header">Safety Function Check</td>
                 </tr>
                 <tr>
                     <td class="col-no">57</td>
-                    <td>Check Fire Extinghuiser</td>
+                    <td>Check Fire Extinguisher</td>
                     <td class="col-condition">{{inspection.trackDetails.safetyFireExtinguisher}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">58</td>
-                    <td>Check Function Emergancy Stop</td>
+                    <td>Check Emergency Stop Function</td>
                     <td class="col-condition">{{inspection.trackDetails.safetyEmergencyStop}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">59</td>
-                    <td>Check Condition of cabin & ROPS</td>
+                    <td>Check Condition of Cabin & ROPS</td>
                     <td class="col-condition">{{inspection.trackDetails.safetyCabinRops}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">60</td>
-                    <td>Check Safety Belt condition</td>
+                    <td>Check Safety Belt Condition</td>
                     <td class="col-condition">{{inspection.trackDetails.safetyBelt}}</td>
                 </tr>
 
@@ -597,7 +596,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">64</td>
-                    <td>Swing Machinary (HD 30)</td>
+                    <td>Swing Machinery (HD 30)</td>
                     <td class="col-condition">{{inspection.trackDetails.topUpSwingMachinery}}</td>
                 </tr>
                 <tr>
