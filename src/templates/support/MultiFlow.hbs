@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
-         .inspection-header {
+        .inspection-header {
             display: flex;
             /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
             gap: 30px;
@@ -46,6 +46,7 @@
             margin-top: 5px;
             /* Memberi sedikit jarak antara judul bold dan paragraf */
         }
+
         /* Base styles for high-fidelity rendering */
         body {
             font-family: Arial, sans-serif;
@@ -241,7 +242,8 @@
 
         <div class="safety-notice">
             <strong>IMPORTANT BE SAFETY</strong>
-            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the
+                Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
         </div>
         <p
             style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
@@ -254,110 +256,110 @@
             <thead>
                 <tr>
                     <th class="col-no">No.</th>
-                    <th>KOMPONEN & ITEM PEMERIKSAAN</th>
-                    <th class="col-condition">KONDISI</th>
+                    <th>COMPONENT & ITEM CHECK</th>
+                    <th class="col-condition">CONDITION</th>
                 </tr>
             </thead>
             <tbody>
 
                 <tr>
-                    <td colspan="3" class="section-header">A. Mesin (Engine)</td>
+                    <td colspan="3" class="section-header">Engine</td>
                 </tr>
                 <tr>
                     <td class="col-no">1</td>
-                    <td>Periksa level oil engine</td>
+                    <td>Check engine oil level</td>
                     <td class="col-condition">{{inspection.supportDetails.engineOilLevel}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">2</td>
-                    <td>Periksa level air pendingin</td>
+                    <td>Check coolant level</td>
                     <td class="col-condition">{{inspection.supportDetails.engineCoolantLevel}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">3</td>
-                    <td>Pengamatan secara visual area engine dari kebocoran, baut hilang dll</td>
+                    <td>Visual inspection of engine area for leaks, missing bolts, etc.</td>
                     <td class="col-condition">{{inspection.supportDetails.engineVisual}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">4</td>
-                    <td>Periksa kondisi filter udara</td>
+                    <td>Check air filter condition</td>
                     <td class="col-condition">{{inspection.supportDetails.engineAirFilter}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">5</td>
-                    <td>Periksa kebocoron oil, kebocoran air pendingin</td>
+                    <td>Check for oil leaks, coolant leaks</td>
                     <td class="col-condition">{{inspection.supportDetails.engineLeaks}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">6</td>
-                    <td>Periksa tegangan fan belt</td>
+                    <td>Check fan belt tension</td>
                     <td class="col-condition">{{inspection.supportDetails.engineFanBelt}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">7</td>
-                    <td>Periksa hose dari kebocoran</td>
+                    <td>Check hose for leaks</td>
                     <td class="col-condition">{{inspection.supportDetails.engineHose}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">B. Ponton, Frame, & Pump</td>
+                    <td colspan="3" class="section-header">Pontoon, Frame, & Pump</td>
                 </tr>
                 <tr>
                     <td class="col-no">8</td>
-                    <td>Periksa pontoon dari keretakan atau keausan</td>
+                    <td>Check pontoon for cracks or wear</td>
                     <td class="col-condition">{{inspection.supportDetails.pontonCondition}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">9</td>
-                    <td>Periksa pompa dari kerusakan</td>
+                    <td>Check pump for damage</td>
                     <td class="col-condition">{{inspection.supportDetails.pumpCondition}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">10</td>
-                    <td>Periksa mounting pompa dari kehilangan atau kerusakan</td>
+                    <td>Check pump mounting for missing parts or damage</td>
                     <td class="col-condition">{{inspection.supportDetails.pumpMounting}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">11</td>
-                    <td>Periksa semua kekencangan baut</td>
+                    <td>Check all bolt tightness</td>
                     <td class="col-condition">{{inspection.supportDetails.boltTightness}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">12</td>
-                    <td>Periksa hose pengisap (suctions) hose keluran (discarge)</td>
+                    <td>Check suction hose and discharge hose</td>
                     <td class="col-condition">{{inspection.supportDetails.suctionDischargeHose}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">C. Electric</td>
+                    <td colspan="3" class="section-header">Electric</td>
                 </tr>
                 <tr>
                     <td class="col-no">13</td>
-                    <td>Periksa terminal atau kabel dari indikasi kerusakan</td>
+                    <td>Check terminals or cables for signs of damage</td>
                     <td class="col-condition">{{inspection.supportDetails.electricTerminals}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">14</td>
-                    <td>Periksa level air battery, kutub positif atau negatif battery dan kabel battery</td>
+                    <td>Check battery water level, positive and negative terminals, and battery cables</td>
                     <td class="col-condition">{{inspection.supportDetails.electricBattery}}</td>
                 </tr>
                 <tr>
                     <td class="col-no">15</td>
-                    <td>Periksa semua indikator dan gauge pada konrol panel</td>
+                    <td>Check all indicators and gauges on the control panel</td>
                     <td class="col-condition">{{inspection.supportDetails.electricIndicators}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">D. Opsional</td>
+                    <td colspan="3" class="section-header">Optional</td>
                 </tr>
                 <tr>
                     <td class="col-no">16</td>
-                    <td>Check APAR</td>
+                    <td>Check Fire Extinguisher (APAR)</td>
                     <td class="col-condition">{{inspection.supportDetails.optionalApar}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="3" class="section-header">E. Top Up Lubricant & Coolant</td>
+                    <td colspan="3" class="section-header">Add Oil</td>
                 </tr>
                 <tr>
                     <td class="col-no">17</td>
@@ -366,7 +368,7 @@
                 </tr>
                 <tr>
                     <td class="col-no">18</td>
-                    <td>Engine Oil (SAE 15W-40)</td>
+                    <td>Engine Oil (15W-40)</td>
                     <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
                 </tr>
                 <tr>
