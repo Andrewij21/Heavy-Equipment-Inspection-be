@@ -33,7 +33,7 @@ async function main() {
       email: "mechanic@gmail.com",
       password: hashedPassword,
       role: "mechanic",
-      employeeId: "123",
+      employeeId: "MEC-2510-001",
       department: "",
     },
   });
@@ -46,7 +46,7 @@ async function main() {
       email: "leader@gmail.com",
       password: hashedPassword,
       role: "leader",
-      employeeId: "123",
+      employeeId: "LDR-2508-002",
       department: "leader",
     },
   });
@@ -60,7 +60,7 @@ async function main() {
       email: "admin@gmail.com",
       password: hashedPassword,
       role: "admin",
-      employeeId: "123",
+      employeeId: "ADM-2405-003",
       department: "",
     },
   });

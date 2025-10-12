@@ -57,7 +57,7 @@ model User {
   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
   username            String?
   contact             String?
-  email               String       @unique
+  email               String?      @unique
   password            String
   role                String       @default("mechanic")
   employeeId          String?
@@ -93,7 +93,7 @@ model Inspection {
   status InspectionStatus @default(PENDING)
 
   mechanicId String @db.ObjectId
-  mechanic   User   @relation("CreatedBy", fields: [mechanicId], references: [id])
+  mechanic   User   @relation("CreatedBy", fields: [mechanicId], references: [id], onDelete: Cascade)
 
   approverId String? @db.ObjectId
   approver   User?   @relation("ApprovedBy", fields: [approverId], references: [id])
@@ -121,7 +121,7 @@ model TrackInspectionDetails {
 
   // RELATIONSHIP
   inspectionId String     @unique @db.ObjectId
-  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+  inspection   Inspection @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
 
   // DYNAMIC/UNSTRUCTURED DATA
   findings Json? // Array of { description, status } objects
@@ -298,7 +298,7 @@ model WheelInspectionDetails {
 
   // RELATIONSHIP
   inspectionId String     @unique @db.ObjectId
-  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+  inspection   Inspection @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
 
   // DYNAMIC/UNSTRUCTURED DATA
   findings Json?
@@ -595,7 +595,7 @@ model SupportInspectionDetails {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   // RELATIONSHIP
   inspectionId String     @unique @db.ObjectId
-  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+  inspection   Inspection @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
   // DYNAMIC/UNSTRUCTURED DATA
   findings     Json?
 

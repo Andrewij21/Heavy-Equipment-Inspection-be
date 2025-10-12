@@ -8,9 +8,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 class AuthService {
   async login(credentials: LoginSchema) {
-    const { email, password } = credentials;
-    logger.info({ email, password });
-    const user = await prisma.user.findFirst({ where: { email } });
+    const { nrp, password } = credentials;
+    logger.info({ nrp, password });
+    const user = await prisma.user.findFirst({ where: { employeeId: nrp } });
     if (!user) throw new UnauthorizedError("Invalid Credentials");
 
     const isMatch = await bcrypt.compare(password, user.password);
