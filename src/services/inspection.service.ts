@@ -1,6 +1,6 @@
 // src/services/inspection.service.ts
 import { prisma } from "../lib/prisma";
-import { Inspection, type InspectionStatus } from "@prisma/client"; // Import the base Inspection model type
+import { Inspection, type InspectionStatus, type Prisma } from "@prisma/client"; // Import the base Inspection model type
 import { NotFoundError } from "../utils/customeErrors";
 const approverSelection = {
   select: {
@@ -75,13 +75,48 @@ class InspectionService {
     newStatus: InspectionStatus,
     approverId: string
   ) {
+    // Explicitly declare the type for our dynamic data object
+    const updateData: Prisma.InspectionUpdateInput = {
+      status: newStatus,
+    };
+
+    if (newStatus === "APPROVED") {
+      // ✅ CORRECT: Use the 'approver' relation field with 'connect'
+      updateData.approver = {
+        connect: { id: approverId },
+      };
+      updateData.approvalDate = new Date();
+    } else if (newStatus === "REJECTED") {
+      // ✅ CORRECT: Use 'disconnect' to remove the relation
+      updateData.approver = {
+        disconnect: true,
+      };
+      updateData.approvalDate = null;
+    }
+
+    // const updated = await prisma.inspection.update({
+    //   where: { id },
+    //   data: {
+    //     status: newStatus,
+    //     approverId: approverId,
+    //     approvalDate: new Date(),
+    //   },
+    //   include: {
+    //     trackDetails: true,
+    //     wheelDetails: true,
+    //     supportDetails: true,
+    //     approver: approverSelection,
+    //   },
+    // });
     const updated = await prisma.inspection.update({
       where: { id },
-      data: {
-        status: newStatus,
-        approverId: approverId,
-        approvalDate: new Date(),
-      },
+      data: updateData, // <-- Menggunakan objek yang sudah disiapkan
+
+      // data: {
+      //   status: newStatus,
+      //   approverId: approverId,
+      //   approvalDate: new Date(),
+      // },
       include: {
         trackDetails: true,
         wheelDetails: true,
