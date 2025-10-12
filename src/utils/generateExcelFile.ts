@@ -468,7 +468,7 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
       }
       // Untuk semua tipe lain (result, select, qty, dll.)
       else {
-        const resultValue = data.trackDetails[item.field];
+        const resultValue = data.wheelDetails[item.field];
         addNewItem(worksheet, item.label, resultValue);
       }
     });
@@ -693,7 +693,7 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
       }
       // Untuk semua tipe lain (result, select, qty, dll.)
       else {
-        const resultValue = data.trackDetails[item.field];
+        const resultValue = data.supportDetails[item.field];
         addNewItem(worksheet, item.label, resultValue);
       }
     });
