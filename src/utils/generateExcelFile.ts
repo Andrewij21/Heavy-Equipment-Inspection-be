@@ -124,11 +124,11 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${infoRowStart}`).font = headerFont;
   worksheet.getCell(`B${infoRowStart}`).value = data.inspectionDate;
 
-  worksheet.getCell(`D${infoRowStart}`).value = "SMR";
+  worksheet.getCell(`D${infoRowStart}`).value = "TIME";
   worksheet.getCell(`D${infoRowStart}`).font = headerFont;
   worksheet.getCell(`E${infoRowStart}`).value = data.smr;
 
-  worksheet.getCell(`I${infoRowStart}`).value = "Time Down";
+  worksheet.getCell(`I${infoRowStart}`).value = "HM Down";
   worksheet.getCell(`I${infoRowStart}`).font = headerFont;
   worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
 
@@ -142,7 +142,7 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
 
   // === DIPINDAHKAN KE KOLOM I dan J ===
-  worksheet.getCell(`I${infoRowStart + 1}`).value = "Time Out";
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM RFU";
   worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
   worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
 
@@ -344,11 +344,11 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${infoRowStart}`).font = headerFont;
   worksheet.getCell(`B${infoRowStart}`).value = data.inspectionDate;
 
-  worksheet.getCell(`D${infoRowStart}`).value = "SMR";
+  worksheet.getCell(`D${infoRowStart}`).value = "TIME";
   worksheet.getCell(`D${infoRowStart}`).font = headerFont;
   worksheet.getCell(`E${infoRowStart}`).value = data.smr;
 
-  worksheet.getCell(`I${infoRowStart}`).value = "Time Down";
+  worksheet.getCell(`I${infoRowStart}`).value = "HM Down";
   worksheet.getCell(`I${infoRowStart}`).font = headerFont;
   worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
 
@@ -362,7 +362,7 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
 
   // === DIPINDAHKAN KE KOLOM I dan J ===
-  worksheet.getCell(`I${infoRowStart + 1}`).value = "Time Out";
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM RFU";
   worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
   worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
 
@@ -569,11 +569,11 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.getCell(`A${infoRowStart}`).font = headerFont;
   worksheet.getCell(`B${infoRowStart}`).value = data.inspectionDate;
 
-  worksheet.getCell(`D${infoRowStart}`).value = "SMR";
+  worksheet.getCell(`D${infoRowStart}`).value = "TIME";
   worksheet.getCell(`D${infoRowStart}`).font = headerFont;
   worksheet.getCell(`E${infoRowStart}`).value = data.smr;
 
-  worksheet.getCell(`I${infoRowStart}`).value = "Time Down";
+  worksheet.getCell(`I${infoRowStart}`).value = "HM Down";
   worksheet.getCell(`I${infoRowStart}`).font = headerFont;
   worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
 
@@ -587,7 +587,7 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
 
   // === DIPINDAHKAN KE KOLOM I dan J ===
-  worksheet.getCell(`I${infoRowStart + 1}`).value = "Time Out";
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM RFU";
   worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
   worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
 
