@@ -302,7 +302,9 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.mergeCells(`A${globalRow}:C${globalRow}`);
   worksheet.getCell(`A${globalRow}`).value = `Name: ${data.mechanicName}`;
   worksheet.mergeCells(`D${globalRow}:F${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = `Name: ${data.approverName}`;
+  worksheet.getCell(`D${globalRow}`).value = `Name: ${
+    data.approver?.username || "-"
+  }`;
   globalRow++;
 
   // Kembalikan baris terakhir setelah selesai
@@ -523,7 +525,9 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.mergeCells(`A${globalRow}:C${globalRow}`);
   worksheet.getCell(`A${globalRow}`).value = `Name: ${data.mechanicName}`;
   worksheet.mergeCells(`D${globalRow}:F${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = `Name: ${data.approverName}`;
+  worksheet.getCell(`D${globalRow}`).value = `Name: ${
+    data.approver?.username || "-"
+  }`;
   globalRow++;
 
   // Kembalikan baris terakhir setelah selesai
@@ -748,7 +752,9 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.mergeCells(`A${globalRow}:C${globalRow}`);
   worksheet.getCell(`A${globalRow}`).value = `Name: ${data.mechanicName}`;
   worksheet.mergeCells(`D${globalRow}:F${globalRow}`);
-  worksheet.getCell(`D${globalRow}`).value = `Name: ${data.approverName}`;
+  worksheet.getCell(`D${globalRow}`).value = `Name: ${
+    data.approver?.username || "-"
+  }`;
   globalRow++;
 
   // Kembalikan baris terakhir setelah selesai
