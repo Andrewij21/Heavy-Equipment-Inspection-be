@@ -14,13 +14,14 @@ export class InspectionController {
     });
   };
   getInspectionsList = async (req: Request, res: Response) => {
-    const { page, limit, q, status } = req.query;
+    const { page, limit, q, status, equipmentType } = req.query;
 
     const params = {
       page: Number(page) ? parseInt(page as string) : 1,
       limit: Number(limit) ? parseInt(limit as string) : 10,
       q: q as string,
       status: status as string,
+      equipmentType: equipmentType as string,
     };
 
     const { inspections, count } = await inspectionService.getAllInspections(

@@ -20,13 +20,14 @@ class InspectionService {
     limit?: number;
     q?: string;
     status?: string;
+    equipmentType?: string;
   }) {
-    const { page = 1, limit = 100, status, q } = params;
+    const { page = 1, limit = 100, status, q, equipmentType } = params;
     const skip = (page - 1) * limit;
 
     const where: any = {};
     if (status) where.status = status.toUpperCase();
-
+    if (equipmentType) where.equipmentType = equipmentType;
     if (q) {
       where.OR = [
         { equipmentId: { contains: q, mode: "insensitive" } },
