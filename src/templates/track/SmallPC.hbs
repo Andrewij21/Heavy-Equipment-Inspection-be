@@ -5,6 +5,32 @@
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            /* ... sisa style header Anda ... */
+        }
+
+        .header img {
+            height: 50px;
+            /* Atur tinggi sesuai kebutuhan */
+            width: auto;
+        }
+
+        .header-logo {
+            flex-basis: 200px;
+            /* Beri lebar agar simetris */
+        }
+
+        .header-logo.logo-left {
+            text-align: left;
+        }
+
+        .header-logo.logo-right {
+            text-align: right;
+        }
+
         .inspection-header {
             display: flex;
             /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
@@ -200,9 +226,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="path/to/logo.png" style="height: 30px; float: left;" />
-            <h1>DAILY INSPECTION CHECKSHEET SMALL PC</h1>
-            <p>(PC500, PC400, PC300, PC210)</p>
+            <div class="header-logo logo-left">
+                <img src="{{logo1Base64}}" alt="Antareja Mahada Makmur Logo" />
+            </div>
+            <div class="header-text">
+                <h1>DAILY INSPECTION CHECKSHEET SMALL PC</h1>
+                <p>(PC500, PC400, PC300, PC210)</p>
+            </div>
+            <div class="header-logo logo-right">
+                <img src="{{logo2Base64}}" alt="SBS Mining Solution Logo" />
+            </div>
         </div>
 
         <div class="inspection-header">

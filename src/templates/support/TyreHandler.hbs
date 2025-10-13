@@ -5,6 +5,32 @@
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            /* ... sisa style header Anda ... */
+        }
+
+        .header img {
+            height: 50px;
+            /* Atur tinggi sesuai kebutuhan */
+            width: auto;
+        }
+
+        .header-logo {
+            flex-basis: 200px;
+            /* Beri lebar agar simetris */
+        }
+
+        .header-logo.logo-left {
+            text-align: left;
+        }
+
+        .header-logo.logo-right {
+            text-align: right;
+        }
+
         /* Style Baru untuk Tata Letak Grid Header */
         /* Style Baru untuk Tata Letak Grid Header (3 Kolom per Baris) */
         /* Main container to hold both tables */
@@ -203,8 +229,17 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="path/to/logo.png" style="height: 30px; float: left;" />
-            <h1>DAILY INSPECTION CHECKSHEET TYRE HANDLER</h1>
+
+            <div class="header-logo logo-left">
+                <img src="{{logo1Base64}}" alt="Antareja Mahada Makmur Logo" />
+            </div>
+            <div class="header-text">
+                <h1>DAILY INSPECTION CHECKSHEET TYRE HANDLER</h1>
+
+            </div>
+            <div class="header-logo logo-right">
+                <img src="{{logo2Base64}}" alt="SBS Mining Solution Logo" />
+            </div>
         </div>
 
         <div class="inspection-header">
@@ -245,7 +280,8 @@
 
         <div class="safety-notice">
             <strong>IMPORTANT BE SAFETY</strong>
-            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the
+                Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
         </div>
         <p
             style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
@@ -254,343 +290,343 @@
             <small>AMM-SBS-F PLT-01AH</small>
         </p>
 
-<table>
-    <thead>
-        <tr>
-            <th class="col-no">No.</th>
-            <th>COMPONENT & ITEM CHECK</th>
-            <th class="col-condition">CONDITION</th>
-        </tr>
-    </thead>
-    <tbody>
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-no">No.</th>
+                    <th>COMPONENT & ITEM CHECK</th>
+                    <th class="col-condition">CONDITION</th>
+                </tr>
+            </thead>
+            <tbody>
 
-        <tr>
-            <td colspan="3" class="section-header">Engine (Includes Engine, Suspension, Axle, and Greasing)</td>
-        </tr>
-        <tr>
-            <td class="col-no">1</td>
-            <td>Check radiator condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRadiator}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">2</td>
-            <td>Check fan guard condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFanGuard}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">3</td>
-            <td>Check belt tension</td>
-            <td class="col-condition">{{inspection.supportDetails.engineBeltTension}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">4</td>
-            <td>Visual inspection of engine (leaks, loose bolts, etc.)</td>
-            <td class="col-condition">{{inspection.supportDetails.engineVisualCheck}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">5</td>
-            <td>Check for unusual sounds</td>
-            <td class="col-condition">{{inspection.supportDetails.engineUnusualSound}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">6</td>
-            <td>Check alternator condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineAlternator}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">7</td>
-            <td>Check starter motor condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineStarterMotor}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">8</td>
-            <td>Check turbocharger RH/LH</td>
-            <td class="col-condition">{{inspection.supportDetails.engineTurbocharger}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">9</td>
-            <td>Check water pump condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineWaterPump}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">10</td>
-            <td>Check pressure & bolts of left front wheel</td>
-            <td class="col-condition">{{inspection.supportDetails.engineLeftFrontWheel}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">11</td>
-            <td>Check ROPS cabin mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRopsCabin}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">12</td>
-            <td>Check steering linkage</td>
-            <td class="col-condition">{{inspection.supportDetails.engineSteeringLinkage}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">13</td>
-            <td>Check front suspension cylinder & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFrontSuspension}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">14</td>
-            <td>Check rear suspension cylinder & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRearSuspension}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">15</td>
-            <td>Check brake system</td>
-            <td class="col-condition">{{inspection.supportDetails.engineBrakeSystem}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">16</td>
-            <td>Check hydraulic tank</td>
-            <td class="col-condition">{{inspection.supportDetails.engineHydraulicTank}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">17</td>
-            <td>Check braze fork lifting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineBrazeForkLifting}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">18</td>
-            <td>Check main chassis/frame</td>
-            <td class="col-condition">{{inspection.supportDetails.engineChassisFrame}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">19</td>
-            <td>Check hoist cylinder & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineHoistCylinder}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">20</td>
-            <td>Check left rear wheel</td>
-            <td class="col-condition">{{inspection.supportDetails.engineLeftRearWheel}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">21</td>
-            <td>Check left rear final drive</td>
-            <td class="col-condition">{{inspection.supportDetails.engineLeftRearFinalDrive}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">22</td>
-            <td>Check grease line</td>
-            <td class="col-condition">{{inspection.supportDetails.engineGreaseLine}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">23</td>
-            <td>Check hydraulic line</td>
-            <td class="col-condition">{{inspection.supportDetails.engineHydraulicLine}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">24</td>
-            <td>Check differential condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineDifferential}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">25</td>
-            <td>Check transmission condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineTransmission}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">26</td>
-            <td>Check power train line</td>
-            <td class="col-condition">{{inspection.supportDetails.enginePowerTrainLine}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">27</td>
-            <td>Check drive shaft joint condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineDriveShaft}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">28</td>
-            <td>Front suspension RH/LH (check grease)</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFrontSuspensionGrease}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">29</td>
-            <td>Steering cylinder (check grease)</td>
-            <td class="col-condition">{{inspection.supportDetails.engineSteeringCylinderGrease}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">30</td>
-            <td>Spider joint (check grease)</td>
-            <td class="col-condition">{{inspection.supportDetails.engineSpiderJointGrease}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">31</td>
-            <td>Rear suspension RH/LH (check grease)</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRearSuspensionGrease}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">32</td>
-            <td>Front & rear axle tie rod (check grease)</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFrontRearAxleGrease}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">33</td>
-            <td>Fork lifting pin (check grease)</td>
-            <td class="col-condition">{{inspection.supportDetails.enginePinForkLiftingGrease}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">34</td>
-            <td>Check parking brake control</td>
-            <td class="col-condition">{{inspection.supportDetails.engineParkingBrake}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">35</td>
-            <td>Check air cleaner condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineAirCleaner}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">36</td>
-            <td>Check steering oil tank</td>
-            <td class="col-condition">{{inspection.supportDetails.engineSteeringOilTank}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">37</td>
-            <td>Check tank mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineTankMounting}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">38</td>
-            <td>Check grease system</td>
-            <td class="col-condition">{{inspection.supportDetails.engineGreaseSystem}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">39</td>
-            <td>Check pressure & bolts of right rear wheel</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRightRearWheel}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">40</td>
-            <td>Check right (RH) final drive condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRhFinalDrive}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">41</td>
-            <td>Check brake system</td>
-            <td class="col-condition">{{inspection.supportDetails.engineBrakeSystem2}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">42</td>
-            <td>Check rear suspension cylinder & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineRearSuspension2}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">43</td>
-            <td>Check fuel tank & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFuelTank}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">44</td>
-            <td>Check fuel line condition</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFuelLine}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">45</td>
-            <td>Check frame & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineChassisMounting}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">46</td>
-            <td>Check front suspension cylinder & mounting</td>
-            <td class="col-condition">{{inspection.supportDetails.engineFrontSuspension2}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">47</td>
-            <td>Check steering linkage</td>
-            <td class="col-condition">{{inspection.supportDetails.engineSteeringLinkage2}}</td>
-        </tr>
+                <tr>
+                    <td colspan="3" class="section-header">Engine (Includes Engine, Suspension, Axle, and Greasing)</td>
+                </tr>
+                <tr>
+                    <td class="col-no">1</td>
+                    <td>Check radiator condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRadiator}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">2</td>
+                    <td>Check fan guard condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFanGuard}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">3</td>
+                    <td>Check belt tension</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineBeltTension}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">4</td>
+                    <td>Visual inspection of engine (leaks, loose bolts, etc.)</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineVisualCheck}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">5</td>
+                    <td>Check for unusual sounds</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineUnusualSound}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">6</td>
+                    <td>Check alternator condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineAlternator}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">7</td>
+                    <td>Check starter motor condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineStarterMotor}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">8</td>
+                    <td>Check turbocharger RH/LH</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineTurbocharger}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">9</td>
+                    <td>Check water pump condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineWaterPump}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">10</td>
+                    <td>Check pressure & bolts of left front wheel</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineLeftFrontWheel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">11</td>
+                    <td>Check ROPS cabin mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRopsCabin}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">12</td>
+                    <td>Check steering linkage</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineSteeringLinkage}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">13</td>
+                    <td>Check front suspension cylinder & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFrontSuspension}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">14</td>
+                    <td>Check rear suspension cylinder & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRearSuspension}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">15</td>
+                    <td>Check brake system</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineBrakeSystem}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">16</td>
+                    <td>Check hydraulic tank</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineHydraulicTank}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">17</td>
+                    <td>Check braze fork lifting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineBrazeForkLifting}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">18</td>
+                    <td>Check main chassis/frame</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineChassisFrame}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">19</td>
+                    <td>Check hoist cylinder & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineHoistCylinder}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">20</td>
+                    <td>Check left rear wheel</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineLeftRearWheel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">21</td>
+                    <td>Check left rear final drive</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineLeftRearFinalDrive}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">22</td>
+                    <td>Check grease line</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineGreaseLine}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">23</td>
+                    <td>Check hydraulic line</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineHydraulicLine}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">24</td>
+                    <td>Check differential condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineDifferential}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">25</td>
+                    <td>Check transmission condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineTransmission}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">26</td>
+                    <td>Check power train line</td>
+                    <td class="col-condition">{{inspection.supportDetails.enginePowerTrainLine}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">27</td>
+                    <td>Check drive shaft joint condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineDriveShaft}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">28</td>
+                    <td>Front suspension RH/LH (check grease)</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFrontSuspensionGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">29</td>
+                    <td>Steering cylinder (check grease)</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineSteeringCylinderGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">30</td>
+                    <td>Spider joint (check grease)</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineSpiderJointGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">31</td>
+                    <td>Rear suspension RH/LH (check grease)</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRearSuspensionGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">32</td>
+                    <td>Front & rear axle tie rod (check grease)</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFrontRearAxleGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">33</td>
+                    <td>Fork lifting pin (check grease)</td>
+                    <td class="col-condition">{{inspection.supportDetails.enginePinForkLiftingGrease}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">34</td>
+                    <td>Check parking brake control</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineParkingBrake}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">35</td>
+                    <td>Check air cleaner condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineAirCleaner}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">36</td>
+                    <td>Check steering oil tank</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineSteeringOilTank}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">37</td>
+                    <td>Check tank mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineTankMounting}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">38</td>
+                    <td>Check grease system</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineGreaseSystem}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">39</td>
+                    <td>Check pressure & bolts of right rear wheel</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRightRearWheel}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">40</td>
+                    <td>Check right (RH) final drive condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRhFinalDrive}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">41</td>
+                    <td>Check brake system</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineBrakeSystem2}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">42</td>
+                    <td>Check rear suspension cylinder & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineRearSuspension2}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">43</td>
+                    <td>Check fuel tank & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFuelTank}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">44</td>
+                    <td>Check fuel line condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFuelLine}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">45</td>
+                    <td>Check frame & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineChassisMounting}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">46</td>
+                    <td>Check front suspension cylinder & mounting</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineFrontSuspension2}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">47</td>
+                    <td>Check steering linkage</td>
+                    <td class="col-condition">{{inspection.supportDetails.engineSteeringLinkage2}}</td>
+                </tr>
 
-        <tr>
-            <td colspan="3" class="section-header">Cabin & Electric</td>
-        </tr>
-        <tr>
-            <td class="col-no">48</td>
-            <td>Check cabin & ROPS condition</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinRops}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">49</td>
-            <td>Clean cabin & check panel function</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinCleaning}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">50</td>
-            <td>Check cabin lock & cabin tilt lock</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinLock}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">51</td>
-            <td>Check AC / Blower</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinAcBlower}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">52</td>
-            <td>Check safety belt</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinSafetyBelt}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">53</td>
-            <td>Check APAR</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinApar}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">54</td>
-            <td>Check wheel chock & safety cone</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinWheelChock}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">55</td>
-            <td>Check function of emergency button (Emergency Stop)</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinEmergencyStop}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">56</td>
-            <td>Check switch function</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinSwitchFunction}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">57</td>
-            <td>Check all lamps & rotary lamp</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinLampFunction}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">58</td>
-            <td>Check battery, connection condition, & electrolyte level</td>
-            <td class="col-condition">{{inspection.supportDetails.cabinBattery}}</td>
-        </tr>
+                <tr>
+                    <td colspan="3" class="section-header">Cabin & Electric</td>
+                </tr>
+                <tr>
+                    <td class="col-no">48</td>
+                    <td>Check cabin & ROPS condition</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinRops}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">49</td>
+                    <td>Clean cabin & check panel function</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinCleaning}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">50</td>
+                    <td>Check cabin lock & cabin tilt lock</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinLock}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">51</td>
+                    <td>Check AC / Blower</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinAcBlower}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">52</td>
+                    <td>Check safety belt</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinSafetyBelt}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">53</td>
+                    <td>Check APAR</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinApar}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">54</td>
+                    <td>Check wheel chock & safety cone</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinWheelChock}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">55</td>
+                    <td>Check function of emergency button (Emergency Stop)</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinEmergencyStop}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">56</td>
+                    <td>Check switch function</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinSwitchFunction}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">57</td>
+                    <td>Check all lamps & rotary lamp</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinLampFunction}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">58</td>
+                    <td>Check battery, connection condition, & electrolyte level</td>
+                    <td class="col-condition">{{inspection.supportDetails.cabinBattery}}</td>
+                </tr>
 
-        <tr>
-            <td colspan="3" class="section-header">Optional</td>
-        </tr>
-        <tr>
-            <td class="col-no">59</td>
-            <td>Check APAR</td>
-            <td class="col-condition">{{inspection.supportDetails.optionalApar}}</td>
-        </tr>
+                <tr>
+                    <td colspan="3" class="section-header">Optional</td>
+                </tr>
+                <tr>
+                    <td class="col-no">59</td>
+                    <td>Check APAR</td>
+                    <td class="col-condition">{{inspection.supportDetails.optionalApar}}</td>
+                </tr>
 
-        <tr>
-            <td colspan="3" class="section-header">Add Oil</td>
-        </tr>
-        <tr>
-            <td class="col-no">60</td>
-            <td>Coolant</td>
-            <td class="col-condition">{{inspection.supportDetails.topUpCoolant}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">61</td>
-            <td>Engine Oil (15W-40)</td>
-            <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
-        </tr>
-        <tr>
-            <td class="col-no">62</td>
-            <td>Hydraulic</td>
-            <td class="col-condition">{{inspection.supportDetails.topUpHydraulic}}</td>
-        </tr>
-    </tbody>
-</table>
+                <tr>
+                    <td colspan="3" class="section-header">Add Oil</td>
+                </tr>
+                <tr>
+                    <td class="col-no">60</td>
+                    <td>Coolant</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpCoolant}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">61</td>
+                    <td>Engine Oil (15W-40)</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
+                </tr>
+                <tr>
+                    <td class="col-no">62</td>
+                    <td>Hydraulic</td>
+                    <td class="col-condition">{{inspection.supportDetails.topUpHydraulic}}</td>
+                </tr>
+            </tbody>
+        </table>
 
         <table class="finding-table">
             <thead>

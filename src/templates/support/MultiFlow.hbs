@@ -5,6 +5,32 @@
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            /* ... sisa style header Anda ... */
+        }
+
+        .header img {
+            height: 50px;
+            /* Atur tinggi sesuai kebutuhan */
+            width: auto;
+        }
+
+        .header-logo {
+            flex-basis: 200px;
+            /* Beri lebar agar simetris */
+        }
+
+        .header-logo.logo-left {
+            text-align: left;
+        }
+
+        .header-logo.logo-right {
+            text-align: right;
+        }
+
         .inspection-header {
             display: flex;
             /* Menggunakan 'gap' untuk memberi jarak 30px antar tabel */
@@ -199,226 +225,234 @@
 
 <body>
     <div class="container">
-        <div class="header">
-            <img src="path/to/logo.png" style="height: 30px; float: left;" />
+    </div>
+    <div class="header">
+        <div class="header-logo logo-left">
+            <img src="{{logo1Base64}}" alt="Antareja Mahada Makmur Logo" />
+        </div>
+        <div class="header-text">
             <h1>DAILY INSPECTION CHECKSHEET MULTIFLOW</h1>
-        </div>
-
-        <div class="inspection-header">
-
-            <table class="info-table">
-                <tr>
-                    <td class="info-label-cell">Date</td>
-                    <td>{{inspection.inspectionDate}}</td>
-                    <td class="info-label-cell">TIME</td>
-                    <td>{{inspection.smr}}</td>
-                </tr>
-                <tr>
-                    <td class="info-label-cell">Unit No</td>
-                    <td>{{inspection.equipmentId}}</td>
-                    <td class="info-label-cell">Location</td>
-                    <td>{{inspection.location}}</td>
-                </tr>
-                <tr>
-                    <td class="info-label-cell">Type</td>
-                    <td>{{inspection.equipmentType}}</td>
-                    <td class="info-label-cell">Shift</td>
-                    <td>{{inspection.shift}}</td>
-                </tr>
-            </table>
-
-            <table class="info-table">
-                <tr>
-                    <td class="info-label-cell">HM Down</td>
-                    <td>{{inspection.timeDown}}</td>
-                </tr>
-                <tr>
-                    <td class="info-label-cell">HM RFU</td>
-                    <td>{{inspection.timeOut}}</td>
-                </tr>
-            </table>
 
         </div>
-
-        <div class="safety-notice">
-            <strong>IMPORTANT BE SAFETY</strong>
-            <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the
-                Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+        <div class="header-logo logo-right">
+            <img src="{{logo2Base64}}" alt="SBS Mining Solution Logo" />
         </div>
-        <p
-            style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
-            <small>✓ = Baik | X = Rusak/Perlu Perbaikan | O = Sudah Diperbaiki | NA = Tidak Tersedia</small>
+    </div>
+    <div class="inspection-header">
 
-            <small>AMM-SBS-F-PLT-01AM</small>
-        </p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th class="col-no">No.</th>
-                    <th>COMPONENT & ITEM CHECK</th>
-                    <th class="col-condition">CONDITION</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td colspan="3" class="section-header">Engine</td>
-                </tr>
-                <tr>
-                    <td class="col-no">1</td>
-                    <td>Check engine oil level</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineOilLevel}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">2</td>
-                    <td>Check coolant level</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineCoolantLevel}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">3</td>
-                    <td>Visual inspection of engine area for leaks, missing bolts, etc.</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineVisual}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">4</td>
-                    <td>Check air filter condition</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineAirFilter}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">5</td>
-                    <td>Check for oil leaks, coolant leaks</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineLeaks}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">6</td>
-                    <td>Check fan belt tension</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineFanBelt}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">7</td>
-                    <td>Check hose for leaks</td>
-                    <td class="col-condition">{{inspection.supportDetails.engineHose}}</td>
-                </tr>
-
-                <tr>
-                    <td colspan="3" class="section-header">Pontoon, Frame, & Pump</td>
-                </tr>
-                <tr>
-                    <td class="col-no">8</td>
-                    <td>Check pontoon for cracks or wear</td>
-                    <td class="col-condition">{{inspection.supportDetails.pontonCondition}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">9</td>
-                    <td>Check pump for damage</td>
-                    <td class="col-condition">{{inspection.supportDetails.pumpCondition}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">10</td>
-                    <td>Check pump mounting for missing parts or damage</td>
-                    <td class="col-condition">{{inspection.supportDetails.pumpMounting}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">11</td>
-                    <td>Check all bolt tightness</td>
-                    <td class="col-condition">{{inspection.supportDetails.boltTightness}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">12</td>
-                    <td>Check suction hose and discharge hose</td>
-                    <td class="col-condition">{{inspection.supportDetails.suctionDischargeHose}}</td>
-                </tr>
-
-                <tr>
-                    <td colspan="3" class="section-header">Electric</td>
-                </tr>
-                <tr>
-                    <td class="col-no">13</td>
-                    <td>Check terminals or cables for signs of damage</td>
-                    <td class="col-condition">{{inspection.supportDetails.electricTerminals}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">14</td>
-                    <td>Check battery water level, positive and negative terminals, and battery cables</td>
-                    <td class="col-condition">{{inspection.supportDetails.electricBattery}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">15</td>
-                    <td>Check all indicators and gauges on the control panel</td>
-                    <td class="col-condition">{{inspection.supportDetails.electricIndicators}}</td>
-                </tr>
-
-                <tr>
-                    <td colspan="3" class="section-header">Optional</td>
-                </tr>
-                <tr>
-                    <td class="col-no">16</td>
-                    <td>Check Fire Extinguisher (APAR)</td>
-                    <td class="col-condition">{{inspection.supportDetails.optionalApar}}</td>
-                </tr>
-
-                <tr>
-                    <td colspan="3" class="section-header">Add Oil</td>
-                </tr>
-                <tr>
-                    <td class="col-no">17</td>
-                    <td>Coolant</td>
-                    <td class="col-condition">{{inspection.supportDetails.topUpCoolant}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">18</td>
-                    <td>Engine Oil (15W-40)</td>
-                    <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
-                </tr>
-                <tr>
-                    <td class="col-no">19</td>
-                    <td>Hydraulic</td>
-                    <td class="col-condition">{{inspection.supportDetails.topUpHydraulic}}</td>
-                </tr>
-            </tbody>
+        <table class="info-table">
+            <tr>
+                <td class="info-label-cell">Date</td>
+                <td>{{inspection.inspectionDate}}</td>
+                <td class="info-label-cell">TIME</td>
+                <td>{{inspection.smr}}</td>
+            </tr>
+            <tr>
+                <td class="info-label-cell">Unit No</td>
+                <td>{{inspection.equipmentId}}</td>
+                <td class="info-label-cell">Location</td>
+                <td>{{inspection.location}}</td>
+            </tr>
+            <tr>
+                <td class="info-label-cell">Type</td>
+                <td>{{inspection.equipmentType}}</td>
+                <td class="info-label-cell">Shift</td>
+                <td>{{inspection.shift}}</td>
+            </tr>
         </table>
 
-        <table class="finding-table">
-            <thead>
-                <tr>
-                    <th colspan="4">Finding Inspection Unit (Temuan Inspeksi)</th>
-                </tr>
-                <tr>
-                    <th class="col-finding-no">No.</th>
-                    <th class="col-finding-desc">Finding Description</th>
-                    <th class="col-finding-status">Open (✓)</th>
-                    <th class="col-finding-status">Close (✓)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each findings}}
-                    <tr>
-                        <td class="col-finding-no">{{addOne @index}}</td>
-                        <td>{{this.description}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
-                    </tr>
-                {{/each}}
-            </tbody>
+        <table class="info-table">
+            <tr>
+                <td class="info-label-cell">HM Down</td>
+                <td>{{inspection.timeDown}}</td>
+            </tr>
+            <tr>
+                <td class="info-label-cell">HM RFU</td>
+                <td>{{inspection.timeOut}}</td>
+            </tr>
         </table>
 
-        <div class="signatures">
-            <div class="sig-box">
-                <div class="sig-title">Checked By ({{inspection.mechanicName}})</div>
-                <div class="sig-row">
-                    <div class="sig-label">Name:</div>
-                    <div class="sig-value">{{inspection.mechanicName}}</div>
-                </div>
-            </div>
-            <div class="sig-box">
-                <div class="sig-title">Approved By ({{inspection.approver.username}})</div>
-                <div class="sig-row">
-                    <div class="sig-label">Name:</div>
-                    <div class="sig-value">{{inspection.approver.username}}</div>
-                </div>
+    </div>
+
+    <div class="safety-notice">
+        <strong>IMPORTANT BE SAFETY</strong>
+        <p>Before carrying out Maintenance, Park machine on Firm Flat Ground, Lowering all Attachment, Shut Down the
+            Engine, Applied Parking Brake & use personal Lock Out & Tag Out</p>
+    </div>
+    <p
+        style="text-align: center; margin-bottom: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 50px;">
+        <small>✓ = Baik | X = Rusak/Perlu Perbaikan | O = Sudah Diperbaiki | NA = Tidak Tersedia</small>
+
+        <small>AMM-SBS-F-PLT-01AM</small>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="col-no">No.</th>
+                <th>COMPONENT & ITEM CHECK</th>
+                <th class="col-condition">CONDITION</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td colspan="3" class="section-header">Engine</td>
+            </tr>
+            <tr>
+                <td class="col-no">1</td>
+                <td>Check engine oil level</td>
+                <td class="col-condition">{{inspection.supportDetails.engineOilLevel}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">2</td>
+                <td>Check coolant level</td>
+                <td class="col-condition">{{inspection.supportDetails.engineCoolantLevel}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">3</td>
+                <td>Visual inspection of engine area for leaks, missing bolts, etc.</td>
+                <td class="col-condition">{{inspection.supportDetails.engineVisual}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">4</td>
+                <td>Check air filter condition</td>
+                <td class="col-condition">{{inspection.supportDetails.engineAirFilter}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">5</td>
+                <td>Check for oil leaks, coolant leaks</td>
+                <td class="col-condition">{{inspection.supportDetails.engineLeaks}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">6</td>
+                <td>Check fan belt tension</td>
+                <td class="col-condition">{{inspection.supportDetails.engineFanBelt}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">7</td>
+                <td>Check hose for leaks</td>
+                <td class="col-condition">{{inspection.supportDetails.engineHose}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="section-header">Pontoon, Frame, & Pump</td>
+            </tr>
+            <tr>
+                <td class="col-no">8</td>
+                <td>Check pontoon for cracks or wear</td>
+                <td class="col-condition">{{inspection.supportDetails.pontonCondition}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">9</td>
+                <td>Check pump for damage</td>
+                <td class="col-condition">{{inspection.supportDetails.pumpCondition}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">10</td>
+                <td>Check pump mounting for missing parts or damage</td>
+                <td class="col-condition">{{inspection.supportDetails.pumpMounting}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">11</td>
+                <td>Check all bolt tightness</td>
+                <td class="col-condition">{{inspection.supportDetails.boltTightness}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">12</td>
+                <td>Check suction hose and discharge hose</td>
+                <td class="col-condition">{{inspection.supportDetails.suctionDischargeHose}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="section-header">Electric</td>
+            </tr>
+            <tr>
+                <td class="col-no">13</td>
+                <td>Check terminals or cables for signs of damage</td>
+                <td class="col-condition">{{inspection.supportDetails.electricTerminals}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">14</td>
+                <td>Check battery water level, positive and negative terminals, and battery cables</td>
+                <td class="col-condition">{{inspection.supportDetails.electricBattery}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">15</td>
+                <td>Check all indicators and gauges on the control panel</td>
+                <td class="col-condition">{{inspection.supportDetails.electricIndicators}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="section-header">Optional</td>
+            </tr>
+            <tr>
+                <td class="col-no">16</td>
+                <td>Check Fire Extinguisher (APAR)</td>
+                <td class="col-condition">{{inspection.supportDetails.optionalApar}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="section-header">Add Oil</td>
+            </tr>
+            <tr>
+                <td class="col-no">17</td>
+                <td>Coolant</td>
+                <td class="col-condition">{{inspection.supportDetails.topUpCoolant}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">18</td>
+                <td>Engine Oil (15W-40)</td>
+                <td class="col-condition">{{inspection.supportDetails.topUpEngineOil}}</td>
+            </tr>
+            <tr>
+                <td class="col-no">19</td>
+                <td>Hydraulic</td>
+                <td class="col-condition">{{inspection.supportDetails.topUpHydraulic}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="finding-table">
+        <thead>
+            <tr>
+                <th colspan="4">Finding Inspection Unit (Temuan Inspeksi)</th>
+            </tr>
+            <tr>
+                <th class="col-finding-no">No.</th>
+                <th class="col-finding-desc">Finding Description</th>
+                <th class="col-finding-status">Open (✓)</th>
+                <th class="col-finding-status">Close (✓)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each findings}}
+                <tr>
+                    <td class="col-finding-no">{{addOne @index}}</td>
+                    <td>{{this.description}}</td>
+                    <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
+                    <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="signatures">
+        <div class="sig-box">
+            <div class="sig-title">Checked By ({{inspection.mechanicName}})</div>
+            <div class="sig-row">
+                <div class="sig-label">Name:</div>
+                <div class="sig-value">{{inspection.mechanicName}}</div>
             </div>
         </div>
+        <div class="sig-box">
+            <div class="sig-title">Approved By ({{inspection.approver.username}})</div>
+            <div class="sig-row">
+                <div class="sig-label">Name:</div>
+                <div class="sig-value">{{inspection.approver.username}}</div>
+            </div>
+        </div>
+    </div>
 
     </div>
 </body>

@@ -5,6 +5,32 @@
     <meta charset="UTF-8">
     <title>Inspection Checksheet - {{inspection.equipmentId}}</title>
     <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            /* ... sisa style header Anda ... */
+        }
+
+        .header img {
+            height: 50px;
+            /* Atur tinggi sesuai kebutuhan */
+            width: auto;
+        }
+
+        .header-logo {
+            flex-basis: 200px;
+            /* Beri lebar agar simetris */
+        }
+
+        .header-logo.logo-left {
+            text-align: left;
+        }
+
+        .header-logo.logo-right {
+            text-align: right;
+        }
+
         /* Style Baru untuk Tata Letak Grid Header */
         /* Style Baru untuk Tata Letak Grid Header (3 Kolom per Baris) */
         /* Main container to hold both tables */
@@ -203,8 +229,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="path/to/logo.png" style="height: 30px; float: left;" />
-            <h1>DAILY INSPECTION CHECKSHEET CRANE TRUCK</h1>
+            <div class="header-logo logo-left">
+                <img src="{{logo1Base64}}" alt="Antareja Mahada Makmur Logo" />
+            </div>
+            <div class="header-text">
+                <h1>DAILY INSPECTION CHECKSHEET CRANE TRUCK</h1>
+            </div>
+            <div class="header-logo logo-right">
+                <img src="{{logo2Base64}}" alt="SBS Mining Solution Logo" />
+            </div>
         </div>
         <div class="inspection-header">
 
@@ -547,12 +580,12 @@
             </thead>
             <tbody>
                 {{#each findings}}
-                    <tr>
-                        <td class="col-finding-no">{{addOne @index}}</td>
-                        <td>{{this.description}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
-                    </tr>
+                <tr>
+                    <td class="col-finding-no">{{addOne @index}}</td>
+                    <td>{{this.description}}</td>
+                    <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
+                    <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                </tr>
                 {{/each}}
             </tbody>
         </table>

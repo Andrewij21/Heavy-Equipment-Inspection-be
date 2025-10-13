@@ -126,12 +126,26 @@ class ReportService {
           : equipmentType === "support"
           ? rawInspection.supportDetails
           : null;
+      // Baca file logo pertama
+      const logo1Path = path.join(process.cwd(), "public", "logo.png");
+      const logo1Buffer = fs.readFileSync(logo1Path);
+      const logo1Base64 = `data:image/jpeg;base64,${logo1Buffer.toString(
+        "base64"
+      )}`;
 
+      // Baca file logo kedua
+      const logo2Path = path.join(process.cwd(), "public", "sbs.png");
+      const logo2Buffer = fs.readFileSync(logo2Path);
+      const logo2Base64 = `data:image/png;base64,${logo2Buffer.toString(
+        "base64"
+      )}`;
       // Dapatkan findings dari object detail yang sesuai
       const findingsArray = detailObject?.findings || [];
       const htmlContent = template({
         inspection: rawInspection,
         findings: findingsArray,
+        logo1Base64: logo1Base64, // <-- Kirim data logo 1
+        logo2Base64: logo2Base64, // <-- Kirim data logo 2
       });
 
       let browser;
