@@ -9,12 +9,13 @@ import { Buffer } from "buffer";
 import puppeteer from "puppeteer-core";
 import * as puppeteerDev from "puppeteer";
 import { generateExcelFile } from "../utils/generateExcelFile";
-Handlebars.registerHelper("addOne", function (index: number) {
-  return index + 1;
-});
-Handlebars.registerHelper("eq", function (v1: any, v2: any) {
-  return v1 === v2;
-});
+// Handlebars.registerHelper("addOne", function (index: number) {
+//   return index + 1;
+// });
+// Handlebars.registerHelper("eq", function (v1: any, v2: any) {
+//   return v1 === v2;
+// });
+import { registerHandlebarsHelpers } from "../utils/registerHandleBarsHelper";
 
 // --- TYPES & HELPERS ---
 interface ExportPayload {
@@ -116,6 +117,9 @@ class ReportService {
       }
 
       const templateHtml = fs.readFileSync(templatePath, "utf8");
+
+      registerHandlebarsHelpers();
+
       const template = Handlebars.compile(templateHtml);
       // Tentukan object detail yang benar (trackDetails atau wheelDetails)
       const detailObject =
