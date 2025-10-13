@@ -558,7 +558,7 @@
             </tbody>
         </table>
 
-        <table class="finding-table">
+       <table class="finding-table">
             <thead>
                 <tr>
                     <th colspan="4">Finding Inspection Unit (Temuan Inspeksi)</th>
@@ -566,8 +566,8 @@
                 <tr>
                     <th class="col-finding-no">No.</th>
                     <th class="col-finding-desc">Finding Description</th>
-                    <th class="col-finding-status">Open (✓)</th>
-                    <th class="col-finding-status">Close (✓)</th>
+                    <th class="col-finding-status">Open (v)</th>
+                    <th class="col-finding-status">Close (v)</th>
                 </tr>
             </thead>
             <tbody>
@@ -575,8 +575,8 @@
                     <tr>
                         <td class="col-finding-no">{{addOne @index}}</td>
                         <td>{{this.description}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'open')}}&check;{{/if}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'close')}}&check;{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'open')}}v{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'close')}}v{{/if}}</td>
                     </tr>
                 {{/each}}
             </tbody>
