@@ -118,7 +118,7 @@ class ReportService {
 
       const templateHtml = fs.readFileSync(templatePath, "utf8");
 
-      registerHandlebarsHelpers();
+      registerHandlebarsHelpers(Handlebars);
 
       const template = Handlebars.compile(templateHtml);
       // Tentukan object detail yang benar (trackDetails atau wheelDetails)

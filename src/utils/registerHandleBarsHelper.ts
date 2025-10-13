@@ -1,19 +1,19 @@
-import Handlebars from "handlebars";
+// Impor 'Handlebars' hanya untuk mendapatkan tipenya
+import type Handlebars from "handlebars";
 
-export function registerHandlebarsHelpers() {
-  // Helper untuk membandingkan dua nilai (equals)
-  Handlebars.registerHelper("eq", function (a, b) {
+// 1. Terima instance Handlebars sebagai argumen
+export function registerHandlebarsHelpers(
+  handlebarsInstance: typeof Handlebars
+) {
+  // 2. Gunakan instance yang diberikan, bukan yang diimpor secara global
+  handlebarsInstance.registerHelper("eq", function (a, b) {
     return a === b;
   });
 
-  // Helper untuk menambahkan 1 ke sebuah angka (untuk @index)
-  Handlebars.registerHelper("addOne", function (value) {
-    // Pastikan value adalah angka sebelum menambahkannya
+  handlebarsInstance.registerHelper("addOne", function (value) {
     if (typeof value === "number") {
       return value + 1;
     }
     return value;
   });
-
-  // Anda bisa menambahkan helper lain di sini di masa depan
 }
