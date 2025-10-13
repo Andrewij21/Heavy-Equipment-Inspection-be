@@ -24,7 +24,24 @@ export class InspectionController {
       data: inspections,
     });
   };
+  getDashboardSummary = async (req: Request, res: Response) => {
+    // Ekstrak parameter tanggal dari query string
+    const { dateFrom, dateTo } = req.query;
 
+    const params = {
+      dateFrom: dateFrom as string | undefined,
+      dateTo: dateTo as string | undefined,
+    };
+
+    // Panggil metode service untuk mendapatkan data ringkasan
+    const summaryData = await inspectionService.getSummary(params);
+
+    // Kirim respons API
+    sendApiResponse(res, 200, {
+      message: "Inspection summary fetched successfully",
+      data: summaryData,
+    });
+  };
   getDashboardStats = async (req: Request, res: Response) => {
     // ASUMSI: req.user.role dan req.user.id tersedia setelah requireAuth
     // Pastikan Anda menangani tipe data ini.

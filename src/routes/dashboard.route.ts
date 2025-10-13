@@ -11,6 +11,7 @@ const router = Router();
 router.use(requireAuth);
 
 router.get("/stats", catchAsync(inspectionController.getDashboardStats));
+router.get("/summary", catchAsync(inspectionController.getDashboardSummary));
 
 router.get(
   "/",

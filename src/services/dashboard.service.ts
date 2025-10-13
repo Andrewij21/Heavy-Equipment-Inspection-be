@@ -1,6 +1,6 @@
 // src/services/inspection.service.ts
 import { prisma } from "../lib/prisma";
-import { Inspection } from "@prisma/client"; // Import the base Inspection model type
+import { Inspection, type Prisma } from "@prisma/client"; // Import the base Inspection model type
 
 class InspectionService {
   /**
@@ -49,7 +49,65 @@ class InspectionService {
 
     return { inspections, count };
   }
+  async getSummary(params: { dateFrom?: string; dateTo?: string }) {
+    const { dateFrom, dateTo } = params;
 
+    // 1. Buat kondisi filter untuk Prisma
+    const where: Prisma.InspectionWhereInput = {};
+    if (dateFrom || dateTo) {
+      where.createdAt = {};
+      if (dateFrom) {
+        where.createdAt.gte = new Date(dateFrom); // gte = greater than or equal
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999); // Set ke akhir hari
+        where.createdAt.lte = endDate; // lte = less than or equal
+      }
+    }
+
+    // 2. Ambil data yang relevan dari database dengan query yang efisien
+    const inspections = await prisma.inspection.findMany({
+      where,
+      select: {
+        status: true,
+        mechanicName: true,
+      },
+    });
+
+    // 3. Lakukan kalkulasi
+    const total = inspections.length;
+    let approved = 0;
+    let rejected = 0;
+    let pending = 0;
+
+    inspections.forEach((inspection) => {
+      if (inspection.status === "APPROVED") approved++;
+      else if (inspection.status === "REJECTED") rejected++;
+      else if (inspection.status === "PENDING") pending++;
+    });
+
+    // Hitung jumlah mekanik unik
+    const uniqueMechanics = new Set(
+      inspections.map((i) => i.mechanicName).filter(Boolean) // filter(Boolean) untuk menghapus nilai null/undefined
+    );
+    const user = uniqueMechanics.size;
+
+    // Hitung tingkat persetujuan (hanya dari yang sudah diverifikasi)
+    const totalVerified = approved + rejected;
+    const approvalRate =
+      totalVerified > 0 ? Math.round((approved / totalVerified) * 100) : 0;
+
+    // 4. Kembalikan objek hasil
+    return {
+      total,
+      approved,
+      rejected,
+      pending,
+      user, // Jumlah mekanik unik
+      approvalRate,
+    };
+  }
   /**
    * Calculates aggregated statistics for the dashboard (Total, Pending, Approved, Rejected).
    * Note: This is currently global; you can add userId filtering for mechanic/leader stats.
