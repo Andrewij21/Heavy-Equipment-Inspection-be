@@ -658,8 +658,8 @@
                     <tr>
                         <td class="col-finding-no">{{addOne @index}}</td>
                         <td>{{this.description}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'open')}}✓{{/if}}</td>
-                        <td class="col-finding-status">{{#if (eq this.status 'close')}}✓{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'open')}}&check;{{/if}}</td>
+                        <td class="col-finding-status">{{#if (eq this.status 'close')}}&check;{{/if}}</td>
                     </tr>
                 {{/each}}
             </tbody>
