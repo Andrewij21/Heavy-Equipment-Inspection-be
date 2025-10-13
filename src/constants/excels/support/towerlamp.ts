@@ -2,135 +2,277 @@ import type { ChecklistSection } from "../../../types/interfaces";
 
 export const supportChecklistDataTowerlamp: ChecklistSection[] = [
   {
-    title: "A. Mesin",
+    title: "Engine",
     fields: [
       {
         field: "engineOilLevel",
-        label: "Periksa level oli mesin & kebocoran",
-        type: "result",
+        label: "Check engine oil level & leakage",
+        type: "select",
       },
       {
         field: "engineMounting",
-        label: "Periksa dudukan mesin",
-        type: "result",
+        label: "Check engine mounting",
+        type: "select",
       },
       {
         field: "engineCoolantLevel",
-        label: "Periksa level air coolant & kebocoran",
-        type: "result",
+        label: "Check coolant level & leakage",
+        type: "select",
       },
       {
         field: "engineFuelSystem",
-        label: "Periksa sistem bahan bakar & kebocoran",
-        type: "result",
+        label: "Check fuel system & leakage",
+        type: "select",
       },
       {
         field: "engineBeltTension",
-        label: "Periksa ketegangan belt & komponen terkait",
-        type: "result",
+        label: "Check belt tension & related components",
+        type: "select",
       },
       {
         field: "engineAirIntake",
-        label: "Periksa saluran udara masuk & sambungan knalpot",
-        type: "result",
+        label: "Check air intake & exhaust connection",
+        type: "select",
       },
     ],
   },
   {
-    title: "B. Hidrolik",
+    title: "Hydraulic",
     fields: [
       {
         field: "hydraulicOilLevel",
-        label: "Periksa level oli hidrolik",
-        type: "result",
+        label: "Check hydraulic oil level",
+        type: "select",
       },
       {
         field: "hydraulicPumpLeakage",
-        label: "Periksa kebocoran pada pompa, motor, PTO, selang/pipa",
-        type: "result",
+        label: "Check for leaks on pump, motor, PTO, hose/pipe",
+        type: "select",
       },
       {
         field: "hydraulicValveLeakage",
-        label: "Periksa kebocoran pada control valve",
-        type: "result",
+        label: "Check for leaks on control valve",
+        type: "select",
       },
       {
         field: "hydraulicWireRope",
-        label: "Periksa wire rope",
-        type: "result",
+        label: "Check wire rope",
+        type: "select",
       },
       {
         field: "hydraulicTelescopicTower",
-        label: "Periksa menara teleskopik",
-        type: "result",
+        label: "Check telescopic tower",
+        type: "select",
       },
     ],
   },
   {
-    title: "C. Kelistrikan",
+    title: "Electric",
     fields: [
       {
         field: "electricWorkLamp",
-        label: "Periksa semua lampu kerja",
-        type: "result",
+        label: "Check all work lamps",
+        type: "select",
       },
       {
         field: "electricSwitchLamp",
-        label: "Periksa semua saklar lampu",
-        type: "result",
+        label: "Check all lamp switches",
+        type: "select",
       },
       {
         field: "electricPanelMonitor",
-        label: "Periksa fungsi panel monitor",
-        type: "result",
+        label: "Check monitor panel function",
+        type: "select",
       },
       {
         field: "electricGeneratorConnection",
-        label: "Periksa koneksi generator",
-        type: "result",
+        label: "Check generator connection",
+        type: "select",
       },
       {
         field: "electricBattery",
-        label: "Periksa aki & kondisi koneksi",
-        type: "result",
+        label: "Check battery & connection condition",
+        type: "select",
       },
       {
         field: "electricGeneratorVoltage",
-        label: "Periksa tegangan output generator",
-        type: "result",
+        label: "Check generator output voltage",
+        type: "select",
       },
       {
         field: "electricBreakerCurrent",
-        label: "Periksa arus output breaker",
-        type: "result",
+        label: "Check breaker output current",
+        type: "select",
       },
       {
         field: "electricFrequency",
-        label: "Periksa frekuensi",
-        type: "result",
+        label: "Check frequency",
+        type: "select",
       },
     ],
   },
   {
-    title: "D. Opsional",
+    title: "Optional",
     fields: [
       {
         field: "optionalVisualSkidding",
-        label: "Periksa kondisi visual skidding",
-        type: "result",
+        label: "Check visual condition of skidding",
+        type: "select",
       },
-      { field: "optionalApar", label: "Periksa APAR", type: "result" },
+      {
+        field: "optionalApar",
+        label: "Check Fire Extinguisher (APAR)",
+        type: "select",
+      },
     ],
   },
   {
-    title: "E. Penambahan Pelumas & Pendingin",
+    title: "Add Oil",
     fields: [
-      { field: "topUpCoolant", label: "Coolant", type: "result" },
+      {
+        field: "topUpCoolant",
+        label: "Coolant",
+        type: "topup",
+      },
       {
         field: "topUpEngineOil",
-        label: "Oli Mesin (SAE 15W-40)",
-        type: "result",
+        label: "Engine Oil (15W-40)",
+        type: "topup",
       },
     ],
   },
 ];
+// export const supportChecklistDataTowerlamp: ChecklistSection[] = [
+//   {
+//     title: "A. Mesin",
+//     fields: [
+//       {
+//         field: "engineOilLevel",
+//         label: "Periksa level oli mesin & kebocoran",
+//         type: "result",
+//       },
+//       {
+//         field: "engineMounting",
+//         label: "Periksa dudukan mesin",
+//         type: "result",
+//       },
+//       {
+//         field: "engineCoolantLevel",
+//         label: "Periksa level air coolant & kebocoran",
+//         type: "result",
+//       },
+//       {
+//         field: "engineFuelSystem",
+//         label: "Periksa sistem bahan bakar & kebocoran",
+//         type: "result",
+//       },
+//       {
+//         field: "engineBeltTension",
+//         label: "Periksa ketegangan belt & komponen terkait",
+//         type: "result",
+//       },
+//       {
+//         field: "engineAirIntake",
+//         label: "Periksa saluran udara masuk & sambungan knalpot",
+//         type: "result",
+//       },
+//     ],
+//   },
+//   {
+//     title: "B. Hidrolik",
+//     fields: [
+//       {
+//         field: "hydraulicOilLevel",
+//         label: "Periksa level oli hidrolik",
+//         type: "result",
+//       },
+//       {
+//         field: "hydraulicPumpLeakage",
+//         label: "Periksa kebocoran pada pompa, motor, PTO, selang/pipa",
+//         type: "result",
+//       },
+//       {
+//         field: "hydraulicValveLeakage",
+//         label: "Periksa kebocoran pada control valve",
+//         type: "result",
+//       },
+//       {
+//         field: "hydraulicWireRope",
+//         label: "Periksa wire rope",
+//         type: "result",
+//       },
+//       {
+//         field: "hydraulicTelescopicTower",
+//         label: "Periksa menara teleskopik",
+//         type: "result",
+//       },
+//     ],
+//   },
+//   {
+//     title: "C. Kelistrikan",
+//     fields: [
+//       {
+//         field: "electricWorkLamp",
+//         label: "Periksa semua lampu kerja",
+//         type: "result",
+//       },
+//       {
+//         field: "electricSwitchLamp",
+//         label: "Periksa semua saklar lampu",
+//         type: "result",
+//       },
+//       {
+//         field: "electricPanelMonitor",
+//         label: "Periksa fungsi panel monitor",
+//         type: "result",
+//       },
+//       {
+//         field: "electricGeneratorConnection",
+//         label: "Periksa koneksi generator",
+//         type: "result",
+//       },
+//       {
+//         field: "electricBattery",
+//         label: "Periksa aki & kondisi koneksi",
+//         type: "result",
+//       },
+//       {
+//         field: "electricGeneratorVoltage",
+//         label: "Periksa tegangan output generator",
+//         type: "result",
+//       },
+//       {
+//         field: "electricBreakerCurrent",
+//         label: "Periksa arus output breaker",
+//         type: "result",
+//       },
+//       {
+//         field: "electricFrequency",
+//         label: "Periksa frekuensi",
+//         type: "result",
+//       },
+//     ],
+//   },
+//   {
+//     title: "D. Opsional",
+//     fields: [
+//       {
+//         field: "optionalVisualSkidding",
+//         label: "Periksa kondisi visual skidding",
+//         type: "result",
+//       },
+//       { field: "optionalApar", label: "Periksa APAR", type: "result" },
+//     ],
+//   },
+//   {
+//     title: "E. Penambahan Pelumas & Pendingin",
+//     fields: [
+//       { field: "topUpCoolant", label: "Coolant", type: "result" },
+//       {
+//         field: "topUpEngineOil",
+//         label: "Oli Mesin (SAE 15W-40)",
+//         type: "result",
+//       },
+//     ],
+//   },
+// ];
