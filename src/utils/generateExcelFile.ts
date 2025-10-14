@@ -303,7 +303,7 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${globalRow}`).value = `Name: ${data.mechanicName}`;
   worksheet.mergeCells(`D${globalRow}:F${globalRow}`);
   worksheet.getCell(`D${globalRow}`).value = `Name: ${
-    data.approver?.username || "-"
+    data.status === "REJECTED" ? "-" : data.approver?.username || "-"
   }`;
   globalRow++;
 
@@ -526,7 +526,7 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${globalRow}`).value = `Name: ${data.mechanicName}`;
   worksheet.mergeCells(`D${globalRow}:F${globalRow}`);
   worksheet.getCell(`D${globalRow}`).value = `Name: ${
-    data.approver?.username || "-"
+    data.status === "REJECTED" ? "-" : data.approver?.username || "-"
   }`;
   globalRow++;
 
@@ -753,7 +753,7 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.getCell(`A${globalRow}`).value = `Name: ${data.mechanicName}`;
   worksheet.mergeCells(`D${globalRow}:F${globalRow}`);
   worksheet.getCell(`D${globalRow}`).value = `Name: ${
-    data.approver?.username || "-"
+    data.status === "REJECTED" ? "-" : data.approver?.username || "-"
   }`;
   globalRow++;
 
