@@ -16,7 +16,7 @@ class UserService {
     const { page = 1, limit = 10, role, q } = params;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: any = { status: "active" };
 
     if (role) where.role = role;
     if (q) {
@@ -33,15 +33,19 @@ class UserService {
   }
 
   async getById(id: string) {
-    const user = await prisma.user.findFirst({ where: { id } });
+    const user = await prisma.user.findFirst({
+      where: { id, status: "active" },
+    });
     if (!user) throw new NotFoundError("User not found");
     return user;
   }
 
   async create(data: CreateUserSchema) {
-    const { email, password, ...restOfData } = data;
+    const { email, password, employeeId, ...restOfData } = data;
     const user = await prisma.user.findFirst({ where: { email } });
     if (user) throw new Error("Email already exists");
+    const userId = await prisma.user.findFirst({ where: { employeeId } });
+    if (userId) throw new Error("Employee ID already exists");
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await prisma.user.create({
@@ -71,9 +75,14 @@ class UserService {
   }
 
   async delete(id: string) {
-    return prisma.user.delete({ where: { id } });
+    // return prisma.user.delete({ where: { id } });
+    return prisma.user.update({
+      where: { id },
+      data: {
+        status: "inactive", // ✅ Tandai sebagai tidak aktif
+      },
+    });
   }
 }
-
 // Export a singleton (best in Node, no need `new` every time)
 export const userService = new UserService();
