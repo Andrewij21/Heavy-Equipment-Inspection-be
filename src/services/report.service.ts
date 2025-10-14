@@ -145,6 +145,10 @@ class ReportService {
       )}`;
       // Dapatkan findings dari object detail yang sesuai
       const findingsArray = detailObject?.findings || [];
+
+      if (rawInspection.status === "REJECTED") {
+        rawInspection.approver = null;
+      }
       const htmlContent = template({
         inspection: rawInspection,
         findings: findingsArray,

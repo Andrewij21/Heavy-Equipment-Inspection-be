@@ -79,7 +79,6 @@ class InspectionService {
     const updateData: Prisma.InspectionUpdateInput = {
       status: newStatus,
     };
-
     if (newStatus === "APPROVED") {
       // ✅ CORRECT: Use the 'approver' relation field with 'connect'
       updateData.approver = {
@@ -87,11 +86,15 @@ class InspectionService {
       };
       updateData.approvalDate = new Date();
     } else if (newStatus === "REJECTED") {
-      // ✅ CORRECT: Use 'disconnect' to remove the relation
       updateData.approver = {
-        disconnect: true,
+        connect: { id: approverId },
       };
-      updateData.approvalDate = null;
+      // // ✅ CORRECT: Use 'disconnect' to remove the relation
+      // updateData.approver = {
+      //   disconnect: true,
+      // };
+      updateData.approvalDate = new Date();
+      // updateData.approvalDate = null;
     }
 
     // const updated = await prisma.inspection.update({
