@@ -23,3 +23,9 @@ export class ForbiddenError extends ApiError {
     super(403, message);
   }
 }
+
+export class ConflictError extends ApiError {
+  constructor(message: string = "Resource already exists") {
+    super(409, message);
+  }
+}

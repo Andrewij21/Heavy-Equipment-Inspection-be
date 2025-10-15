@@ -4,7 +4,7 @@ import type {
   CreateUserSchema,
   UpdateUserSchema,
 } from "../schemas/user.schema";
-import { NotFoundError } from "../utils/customeErrors";
+import { ConflictError, NotFoundError } from "../utils/customeErrors";
 import bcrypt from "bcryptjs";
 class UserService {
   async getAll(params: {
@@ -43,13 +43,13 @@ class UserService {
   async create(data: CreateUserSchema) {
     const { email, password, employeeId, ...restOfData } = data;
     const user = await prisma.user.findFirst({ where: { email } });
-    if (user) throw new Error("Email already exists");
+    if (user) throw new ConflictError("Email already exists");
     const userId = await prisma.user.findFirst({ where: { employeeId } });
-    if (userId) throw new Error("Employee ID already exists");
+    if (userId) throw new ConflictError("Employee ID already exists");
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await prisma.user.create({
-      data: { password: hashedPassword, email, ...restOfData },
+      data: { password: hashedPassword, email, employeeId, ...restOfData },
     });
 
     return newUser;
