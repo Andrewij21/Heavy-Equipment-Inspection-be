@@ -37,6 +37,7 @@ class ReportService {
         trackDetails: true,
         wheelDetails: true,
         supportDetails: true,
+        tyreDetails: true,
         approver: { select: { username: true, email: true, role: true } },
       },
     });
@@ -88,6 +89,9 @@ class ReportService {
       } else if (equipmentType === "wheel") {
         // Asumsi field ini sudah ada di rawInspection jika equipmentType adalah 'wheel'
         generalTypeSource = rawInspection.wheelGeneralType;
+      } else if (equipmentType === "tyre") {
+        // Asumsi field ini sudah ada di rawInspection jika equipmentType adalah 'wheel'
+        generalTypeSource = "tyre";
       } else {
         generalTypeSource = rawInspection.supportGeneralType;
       }
@@ -129,6 +133,8 @@ class ReportService {
           ? rawInspection.wheelDetails
           : equipmentType === "support"
           ? rawInspection.supportDetails
+          : equipmentType === "tyre" // <-- Tambahkan kondisi untuk Tipe Ban
+          ? rawInspection.tyreDetails
           : null;
       // Baca file logo pertama
       const logo1Path = path.join(process.cwd(), "public", "logo.png");
@@ -151,6 +157,7 @@ class ReportService {
       }
       const htmlContent = template({
         inspection: rawInspection,
+        detailObject: detailObject,
         findings: findingsArray,
         logo1Base64: logo1Base64, // <-- Kirim data logo 1
         logo2Base64: logo2Base64, // <-- Kirim data logo 2

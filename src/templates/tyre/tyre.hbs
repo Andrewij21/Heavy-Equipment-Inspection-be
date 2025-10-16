@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspeksi Tyre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            /* Lebar untuk mode landscape A4 */
+            margin: auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .header-table td {
+            border: none;
+            vertical-align: middle;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-title {
+            text-align: center;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 16pt;
+        }
+
+        .header-title p {
+            margin: 0;
+            font-size: 12pt;
+        }
+
+        .info-box-table {
+            width: 250px;
+            float: right;
+        }
+
+        .info-box-table td {
+            font-size: 9pt;
+        }
+
+        .main-info-container {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            width: 100%;
+        }
+
+        .info-block-left {
+            float: left;
+            width: 50%;
+            /* Mengambil setengah lebar kiri */
+        }
+
+        .info-block-right {
+            float: right;
+            width: 30%;
+            /* Mengambil sebagian lebar kanan */
+            text-align: left;
+        }
+
+        /* Hilangkan border dari tabel-tabel kecil ini */
+        .info-block-left table,
+        .info-block-right table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .info-block-left td,
+        .info-block-right td {
+            border: none;
+            /* Menghilangkan kotak/border */
+            padding: 2px 0;
+            /* Memberi sedikit jarak vertikal */
+            font-weight: bold;
+        }
+
+        .info-block-left .info-label,
+        .info-block-right .info-label {
+            width: 100px;
+            /* Memberi lebar tetap pada label agar rapi */
+        }
+
+        .tyre-table th {
+            text-align: center;
+            font-weight: bold;
+            background-color: #f2f2f2;
+            font-size: 9pt;
+        }
+
+        .tyre-table td {
+            height: 20px;
+            /* Memberi tinggi pada setiap baris */
+            text-align: center;
+        }
+
+        .col-no {
+            width: 3%;
+        }
+
+        .col-posisi {
+            width: 10%;
+        }
+
+        .col-sn {
+            width: 12%;
+        }
+
+        .col-brand {
+            width: 10%;
+        }
+
+        .col-pattern {
+            width: 10%;
+        }
+
+        .col-rtd {
+            width: 5%;
+        }
+
+        .col-pressure {
+            width: 8%;
+        }
+
+        .col-problem {
+            width: 15%;
+        }
+
+        .col-action {
+            width: 15%;
+        }
+
+        .col-manpower {
+            width: 12%;
+        }
+
+        .note-section {
+            margin-top: 10px;
+            font-size: 9pt;
+        }
+
+        .signature-section {
+            margin-top: 20px;
+            text-align: right;
+            width: 250px;
+            float: right;
+            font-size: 10pt;
+        }
+
+        .signature-line {
+            border-bottom: 1px dotted black;
+            height: 60px;
+            margin-bottom: 5px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <table class="header-table">
+            <tr>
+                <td style="width: 15%;"><img src="{{logo1Base64}}" alt="Logo 1" class="logo"></td>
+                <td class="header-title">
+                    <h1>PT. ANTAREJA MAHADA MAKMUR</h1>
+                    <p>Job Site - SBS</p>
+                    <h2>INSPEKSI TYRE</h2>
+                </td>
+                <td style="width: 25%;">
+                    <table class="info-box-table">
+                        <tr>
+                            <td>No. Formulir</td>
+                            <td>: {{inspection.formNumber}}</td>
+                        </tr>
+                        <tr>
+                            <td>Revisi</td>
+                            <td>: {{inspection.revision}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal Terbit</td>
+                            <td>: {{inspection.dateOfIssue}}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div class="main-info-container clearfix">
+            <div class="info-block-left">
+                <table>
+                    <tr>
+                        <td class="info-label">UNIT CODE</td>
+                        <td>: {{inspection.equipmentId}}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">HM</td>
+                        <td>: {{inspection.hm}}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">SIZE</td>
+                        <td>: {{inspection.size}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="info-block-right">
+                <table>
+                    <tr>
+                        <td class="info-label">TANGGAL</td>
+                        <td>: {{inspection.inspectionDate}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <table class="tyre-table">
+            <thead>
+                <tr>
+                    <th class="col-no">NO</th>
+                    <th class="col-posisi">POSISI</th>
+                    <th class="col-sn">SERIAL NUMBER</th>
+                    <th class="col-brand">BRAND</th>
+                    <th class="col-pattern">PATTERN</th>
+                    <th class="col-rtd">RTD</th>
+                    <th class="col-pressure">PRESSURE</th>
+                    <th class="col-problem">PROBLEM</th>
+                    <th class="col-action">ACTION</th>
+                    <th class="col-manpower">MAN POWER</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each inspection.tyreDetails}}
+                    <tr>
+                        <td>{{addOne @index}}</td>
+                        <td>{{this.position}}</td>
+                        <td>{{this.serialNumber}}</td>
+                        <td>{{this.brand}}</td>
+                        <td>{{this.pattern}}</td>
+                        <td>{{this.rtd}}</td>
+                        <td>{{this.pressure}}</td>
+                        <td>{{this.problem}}</td>
+                        <td>{{this.action}}</td>
+                        <td>{{this.manpower}}</td>
+                    </tr>
+                {{/each}}
+
+                {{#times (subtract 12 inspection.tyreDetails.length)}}
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                {{/times}}
+            </tbody>
+        </table>
+
+        <div class="clearfix">
+            <div class="note-section" style="float: left;">
+                <p style="margin: 0; font-weight: bold;">NOTE ACTION :</p>
+                <ol style="margin-top: 5px; padding-left: 20px;">
+                    <li>Monitoring</li>
+                    <li>Replace To Repair</li>
+                    <li>Replace To Scrap</li>
+                    <li>Buffing</li>
+                </ol>
+            </div>
+
+            <div class="signature-section">
+                <p style="margin-bottom: 5px; text-align: center;">Checked by,</p>
+                <div class="signature-line">{{inspection.approver.username}}</div>
+                <p style="text-align: center; margin:0;">Group Leader Tyre</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
