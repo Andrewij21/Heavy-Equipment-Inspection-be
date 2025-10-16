@@ -88,7 +88,193 @@ const getSupportChecklistData = (type: string) => {
       return [];
   }
 };
+// Di dalam file generateExcelFile.ts atau file utilitas Excel Anda
 
+// ... (import dan helper lain seperti allBorders, globalRow, dll.)
+
+const generateStandardTyreLayout: ExcelLayoutFunction = (worksheet, data) => {
+  globalRow = 1; // Reset baris global
+
+  // --- 1. PENGATURAN AWAL ---
+  // Atur lebar kolom agar sesuai dengan formulir Tyre Inspection
+  worksheet.columns = [
+    { key: "no", width: 5 }, // A
+    { key: "posisi", width: 15 }, // B
+    { key: "sn", width: 20 }, // C
+    { key: "brand", width: 15 }, // D
+    { key: "pattern", width: 15 }, // E
+    { key: "rtd", width: 10 }, // F
+    { key: "pressure", width: 10 }, // G
+    { key: "problem", width: 30 }, // H
+    { key: "action", width: 30 }, // I
+    { key: "manpower", width: 20 }, // J
+  ];
+
+  // --- 2. HEADER UTAMA (Logo, Judul, Info Box) ---
+  // Menambahkan logo jika ada (asumsi path sudah benar)
+  // const logo1Path = path.join(process.cwd(), "public", "logo.jpeg");
+  // if (fs.existsSync(logo1Path)) {
+  //   const logo1ImageId = worksheet.workbook.addImage({
+  //     buffer: fs.readFileSync(logo1Path),
+  //     extension: "jpeg",
+  //   });
+  //   worksheet.addImage(logo1ImageId, "A1:B3");
+  // }
+
+  // Judul di tengah
+  worksheet.mergeCells("C1:H1");
+  worksheet.getCell("C1").value = "PT. ANTAREJA MAHADA MAKMUR";
+  worksheet.getCell("C1").font = { name: "Arial", size: 16, bold: true };
+  worksheet.getCell("C1").alignment = {
+    vertical: "middle",
+    horizontal: "center",
+  };
+
+  worksheet.mergeCells("C2:H2");
+  worksheet.getCell("C2").value = "Job Site - SBS";
+  worksheet.getCell("C2").font = { name: "Arial", size: 12 };
+  worksheet.getCell("C2").alignment = {
+    vertical: "middle",
+    horizontal: "center",
+  };
+
+  worksheet.mergeCells("C3:H3");
+  worksheet.getCell("C3").value = "INSPEKSI TYRE";
+  worksheet.getCell("C3").font = { name: "Arial", size: 14, bold: true };
+  worksheet.getCell("C3").alignment = {
+    vertical: "middle",
+    horizontal: "center",
+  };
+
+  // Info Box di kanan atas
+  ["I1", "I2", "I3"].forEach((cellRef) => {
+    worksheet.getCell(cellRef).font = { bold: true };
+    worksheet.getCell(cellRef).border = allBorders;
+  });
+  worksheet.getCell("I1").value = "No. Formulir";
+  worksheet.getCell("I2").value = "Revisi";
+  worksheet.getCell("I3").value = "Tanggal Terbit";
+
+  ["J1", "J2", "J3"].forEach(
+    (cellRef) => (worksheet.getCell(cellRef).border = allBorders)
+  );
+  worksheet.getCell("J1").value = `: ${data.formNumber || ""}`;
+  worksheet.getCell("J2").value = `: ${data.revision || ""}`;
+  worksheet.getCell("J3").value = `: ${data.dateOfIssue || ""}`;
+
+  globalRow = 5; // Pindah ke baris di bawah header
+  const infoStartRow = globalRow;
+  // Baris 1: UNIT CODE dan TANGGAL
+  worksheet.getCell(`A${infoStartRow}`).value = "UNIT CODE";
+  worksheet.getCell(`A${infoStartRow}`).font = { bold: true };
+  worksheet.getCell(`B${infoStartRow}`).value = `: ${data.equipmentId}`;
+
+  worksheet.getCell(`I${infoStartRow}`).value = "TANGGAL";
+  worksheet.getCell(`I${infoStartRow}`).font = { bold: true };
+  worksheet.getCell(`J${infoStartRow}`).value = `: ${data.inspectionDate}`;
+
+  // Baris 2: HM
+  worksheet.getCell(`A${infoStartRow + 1}`).value = "HM";
+  worksheet.getCell(`A${infoStartRow + 1}`).font = { bold: true };
+  worksheet.getCell(`B${infoStartRow + 1}`).value = `: ${data.hm}`;
+
+  // Baris 3: SIZE
+  worksheet.getCell(`A${infoStartRow + 2}`).value = "SIZE";
+  worksheet.getCell(`A${infoStartRow + 2}`).font = { bold: true };
+  worksheet.getCell(`B${infoStartRow + 2}`).value = `: ${data.size}`;
+
+  // Pindahkan globalRow ke posisi setelah blok info ini
+  globalRow = infoStartRow + 4; // Memberi satu baris spasi kosong
+
+  worksheet.mergeCells(`I${globalRow}:J${globalRow}`);
+  worksheet.getCell(`I${globalRow}`).value = `TANGGAL : ${data.inspectionDate}`;
+  worksheet.getCell(`I${globalRow}`).font = { bold: true };
+
+  globalRow += 2; // Spasi sebelum tabel utama
+
+  // --- 4. TABEL INSPEKSI BAN ---
+  const tableHeaders = [
+    "NO",
+    "POSISI",
+    "SERIAL NUMBER",
+    "BRAND",
+    "PATTERN",
+    "RTD",
+    "PRESSURE",
+    "PROBLEM",
+    "ACTION",
+    "MAN POWER",
+  ];
+  const headerRow = worksheet.getRow(globalRow);
+  headerRow.values = tableHeaders;
+  headerRow.eachCell((cell) => {
+    cell.style = {
+      font: { bold: true },
+      fill: {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFD9D9D9" },
+      },
+      alignment: { vertical: "middle", horizontal: "center", wrapText: true },
+      border: allBorders,
+    };
+  });
+  globalRow++;
+
+  // Isi data ban (jika ada)
+  const tyreDetails = data.tyreDetails || [];
+  tyreDetails.forEach((detail: any, index: number) => {
+    const row = worksheet.addRow([
+      index + 1,
+      detail.position,
+      detail.serialNumber,
+      detail.brand,
+      detail.pattern,
+      detail.rtd,
+      detail.pressure,
+      detail.problem,
+      detail.action,
+      detail.manpower,
+    ]);
+    row.eachCell((cell) => {
+      cell.border = allBorders;
+      cell.alignment = { vertical: "middle", horizontal: "center" };
+    });
+    globalRow++;
+  });
+
+  // Tambahkan baris kosong hingga total 12 baris data
+  const emptyRowsNeeded = 12 - tyreDetails.length;
+  for (let i = 0; i < emptyRowsNeeded; i++) {
+    const row = worksheet.addRow(Array(tableHeaders.length).fill(""));
+    row.eachCell((cell) => {
+      cell.border = allBorders;
+    });
+    globalRow++;
+  }
+
+  // --- 5. FOOTER (Note Action & Signature) ---
+  globalRow += 1;
+  worksheet.getCell(`A${globalRow}`).value = "NOTE ACTION :";
+  worksheet.getCell(`A${globalRow}`).font = { bold: true };
+  worksheet.getCell(`A${globalRow + 1}`).value = "1. Monitoring";
+  worksheet.getCell(`A${globalRow + 2}`).value = "2. Replace To Repair";
+  worksheet.getCell(`A${globalRow + 3}`).value = "3. Replace To Scrap";
+  worksheet.getCell(`A${globalRow + 4}`).value = "4. Buffing";
+
+  worksheet.mergeCells(`I${globalRow + 1}:J${globalRow + 1}`);
+  worksheet.getCell(`I${globalRow + 1}`).value = "Checked by,";
+  worksheet.getCell(`I${globalRow + 1}`).alignment = { horizontal: "center" };
+
+  worksheet.mergeCells(`I${globalRow + 4}:J${globalRow + 4}`);
+  const signatureCell = worksheet.getCell(`I${globalRow + 4}`);
+  signatureCell.value = "Group Leader Tyre";
+  signatureCell.alignment = { horizontal: "center" };
+  signatureCell.border = { top: { style: "dotted" } };
+
+  globalRow += 6; // Menambah baris setelah footer
+  return globalRow;
+};
 const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   globalRow = 1;
   globalItemNo = 0;
@@ -783,6 +969,7 @@ const excelLayouts: Record<string, ExcelLayoutFunction> = {
   Compressor: generateStandardSupportlLayout,
   MultiFlow: generateStandardSupportlLayout,
   TyreHandler: generateStandardSupportlLayout,
+  tyre: generateStandardTyreLayout,
 };
 
 export const generateExcelFile = async (
@@ -794,11 +981,12 @@ export const generateExcelFile = async (
 
   const type = data.equipmentType;
   let generalType;
-
   if (type === "track") {
     generalType = data.equipmentGeneralType;
   } else if (type === "wheel") {
     generalType = data.wheelGeneralType;
+  } else if (type === "tyre") {
+    generalType = "tyre";
   } else {
     generalType = data.supportGeneralType;
   }
