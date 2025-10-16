@@ -24,6 +24,7 @@ enum EquipmentType {
   track
   wheel
   support
+  tyre
 }
 
 // 2. Enum for Track Subtypes (used in the base table for easy filtering)
@@ -74,22 +75,27 @@ model Inspection {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // REQUIRED HEADER FIELDS (Non-nullable)
-  equipmentId    String
-  modelUnit      String
-  location       String
-  operatorName   String
-  mechanicName   String
-  inspectionDate String
-  inspectionTime String
-  workingHours   Int
-  // smr            Int
-  smr            String
-  timeDown       String
-  timeOut        String
-  shift          String
-
+  equipmentId     String
+  modelUnit       String
+  location        String
+  operatorName    String
+  mechanicName    String
+  inspectionDate  String
+  inspectionTime  String
+  workingHours    Int
+  smr             String
+  timeDown        String
+  timeOut         String
+  shift           String
   notes           String?
   groupLeaderName String?
+
+  // Tyre
+  formNumber  String?
+  revision    String?
+  hm          String?
+  size        String?
+  dateOfIssue String?
 
   status InspectionStatus @default(PENDING)
 
@@ -111,6 +117,7 @@ model Inspection {
   trackDetails   TrackInspectionDetails?
   wheelDetails   WheelInspectionDetails?
   supportDetails SupportInspectionDetails?
+  tyreDetails    TyreInspectionDetails[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -795,4 +802,21 @@ model SupportInspectionDetails {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model TyreInspectionDetails {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  // RELATIONSHIP
+  inspectionId String     @db.ObjectId
+  inspection   Inspection @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+
+  position     String?
+  serialNumber String?
+  brand        String?
+  pattern      String?
+  rtd          String?
+  pressure     String?
+  problem      String?
+  action       String?
+  manpower     String?
 }

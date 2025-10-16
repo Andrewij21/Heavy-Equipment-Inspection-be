@@ -8,6 +8,7 @@ import reportRoutes from "./report.route";
 import wheelRoutes from "./wheel.route";
 import supportRoutes from "./support.route";
 import profileRoutes from "./profile.route";
+import tyreRoutes from "./tyre.route";
 
 const router = Router();
 
@@ -28,4 +29,5 @@ router.use("/inspections", inspectionRoutes);
 router.use("/reports", reportRoutes);
 router.use("/dashboard", dashboardRoutes);
 router.use("/profile", profileRoutes);
+router.use("/tires", tyreRoutes);
 export default router;
