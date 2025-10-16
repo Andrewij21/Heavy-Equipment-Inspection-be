@@ -2,8 +2,9 @@
 
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcryptjs";
-import { NotFoundError } from "../utils/customeErrors";
+import { ConflictError, NotFoundError } from "../utils/customeErrors";
 import type { ProfileFormData } from "../schemas/profile.schema";
+import type { Prisma } from "@prisma/client";
 
 class ProfileService {
   /**
@@ -34,53 +35,57 @@ class ProfileService {
   /**
    * Memperbarui detail profil pengguna (username, email, contact, employeeId, password).
    */
-  async updateProfile(userId: string, data: ProfileFormData) {
-    const { password, ...userData } = data;
-    const updatePayload: any = { ...userData };
+  async updateProfile(id: string, data: ProfileFormData) {
+    // 1. Ambil data pengguna saat ini untuk perbandingan
+    const existingUser = await prisma.user.findUnique({ where: { id } });
 
-    // 1. Logika Hashing Password (jika password baru dikirim)
+    // Jika pengguna tidak ditemukan, lempar error
+    if (!existingUser) {
+      throw new NotFoundError("User not found.");
+    }
+
+    // 2. Validasi Email (jika diubah)
+    // Hanya jalankan jika email baru disediakan DAN berbeda dari email lama
+    if (data.email && data.email !== existingUser.email) {
+      const userWithSameEmail = await prisma.user.findUnique({
+        where: { email: data.email },
+      });
+      if (userWithSameEmail) {
+        throw new ConflictError(`Email '${data.email}' is already in use.`);
+      }
+    }
+
+    // 3. Validasi Employee ID (jika diubah)
+    // Hanya jalankan jika employeeId baru disediakan DAN berbeda dari yang lama
+    if (data.employeeId && data.employeeId !== existingUser.employeeId) {
+      const userWithSameEmployeeId = await prisma.user.findFirst({
+        where: { employeeId: data.employeeId },
+      });
+      if (userWithSameEmployeeId) {
+        throw new ConflictError(
+          `Employee ID '${data.employeeId}' is already registered.`
+        );
+      }
+    }
+
+    // 4. Siapkan data untuk diupdate
+    const { password, ...userData } = data;
+    const updateData: Prisma.UserUpdateInput = { ...userData };
+
+    // 5. Tangani pembaruan password (logika lama tetap sama)
     if (password) {
       if (password.length < 6) {
         throw new Error("Password must be at least 6 characters long.");
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      updatePayload.password = hashedPassword;
+      updateData.password = hashedPassword;
     }
 
-    // 2. Logika Pembaruan Email (jika email diubah, cek duplikasi)
-    if (userData.email) {
-      const existingUser = await prisma.user.findFirst({
-        where: {
-          email: userData.email,
-          id: { not: userId }, // Pastikan itu bukan diri sendiri
-        },
-      });
-      if (existingUser) {
-        throw new Error("Email already registered by another user.");
-      }
-    }
-
-    // 3. Menangani field nullable (contact): string kosong menjadi null
-    if (updatePayload.contact === "") {
-      updatePayload.contact = null;
-    }
-
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: updatePayload,
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        contact: true,
-        employeeId: true,
-        role: true,
-        department: true,
-        createdAt: true,
-      },
+    // 6. Lakukan pembaruan jika semua validasi lolos
+    return prisma.user.update({
+      where: { id },
+      data: updateData,
     });
-
-    return updatedUser;
   }
 }
 
