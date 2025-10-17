@@ -21,8 +21,18 @@ class InspectionService {
     q?: string;
     status?: string;
     equipmentType?: string;
+    dateFrom?: string;
+    dateTo?: string;
   }) {
-    const { page = 1, limit = 100, status, q, equipmentType } = params;
+    const {
+      page = 1,
+      limit = 100,
+      status,
+      q,
+      equipmentType,
+      dateFrom,
+      dateTo,
+    } = params;
     const skip = (page - 1) * limit;
 
     const where: any = {};
@@ -35,7 +45,17 @@ class InspectionService {
         { mechanicName: { contains: q, mode: "insensitive" } },
       ];
     }
-
+    if (dateFrom || dateTo) {
+      where.createdAt = {};
+      if (dateFrom) {
+        where.createdAt.gte = new Date(dateFrom); // gte = greater than or equal
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999); // Set ke akhir hari
+        where.createdAt.lte = endDate; // lte = less than or equal
+      }
+    }
     // Define the standard selection, including the approver link
     const include = {
       approver: {
