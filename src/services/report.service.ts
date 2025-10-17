@@ -9,6 +9,7 @@ import { Buffer } from "buffer";
 import puppeteer from "puppeteer-core";
 import * as puppeteerDev from "puppeteer";
 import { generateExcelFile } from "../utils/generateExcelFile";
+import JSZip from "jszip";
 // Handlebars.registerHelper("addOne", function (index: number) {
 //   return index + 1;
 // });
@@ -233,44 +234,89 @@ class ReportService {
     const inspectionData = await this.getInspectionDataForExport(
       payload.inspectionIds
     );
+    if (inspectionData.length === 1) {
+      // Define Columns and Map Data (used for general CSV/flat export)
+      const excelColumns: ExcelExportColumn[] = [
+        { header: "Unit ID", key: "unitId", width: 12 },
+        { header: "Type", key: "unitType", width: 10 },
+        { header: "Location", key: "location", width: 20 },
+        { header: "Mechanic", key: "mechanic", width: 20 },
+        { header: "SMR", key: "smr", width: 8 },
+        { header: "Status", key: "status", width: 10 },
+        { header: "Lock Switch", key: "lowerLockOutSwitch", width: 15 },
+      ];
 
-    // Define Columns and Map Data (used for general CSV/flat export)
-    const excelColumns: ExcelExportColumn[] = [
-      { header: "Unit ID", key: "unitId", width: 12 },
-      { header: "Type", key: "unitType", width: 10 },
-      { header: "Location", key: "location", width: 20 },
-      { header: "Mechanic", key: "mechanic", width: 20 },
-      { header: "SMR", key: "smr", width: 8 },
-      { header: "Status", key: "status", width: 10 },
-      { header: "Lock Switch", key: "lowerLockOutSwitch", width: 15 },
-    ];
+      const mappedData = inspectionData.map((item: any) => ({
+        unitId: item.equipmentId,
+        unitType: item.equipmentGeneralType,
+        location: item.location,
+        mechanic: item.mechanicName,
+        smr: item.smr,
+        status: item.status,
+        lowerLockOutSwitch: item.trackDetails?.lowerLockOutSwitch || "N/A",
+      }));
 
-    const mappedData = inspectionData.map((item: any) => ({
-      unitId: item.equipmentId,
-      unitType: item.equipmentGeneralType,
-      location: item.location,
-      mechanic: item.mechanicName,
-      smr: item.smr,
-      status: item.status,
-      lowerLockOutSwitch: item.trackDetails?.lowerLockOutSwitch || "N/A",
-    }));
+      const fileBuffer = await this.generateFile(
+        mappedData,
+        excelColumns,
+        inspectionData,
+        payload.format
+      );
 
-    const fileBuffer = await this.generateFile(
-      mappedData,
-      excelColumns,
-      inspectionData,
-      payload.format
-    );
+      const extension = payload.format === "excel" ? "xlsx" : payload.format;
 
-    const extension = payload.format === "excel" ? "xlsx" : payload.format;
+      return {
+        fileBuffer,
+        mimeType: this.getMimeType(payload.format),
+        fileName: `inspection_export_${
+          new Date().toISOString().split("T")[0]
+        }.${extension}`,
+      };
+    }
+    if (inspectionData.length > 1) {
+      console.log(`Generating ZIP for ${inspectionData.length} files...`);
+      // CSV biasanya untuk ringkasan, tidak cocok untuk multi-file. Kita bisa lewati atau beri error.
+      if (payload.format === "csv") {
+        throw new Error(
+          "CSV export is not supported for multiple selections. Please choose PDF or Excel."
+        );
+      }
 
-    return {
-      fileBuffer,
-      mimeType: this.getMimeType(payload.format),
-      fileName: `inspection_export_${
-        new Date().toISOString().split("T")[0]
-      }.${extension}`,
-    };
+      const zip = new JSZip();
+      const extension = payload.format === "excel" ? "xlsx" : payload.format;
+
+      // Loop melalui setiap inspeksi untuk membuat filenya masing-masing
+      for (const inspection of inspectionData) {
+        // Panggil `generateFile` untuk SETIAP inspeksi secara individual
+        const singleFileBuffer = await this.generateFile(
+          [], // mappedData tidak relevan untuk PDF/Excel individual
+          [], // excelColumns tidak relevan
+          [inspection], // Kirim sebagai array dengan satu item
+          payload.format
+        );
+
+        // Buat nama file yang unik untuk setiap item di dalam zip
+        const fileNameInZip = `Inspection_${
+          inspection.equipmentId
+        }_${inspection.id.slice(-6)}.${extension}`;
+
+        // Tambahkan file ke dalam zip
+        zip.file(fileNameInZip, singleFileBuffer);
+      }
+
+      // Generate buffer untuk file ZIP
+      const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+
+      return {
+        fileBuffer: zipBuffer,
+        mimeType: "application/zip", // Mime type untuk file ZIP
+        fileName: `inspections_export_${
+          new Date().toISOString().split("T")[0]
+        }.zip`,
+      };
+    }
+    // Jika tidak ada data, kembalikan error (atau respons kosong)
+    throw new NotFoundError("No data found to export.");
   }
 
   private getMimeType(format: string): string {
