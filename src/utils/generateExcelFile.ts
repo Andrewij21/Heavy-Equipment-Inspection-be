@@ -158,9 +158,9 @@ const generateStandardTyreLayout: ExcelLayoutFunction = (worksheet, data) => {
   ["J1", "J2", "J3"].forEach(
     (cellRef) => (worksheet.getCell(cellRef).border = allBorders)
   );
-  worksheet.getCell("J1").value = `: ${data.formNumber || ""}`;
-  worksheet.getCell("J2").value = `: ${data.revision || ""}`;
-  worksheet.getCell("J3").value = `: ${data.dateOfIssue || ""}`;
+  worksheet.getCell("J1").value = `: ${"AMM-SBS-F-PLT-09D"}`;
+  worksheet.getCell("J2").value = `: ${"1/0"}`;
+  worksheet.getCell("J3").value = `: ${"01/01/2025"}`;
 
   globalRow = 5; // Pindah ke baris di bawah header
   const infoStartRow = globalRow;
