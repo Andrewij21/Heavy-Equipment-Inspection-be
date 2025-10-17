@@ -90,6 +90,7 @@ model Inspection {
   shift           String
   notes           String?
   groupLeaderName String?
+  comments        String?
 
   // Tyre
   formNumber  String?

@@ -93,7 +93,8 @@ class InspectionService {
   async updateStatus(
     id: string,
     newStatus: InspectionStatus,
-    approverId: string
+    approverId: string,
+    comments: string
   ) {
     // Explicitly declare the type for our dynamic data object
     const updateData: Prisma.InspectionUpdateInput = {
@@ -116,7 +117,7 @@ class InspectionService {
       updateData.approvalDate = new Date();
       // updateData.approvalDate = null;
     }
-
+    updateData.comments = comments;
     // const updated = await prisma.inspection.update({
     //   where: { id },
     //   data: {

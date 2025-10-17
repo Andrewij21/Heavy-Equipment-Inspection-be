@@ -48,7 +48,7 @@ export class InspectionController {
   // NEW METHOD: Handles status update (Approval/Rejection)
   updateStatus = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, comments } = req.body;
 
     // CRITICAL: Get approver ID from the auth middleware payload (req.user)
     const approverId = req.user?.id;
@@ -78,7 +78,8 @@ export class InspectionController {
     const updated = await inspectionService.updateStatus(
       id,
       newStatus as InspectionStatus,
-      approverId
+      approverId,
+      comments
     );
 
     sendApiResponse(res, 200, {
