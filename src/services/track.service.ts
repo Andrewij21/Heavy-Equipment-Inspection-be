@@ -43,6 +43,7 @@ const separateTrackData = (
     approverId,
     approvalDate, // These fields are now handled correctly as optional base fields
     mechanicId,
+    timeStop,
     ...trackDetails
   } = cleanedInput;
 
@@ -67,6 +68,7 @@ const separateTrackData = (
     approverId,
     approvalDate,
     mechanicId,
+    timeStop,
   };
 
   const cleanedBaseData = removeUndefined(baseData);
@@ -194,6 +196,7 @@ class TrackService {
       approverId,
       approvalDate,
       status,
+      timeStop,
       // Semua field yang TIDAK di-destructure di sini akan masuk ke 'wheelDetailsPayload'
       ...trackDetailsPayload
     } = data;
@@ -219,6 +222,7 @@ class TrackService {
       approverId,
       approvalDate,
       status,
+      timeStop,
     };
 
     // 3. Ambil findings dan hapus dari detail, lalu masukkan kembali.

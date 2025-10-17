@@ -69,6 +69,7 @@ class SupportService {
       approverId,
       approvalDate,
       status,
+      timeStop,
       // Semua field yang TIDAK di-destructure di sini akan masuk ke 'wheelDetailsPayload'
       ...wheelDetailsPayload
     } = data;
@@ -94,6 +95,7 @@ class SupportService {
       approverId,
       approvalDate,
       status,
+      timeStop,
     };
 
     // 3. Ambil findings dan hapus dari detail, lalu masukkan kembali.

@@ -84,6 +84,7 @@ model Inspection {
   inspectionTime  String
   workingHours    Int
   smr             String
+  timeStop        String?
   timeDown        String
   timeOut         String
   shift           String

@@ -75,6 +75,7 @@ class TyreService {
       size,
       dateOfIssue,
       tyreDetails,
+      timeStop,
       // Semua field yang TIDAK di-destructure di sini akan masuk ke 'wheelDetailsPayload'
       ...wheelDetailsPayload
     } = data;
@@ -105,6 +106,7 @@ class TyreService {
       hm,
       size,
       dateOfIssue,
+      timeStop,
     };
 
     if (!mechanicId) {
