@@ -275,7 +275,6 @@ class ReportService {
     }
     if (inspectionData.length > 1) {
       console.log(`Generating ZIP for ${inspectionData.length} files...`);
-      // CSV biasanya untuk ringkasan, tidak cocok untuk multi-file. Kita bisa lewati atau beri error.
       if (payload.format === "csv") {
         throw new Error(
           "CSV export is not supported for multiple selections. Please choose PDF or Excel."
@@ -287,11 +286,10 @@ class ReportService {
 
       // Loop melalui setiap inspeksi untuk membuat filenya masing-masing
       for (const inspection of inspectionData) {
-        // Panggil `generateFile` untuk SETIAP inspeksi secara individual
         const singleFileBuffer = await this.generateFile(
-          [], // mappedData tidak relevan untuk PDF/Excel individual
-          [], // excelColumns tidak relevan
-          [inspection], // Kirim sebagai array dengan satu item
+          [],
+          [],
+          [inspection],
           payload.format
         );
 
@@ -309,7 +307,7 @@ class ReportService {
 
       return {
         fileBuffer: zipBuffer,
-        mimeType: "application/zip", // Mime type untuk file ZIP
+        mimeType: "application/zip",
         fileName: `inspections_export_${
           new Date().toISOString().split("T")[0]
         }.zip`,
