@@ -314,9 +314,13 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`D${infoRowStart}`).font = headerFont;
   worksheet.getCell(`E${infoRowStart}`).value = data.smr;
 
-  worksheet.getCell(`I${infoRowStart}`).value = "HM Down";
+  worksheet.getCell(`I${infoRowStart}`).value = "Jam Stop";
   worksheet.getCell(`I${infoRowStart}`).font = headerFont;
-  worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
+  worksheet.getCell(`J${infoRowStart}`).value = data.timeStop;
+
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM Down";
+  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeDown;
 
   // Baris 2
   worksheet.getCell(`A${infoRowStart + 1}`).value = "Unit No";
@@ -328,9 +332,9 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
 
   // === DIPINDAHKAN KE KOLOM I dan J ===
-  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM RFU";
-  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
-  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
+  worksheet.getCell(`I${infoRowStart + 2}`).value = "HM RFU";
+  worksheet.getCell(`I${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 2}`).value = data.timeOut;
 
   // Baris 3
   worksheet.getCell(`A${infoRowStart + 2}`).value = "Type";
@@ -536,9 +540,13 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`D${infoRowStart}`).font = headerFont;
   worksheet.getCell(`E${infoRowStart}`).value = data.smr;
 
-  worksheet.getCell(`I${infoRowStart}`).value = "HM Down";
+  worksheet.getCell(`I${infoRowStart}`).value = "Jam Stop";
   worksheet.getCell(`I${infoRowStart}`).font = headerFont;
-  worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
+  worksheet.getCell(`J${infoRowStart}`).value = data.timeStop;
+
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM Down";
+  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeDown;
 
   // Baris 2
   worksheet.getCell(`A${infoRowStart + 1}`).value = "Unit No";
@@ -550,9 +558,9 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
 
   // === DIPINDAHKAN KE KOLOM I dan J ===
-  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM RFU";
-  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
-  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
+  worksheet.getCell(`I${infoRowStart + 2}`).value = "HM RFU";
+  worksheet.getCell(`I${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 2}`).value = data.timeOut;
 
   // Baris 3
   worksheet.getCell(`A${infoRowStart + 2}`).value = "Type";
@@ -763,9 +771,13 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.getCell(`D${infoRowStart}`).font = headerFont;
   worksheet.getCell(`E${infoRowStart}`).value = data.smr;
 
-  worksheet.getCell(`I${infoRowStart}`).value = "HM Down";
+  worksheet.getCell(`I${infoRowStart}`).value = "Jam Stop";
   worksheet.getCell(`I${infoRowStart}`).font = headerFont;
-  worksheet.getCell(`J${infoRowStart}`).value = data.timeDown;
+  worksheet.getCell(`J${infoRowStart}`).value = data.timeStop;
+
+  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM Down";
+  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeDown;
 
   // Baris 2
   worksheet.getCell(`A${infoRowStart + 1}`).value = "Unit No";
@@ -777,9 +789,9 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   worksheet.getCell(`E${infoRowStart + 1}`).value = data.location; // Pastikan data ini ada
 
   // === DIPINDAHKAN KE KOLOM I dan J ===
-  worksheet.getCell(`I${infoRowStart + 1}`).value = "HM RFU";
-  worksheet.getCell(`I${infoRowStart + 1}`).font = headerFont;
-  worksheet.getCell(`J${infoRowStart + 1}`).value = data.timeOut;
+  worksheet.getCell(`I${infoRowStart + 2}`).value = "HM RFU";
+  worksheet.getCell(`I${infoRowStart + 2}`).font = headerFont;
+  worksheet.getCell(`J${infoRowStart + 2}`).value = data.timeOut;
 
   // Baris 3
   worksheet.getCell(`A${infoRowStart + 2}`).value = "Type";
