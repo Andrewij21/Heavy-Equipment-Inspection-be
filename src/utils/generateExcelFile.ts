@@ -15,6 +15,8 @@ import { supportChecklistDataWeldingMachine } from "../constants/excels/support/
 import { supportChecklistDataCompressor } from "../constants/excels/support/compressor";
 import { supportChecklistDataMultiFlow } from "../constants/excels/support/multiflow";
 import { supportChecklistDataTyreHandler } from "../constants/excels/support/TyreHandler";
+import * as fs from "fs";
+import * as path from "path";
 // --- STATE TEMPORARY (Untuk nomor baris dan item) ---
 let globalRow = 1;
 let globalItemNo = 0;
@@ -109,17 +111,22 @@ const generateStandardTyreLayout: ExcelLayoutFunction = (worksheet, data) => {
     { key: "action", width: 30 }, // I
     { key: "manpower", width: 20 }, // J
   ];
+  const workbook = worksheet.workbook;
 
-  // --- 2. HEADER UTAMA (Logo, Judul, Info Box) ---
-  // Menambahkan logo jika ada (asumsi path sudah benar)
-  // const logo1Path = path.join(process.cwd(), "public", "logo.jpeg");
-  // if (fs.existsSync(logo1Path)) {
-  //   const logo1ImageId = worksheet.workbook.addImage({
-  //     buffer: fs.readFileSync(logo1Path),
-  //     extension: "jpeg",
-  //   });
-  //   worksheet.addImage(logo1ImageId, "A1:B3");
-  // }
+  const logo1Path = path.join(process.cwd(), "public", "logo.png");
+  if (fs.existsSync(logo1Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo1Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo1ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "jpeg",
+    });
+    worksheet.addImage(logo1ImageId, "A1:C3");
+  }
 
   // Judul di tengah
   worksheet.mergeCells("C1:H1");
@@ -169,9 +176,9 @@ const generateStandardTyreLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`A${infoStartRow}`).font = { bold: true };
   worksheet.getCell(`B${infoStartRow}`).value = `: ${data.equipmentId}`;
 
-  worksheet.getCell(`I${infoStartRow}`).value = "TANGGAL";
-  worksheet.getCell(`I${infoStartRow}`).font = { bold: true };
-  worksheet.getCell(`J${infoStartRow}`).value = `: ${data.inspectionDate}`;
+  // worksheet.getCell(`I${infoStartRow}`).value = "TANGGAL";
+  // worksheet.getCell(`I${infoStartRow}`).font = { bold: true };
+  // worksheet.getCell(`J${infoStartRow}`).value = `: ${data.inspectionDate}`;
 
   // Baris 2: HM
   worksheet.getCell(`A${infoStartRow + 1}`).value = "HM";
@@ -292,13 +299,43 @@ const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
   const type = data.equipmentGeneralType;
   const td = data.trackDetails || {};
   const formId = formIdMap[type.toUpperCase()] || defaultId;
-  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  const workbook = worksheet.workbook;
+  const logo1Path = path.join(process.cwd(), "public", "logo.png");
+  if (fs.existsSync(logo1Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo1Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo1ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "jpeg",
+    });
+    worksheet.addImage(logo1ImageId, "A1:B3");
+  }
+
+  const logo2Path = path.join(process.cwd(), "public", "sbs.png");
+  if (fs.existsSync(logo2Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo2Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo2ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "png",
+    });
+    worksheet.addImage(logo2ImageId, "I1:J3");
+  }
+  worksheet.mergeCells(`C${globalRow}:H${globalRow}`);
   worksheet.getCell(
-    `A${globalRow}`
+    `C${globalRow}`
   ).value = `DAILY INSPECTION CHECKSHEET (${data.equipmentGeneralType.toUpperCase()})`;
-  worksheet.getCell(`A${globalRow}`).font = { bold: true, size: 14 };
-  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
-  globalRow += 2;
+  worksheet.getCell(`C${globalRow}`).font = { bold: true, size: 14 };
+  worksheet.getCell(`C${globalRow}`).alignment = { horizontal: "center" };
+  globalRow += 4;
   // --- BAGIAN 0: PENGATURAN AWAL ---
   // Atur lebar kolom agar layout terlihat bagus
   worksheet.getColumn("A").width = 10;
@@ -517,14 +554,45 @@ const generateStandardWheelLayout: ExcelLayoutFunction = (worksheet, data) => {
   const type = data.wheelGeneralType;
   const td = data.wheelDetails || {};
   const formId = formIdMap[type.toUpperCase()] || defaultId;
+  const workbook = worksheet.workbook;
 
-  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  const logo1Path = path.join(process.cwd(), "public", "logo.png");
+  if (fs.existsSync(logo1Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo1Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo1ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "jpeg",
+    });
+    worksheet.addImage(logo1ImageId, "A1:B3");
+  }
+
+  const logo2Path = path.join(process.cwd(), "public", "sbs.png");
+  if (fs.existsSync(logo2Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo2Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo2ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "png",
+    });
+    worksheet.addImage(logo2ImageId, "I1:J3");
+  }
+
+  worksheet.mergeCells(`C${globalRow}:H${globalRow}`);
   worksheet.getCell(
-    `A${globalRow}`
+    `C${globalRow}`
   ).value = `DAILY INSPECTION CHECKSHEET (${data.wheelGeneralType.toUpperCase()})`;
-  worksheet.getCell(`A${globalRow}`).font = { bold: true, size: 14 };
-  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
-  globalRow += 2;
+  worksheet.getCell(`C${globalRow}`).font = { bold: true, size: 14 };
+  worksheet.getCell(`C${globalRow}`).alignment = { horizontal: "center" };
+  globalRow += 4;
   // --- BAGIAN 0: PENGATURAN AWAL ---
   // Atur lebar kolom agar layout terlihat bagus
   worksheet.getColumn("A").width = 10;
@@ -748,14 +816,44 @@ const generateStandardSupportlLayout: ExcelLayoutFunction = (
   const type = data.supportGeneralType;
   const td = data.wheelDetails || {};
   const formId = formIdMap[type.toUpperCase()] || defaultId;
+  const workbook = worksheet.workbook;
 
-  worksheet.mergeCells(`A${globalRow}:J${globalRow}`);
+  const logo1Path = path.join(process.cwd(), "public", "logo.png");
+  if (fs.existsSync(logo1Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo1Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo1ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "jpeg",
+    });
+    worksheet.addImage(logo1ImageId, "A1:B3");
+  }
+
+  const logo2Path = path.join(process.cwd(), "public", "sbs.png");
+  if (fs.existsSync(logo2Path)) {
+    const fileNodeBuffer = fs.readFileSync(logo2Path);
+    const arrayBuffer = fileNodeBuffer.buffer.slice(
+      fileNodeBuffer.byteOffset,
+      fileNodeBuffer.byteOffset + fileNodeBuffer.byteLength
+    );
+
+    const logo2ImageId = workbook.addImage({
+      buffer: arrayBuffer, // ✅ Pass the ArrayBuffer
+      extension: "png",
+    });
+    worksheet.addImage(logo2ImageId, "I1:J3");
+  }
+  worksheet.mergeCells(`C${globalRow}:H${globalRow}`);
   worksheet.getCell(
-    `A${globalRow}`
+    `C${globalRow}`
   ).value = `DAILY INSPECTION CHECKSHEET (${data.supportGeneralType.toUpperCase()})`;
-  worksheet.getCell(`A${globalRow}`).font = { bold: true, size: 14 };
-  worksheet.getCell(`A${globalRow}`).alignment = { horizontal: "center" };
-  globalRow += 2;
+  worksheet.getCell(`C${globalRow}`).font = { bold: true, size: 14 };
+  worksheet.getCell(`C${globalRow}`).alignment = { horizontal: "center" };
+  globalRow += 4;
   // --- BAGIAN 0: PENGATURAN AWAL ---
   // Atur lebar kolom agar layout terlihat bagus
   worksheet.getColumn("A").width = 10;
