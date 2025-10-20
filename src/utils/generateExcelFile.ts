@@ -266,13 +266,24 @@ const generateStandardTyreLayout: ExcelLayoutFunction = (worksheet, data) => {
   worksheet.getCell(`I${globalRow + 1}`).value = "Checked by,";
   worksheet.getCell(`I${globalRow + 1}`).alignment = { horizontal: "center" };
 
+  worksheet.mergeCells(`I${globalRow + 2}:J${globalRow + 2}`);
+  const approverNameCell = worksheet.getCell(`I${globalRow + 2}`);
+  approverNameCell.value = data.approver?.username || "-";
+  approverNameCell.alignment = { horizontal: "center" };
+  worksheet.getRow(globalRow + 3).height = 10;
+
   worksheet.mergeCells(`I${globalRow + 4}:J${globalRow + 4}`);
   const signatureCell = worksheet.getCell(`I${globalRow + 4}`);
   signatureCell.value = "Group Leader Tyre";
   signatureCell.alignment = { horizontal: "center" };
-  signatureCell.border = { top: { style: "dotted" } };
+  worksheet.getCell(`I${globalRow + 3}`).border = {
+    bottom: { style: "dotted" },
+  };
+  worksheet.getCell(`J${globalRow + 3}`).border = {
+    bottom: { style: "dotted" },
+  };
 
-  globalRow += 6; // Menambah baris setelah footer
+  globalRow += 6;
   return globalRow;
 };
 const generateStandardTrackLayout: ExcelLayoutFunction = (worksheet, data) => {
